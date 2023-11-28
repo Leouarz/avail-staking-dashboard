@@ -12,7 +12,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 //
 // NOTES:
 // - `base` is configured in `package.json` with the vite --base flag. In local dev it is `/`,
-//   whereas gh-pages always deploys to `/polkadot-staking-dashboard/`. Producution builds can also
+//   whereas gh-pages always deploys to `/avail-staking-dashboard/`. Producution builds can also
 //   be configureed with the `--base` flag.
 // - `BASE_URL`env variable is used in the codebase to refer to the supplied base.
 export default defineConfig({

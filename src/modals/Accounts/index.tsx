@@ -155,9 +155,6 @@ export const Accounts = () => {
         <div>
           {activeAccount && (
             <ButtonText
-              style={{
-                color: 'var(--accent-color-primary)',
-              }}
               text={t('disconnect')}
               iconRight={faLinkSlash}
               onClick={() => {

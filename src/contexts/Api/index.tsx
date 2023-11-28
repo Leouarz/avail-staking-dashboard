@@ -25,6 +25,7 @@ import type {
 } from 'contexts/Api/types';
 import type { AnyApi } from 'types';
 import { useEffectIgnoreInitial } from '@polkadot-cloud/react/hooks';
+import { signedExtensions, types } from 'avail-js-sdk';
 import {
   defaultApiContext,
   defaultChainState,
@@ -131,7 +132,13 @@ export const APIProvider = ({ children, network }: APIProviderProps) => {
     if (!provider) return;
 
     // initiate new api and set connected.
-    const newApi = await ApiPromise.create({ provider });
+    const newApi = await ApiPromise.create({
+      provider,
+      // Avail specifics
+      noInitWarn: true,
+      types,
+      signedExtensions,
+    });
 
     // set connected here in case event listeners have not yet initialised.
     setApiStatus('connected');
@@ -173,7 +180,7 @@ export const APIProvider = ({ children, network }: APIProviderProps) => {
       newApi.consts.babe.epochDuration,
       newApi.consts.balances.existentialDeposit,
       newApi.consts.staking.historyDepth,
-      newApi.consts.fastUnstake.deposit,
+      undefined as any, // newApi.consts.fastUnstake.deposit,
       newApi.consts.nominationPools.palletId,
     ]);
 

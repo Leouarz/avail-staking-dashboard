@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 podman build \
-    -t polkadot-staking-dashboard \
+    -t avail-staking-dashboard \
     -t psd \
     .

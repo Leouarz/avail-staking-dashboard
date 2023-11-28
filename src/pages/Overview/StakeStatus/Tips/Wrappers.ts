@@ -66,9 +66,9 @@ export const ItemInnerWrapper = styled.div`
 
         &.active {
           h4:hover {
-            color: var(--accent-color-primary);
+            color: var(--network-color-primary);
             .more {
-              color: var(--accent-color-primary);
+              color: var(--network-color-primary);
               opacity: 1;
             }
           }
@@ -132,7 +132,7 @@ export const PageToggleWrapper = styled.div`
     }
     &:hover {
       opacity: 1;
-      color: var(--accent-color-primary);
+      color: var(--network-color-primary);
     }
     &:disabled {
       color: var(--text-color-secondary);

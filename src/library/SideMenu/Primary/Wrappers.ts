@@ -24,7 +24,7 @@ export const Wrapper = styled(motion.div)`
     padding: 0.65rem 0rem;
 
     &.success {
-      border: 1px solid var(--accent-color-primary);
+      border: 1px solid var(--network-color-primary);
     }
     &.warning {
       border: 1px solid var(--status-warning-color);
@@ -64,8 +64,8 @@ export const Wrapper = styled(motion.div)`
 
     > span {
       &.success {
-        color: var(--accent-color-primary);
-        border: 1px solid var(--accent-color-primary);
+        color: var(--network-color-primary);
+        border: 1px solid var(--network-color-primary);
       }
       &.warning {
         color: var(--status-warning-color);
@@ -96,9 +96,9 @@ export const Wrapper = styled(motion.div)`
   }
 
   &.active {
-    background: var(--highlight-primary);
+    background: var(--gradient-highlight-primary);
   }
   &.inactive:hover {
-    background: var(--highlight-secondary);
+    background: var(--gradient-highlight-secondary);
   }
 `;

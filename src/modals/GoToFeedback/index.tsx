@@ -21,18 +21,19 @@ export const GoToFeedback = () => {
           }}
         >
           <h4 style={{ paddingBottom: '0.75rem' }}>
-            {t('feedbackPage')}{' '}
+            {/* {t('feedbackPage')}{' '}
             <a href="https://canny.io/" target="_blank" rel="noreferrer">
               Canny.io
-            </a>
-            . {t('welcomeToReport')}
+            </a> */}
+            {/* .  */}
+            {t('welcomeToReport')}
           </h4>
           <h2 style={{ marginTop: '0.75rem' }}>
             <a
-              href="https://polkadot-staking-dashboard.canny.io/feedback"
+              href="https://discord.gg/y6fHnxZQX8"
               target="_blank"
               rel="noreferrer"
-              style={{ color: 'var(--accent-color-primary' }}
+              style={{ color: 'var(--network-color-primary' }}
             >
               {t('openFeedback')} &nbsp;
               <FontAwesomeIcon icon={faExternalLinkAlt} transform="shrink-3" />

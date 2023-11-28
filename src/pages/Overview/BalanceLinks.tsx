@@ -32,7 +32,8 @@ export const BalanceLinks = () => {
           iconTransform="shrink-2"
           text="Subscan"
           marginRight
-          disabled={!activeAccount}
+          // disabled={!activeAccount}
+          disabled
         />
         <ButtonPrimaryInvert
           lg

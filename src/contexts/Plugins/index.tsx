@@ -27,7 +27,8 @@ export const PluginsProvider = ({
       const index = localPlugins.indexOf('binance_spot');
       if (index !== -1) localPlugins.splice(index, 1);
     }
-    return localPlugins;
+    // return localPlugins;
+    return [];
   };
 
   // Store the currently active plugins.

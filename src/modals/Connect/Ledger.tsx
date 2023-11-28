@@ -44,12 +44,10 @@ export const Ledger = (): React.ReactElement => {
           </div>
           <div className="row margin">
             <ButtonText
-              text={network === 'polkadot' ? 'BETA' : 'EXPERIMENTAL'}
+              text={network === 'avail' ? 'BETA' : 'EXPERIMENTAL'}
               disabled
               marginRight
-              iconLeft={
-                network === 'polkadot' ? undefined : faExclamationTriangle
-              }
+              iconLeft={network === 'avail' ? undefined : faExclamationTriangle}
               style={{ opacity: 0.5 }}
             />
             <ButtonText

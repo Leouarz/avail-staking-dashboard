@@ -172,7 +172,7 @@
     "notePoolDepositorMinBond_member": "作为一名提名池成员，你必须至少持有 {{bond}} {{unit}}",
     "onceUnbonding": "一旦解除质押，您的资金过了{{bondDurationFormatted}} 后就能获回",
     "openAppOnLedger": "在您的Ledger设备中打开{{appName}} App",
-    "openFeedback": "在 Canny.io反馈",
+    "openFeedback": "在 Discord反馈",
     "payeeAdded": "已添加收款人",
     "payoutDestination": "收益到账地址",
     "pendingPayout": "{{count}} 个待申领收益",

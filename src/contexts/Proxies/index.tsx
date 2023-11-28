@@ -3,7 +3,7 @@
 
 import type { VoidFn } from '@polkadot/api/types';
 import {
-  addedTo,
+  // addedTo,
   ellipsisFn,
   localStorageOrDefault,
   matchedProperties,
@@ -105,11 +105,11 @@ export const ProxiesProvider = ({
       );
     };
     // Sync added accounts.
-    const handleAddedAccounts = () => {
-      addedTo(accounts, proxiesRef.current, ['address'])?.map(({ address }) =>
-        subscribeToProxies(address)
-      );
-    };
+    // const handleAddedAccounts = () => {
+    //   addedTo(accounts, proxiesRef.current, ['address'])?.map(({ address }) =>
+    //     subscribeToProxies(address)
+    //   );
+    // };
     // Sync existing accounts.
     const handleExistingAccounts = () => {
       setStateWithRef(
@@ -119,7 +119,7 @@ export const ProxiesProvider = ({
       );
     };
     handleRemovedAccounts();
-    handleAddedAccounts();
+    // handleAddedAccounts();
     handleExistingAccounts();
   };
 
@@ -190,10 +190,10 @@ export const ProxiesProvider = ({
   const handleDeclareDelegate = async (delegator: string) => {
     if (!api) return [];
 
-    const result: AnyApi = (await api.query.proxy.proxies(delegator)).toHuman();
+    // const result: AnyApi = (await api.query.proxy.proxies(delegator)).toHuman();
 
     let addDelegatorAsExternal = false;
-    for (const { delegate: newDelegate } of result[0] || []) {
+    for (const { delegate: newDelegate } of /* result[0] || */ []) {
       if (
         accounts.find(({ address }) => address === newDelegate) &&
         !delegates[newDelegate]

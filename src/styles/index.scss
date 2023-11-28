@@ -1,6 +1,65 @@
 // Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
+html * {
+  --network-color-primary: #3ca3fc;
+  --network-color-primary-dark: #3ca3fc;
+  --network-color-secondary: #3ca3fc;
+  --network-color-secondary-dark: #3ca3fc;
+  --network-color-stroke: #3ca3fc;
+  --network-color-stroke-dark: #3ca3fc;
+  // --text-color-primary: #ffffff;
+  // --text-color-secondary: #777777;
+  // --button-tertiary-background: #242628;
+  // --background-default: #0d0f10;
+  // --background-primary: #181a1c;
+  // --gradient-highlight-primary: linear-gradient(90deg, #181a1c, #181a1c);
+  // --gradient-side-menu: linear-gradient(180deg, #0d0f10, #0d0f10);
+  // --border-primary-color: #2a2c2e;
+  // --border-secondary-color: #222426;
+  --status-success-color-transparent: #446d4c;
+  --status-success-color: #a5fba5;
+  --network-color-pending-light: rgba(60, 163, 252, 0.5);
+  --network-color-pending-dark: rgba(60, 163, 252, 0.5);
+  --network-color-pending: var(--network-color-pending-dark);
+
+  // .core-entry {
+  //   background: #0a0c0e;
+  // }
+
+  .btn-primary {
+    background-color: var(--network-color-primary);
+    border-color: var(--network-color-primary);
+  }
+
+  .btn-submit {
+    background-color: var(--network-color-primary);
+    border-color: var(--network-color-primary);
+  }
+
+  .btn-submit-invert {
+    color: var(--network-color-primary);
+    border: 1px solid var(--network-color-primary);
+  }
+
+  .btn-primary-invert {
+    color: var(--network-color-primary);
+    border: 1px solid var(--network-color-primary);
+  }
+
+  .btn-text {
+    color: var(--network-color-primary);
+  }
+
+  .btn-help:hover {
+    fill: var(--network-color-primary);
+  }
+}
+
+html {
+  font-size: 10.5px;
+}
+
 html {
   font-size: 10.5px;
   @media (min-width: 600px) {

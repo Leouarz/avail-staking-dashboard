@@ -41,17 +41,17 @@ export const MoreWrapper = styled.div`
 
 export const BannerWrapper = styled.div`
   &.light {
-    border: 1px solid var(--accent-color-primary);
+    border: 1px solid var(--network-color-primary);
     background: var(--background-primary);
 
     .label,
     > div h3 {
-      color: var(--accent-color-primary);
+      color: var(--network-color-primary);
     }
   }
   &.dark {
     border: 1px solid var(--border-secondary-color);
-    background: var(--accent-color-secondary);
+    background: var(--network-color-secondary);
 
     .label,
     > div h3 {

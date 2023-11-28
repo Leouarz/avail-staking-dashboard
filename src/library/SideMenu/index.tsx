@@ -130,10 +130,7 @@ export const SideMenu = () => {
         <button
           type="button"
           onClick={() =>
-            window.open(
-              'https://github.com/paritytech/polkadot-staking-dashboard',
-              '_blank'
-            )
+            window.open('https://github.com/availproject', '_blank')
           }
           aria-label="Github"
         >

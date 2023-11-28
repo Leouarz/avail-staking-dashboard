@@ -13,7 +13,7 @@ export const Settings = () => {
   const { t } = useTranslation('modals');
 
   // fetch flag to disable fiat
-  const DISABLE_FIAT = Number(import.meta.env.VITE_DISABLE_FIAT ?? 0);
+  // const DISABLE_FIAT = Number(import.meta.env.VITE_DISABLE_FIAT ?? 0);
 
   return (
     <>
@@ -21,7 +21,8 @@ export const Settings = () => {
       <ModalPadding>
         <ContentWrapper>
           <h4>{t('togglePlugins')}</h4>
-          <StatusButton
+          <h5>{t('No plugins to enable')}</h5>
+          {/* <StatusButton
             checked={plugins.includes('subscan')}
             label="Subscan API"
             onClick={() => togglePlugin('subscan')}
@@ -37,10 +38,8 @@ export const Settings = () => {
               label={t('binanceApi')}
               onClick={() => togglePlugin('binance_spot')}
             />
-          )}
-
+          )} */}
           <h4>{t('toggleFeatures')}</h4>
-
           <StatusButton
             checked={plugins.includes('tips')}
             label={t('dashboardTips')}

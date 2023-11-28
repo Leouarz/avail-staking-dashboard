@@ -183,7 +183,7 @@
     "notePoolDepositorMinBond_member": "As a pool member you must maintain a bond of at least {{bond}} {{unit}}.",
     "onceUnbonding": "Once unbonding, your funds will become available after {{bondDurationFormatted}}.",
     "openAppOnLedger": "Open the {{appName}} app on your Ledger device.",
-    "openFeedback": "Open Feedback on Canny.io",
+    "openFeedback": "Open Feedback on Discord",
     "payeeAdded": "Payee Added",
     "payoutDestination": "Payout Destination",
     "pendingPayout_one": "{{count}} Pending Payout",

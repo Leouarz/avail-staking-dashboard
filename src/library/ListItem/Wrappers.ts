@@ -110,7 +110,7 @@ export const Labels = styled.div`
       opacity: 0.75;
     }
     &.active {
-      color: var(--accent-color-primary);
+      color: var(--network-color-primary);
     }
     &:disabled {
       opacity: var(--opacity-disabled);
@@ -141,7 +141,7 @@ export const Labels = styled.div`
       margin-right: 0;
 
       button {
-        color: var(--accent-color-secondary);
+        color: var(--network-color-secondary);
         font-family: InterSemiBold, sans-serif;
         font-size: 0.95rem;
         display: flex;

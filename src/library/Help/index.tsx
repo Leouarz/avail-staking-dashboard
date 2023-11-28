@@ -162,6 +162,10 @@ export const Help = () => {
               text={t('modal.close')}
               iconLeft={faTimes}
               onClick={() => closeHelp()}
+              style={{
+                color: 'var(--network-color-primary)',
+                border: '1px solid var(--network-color-primary)',
+              }}
             />
           </div>
           <h1>

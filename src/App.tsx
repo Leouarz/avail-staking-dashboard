@@ -9,8 +9,10 @@ import { i18next } from 'locale';
 import { Providers } from 'Providers';
 import { NetworkProvider } from 'contexts/Network';
 import { ActiveAccountsProvider } from 'contexts/ActiveAccounts';
+import BigNumber from 'bignumber.js';
 
 export const App: React.FC = () => {
+  BigNumber.config({ EXPONENTIAL_AT: 30 });
   let network = localStorage.getItem('network');
 
   if (network === null) {

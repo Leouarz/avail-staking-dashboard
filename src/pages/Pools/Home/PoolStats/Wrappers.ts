@@ -32,7 +32,7 @@ export const Item = styled(motion.div)`
     padding-bottom: 0.2rem;
 
     &.neutral {
-      color: var(--accent-color-primary);
+      color: var(--network-color-primary);
     }
     &.danger {
       color: #d2545d;
@@ -41,7 +41,7 @@ export const Item = styled(motion.div)`
       color: #b5a200;
     }
     &.pools {
-      color: var(--accent-color-secondary);
+      color: var(--network-color-secondary);
     }
   }
 

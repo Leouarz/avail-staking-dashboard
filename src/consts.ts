@@ -9,10 +9,11 @@ import type { Plugin } from 'types';
  * Global Constants
  */
 export const AppVersion = '1.1.2';
-export const DappName = 'Polkadot Staking Dashboard';
-export const PolkadotUrl = 'https://polkadot.network/features/staking/';
-export const DefaultNetwork = 'polkadot';
-export const ManualSigners = ['ledger', 'vault'];
+export const DappName = 'Avail Staking Dashboard';
+export const PolkadotUrl = 'https://www.availproject.org/';
+export const DefaultNetwork = 'avail';
+export const ManualSigners: string[] = [];
+// ['ledger', 'vault'];
 /*
  * Data Structure Helpers
  */
@@ -34,10 +35,10 @@ export const TipsThresholdMedium = 1200;
  * Available plugins
  */
 export const PluginsList: Plugin[] = [
-  'subscan',
-  'binance_spot',
-  'tips',
-  'polkawatch',
+  // 'subscan',
+  // 'binance_spot',
+  // 'tips',
+  // 'polkawatch',
 ];
 
 /*
@@ -81,8 +82,8 @@ export const DefaultParams = {
   auctionAdjust: 0,
   auctionMax: 0,
   falloff: 0.05,
-  maxInflation: 0.1,
-  minInflation: 0.025,
+  maxInflation: 0.05,
+  minInflation: 0.01,
   stakeTarget: 0.5,
 };
 

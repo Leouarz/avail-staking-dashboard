@@ -72,7 +72,6 @@ export const PoolsConfigProvider = ({
         api.query.nominationPools.maxPools,
         api.query.nominationPools.minCreateBond,
         api.query.nominationPools.minJoinBond,
-        api.query.nominationPools.globalMaxCommission,
       ],
       ([
         counterForPoolMembers,
@@ -84,7 +83,6 @@ export const PoolsConfigProvider = ({
         maxPools,
         minCreateBond,
         minJoinBond,
-        globalMaxCommission,
       ]) => {
         // format optional configs to BigNumber or null
         maxPoolMembers = maxPoolMembers.toHuman();
@@ -122,7 +120,7 @@ export const PoolsConfigProvider = ({
               minCreateBond: new BigNumber(minCreateBond.toString()),
               minJoinBond: new BigNumber(minJoinBond.toString()),
               globalMaxCommission: Number(
-                globalMaxCommission.toHuman().slice(0, -1)
+                '10.00' // globalMaxCommission.toHuman().slice(0, -1)
               ),
             },
           },

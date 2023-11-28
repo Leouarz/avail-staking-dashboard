@@ -120,6 +120,7 @@ export const Networks = () => {
                   switchNetwork(networkKey as NetworkName);
                   setModalStatus('closing');
                 }}
+                disabled
               >
                 <h3>{t('lightClient')}</h3>
                 {isLightClient && <h4 className="selected">{t('selected')}</h4>}
