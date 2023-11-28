@@ -2,7 +2,7 @@
 
 # Avail Staking Dashboard
 
-<img width="1727" alt="Screenshot 2023-08-29 at 18 54 33" src="https://github.com/paritytech/polkadot-staking-dashboard/assets/13929023/6291d682-0434-4b77-b6e9-383d277893b0">
+![image](https://github.com/Leouarz/avail-staking-dashboard/assets/15839293/29f683da-67bb-4f00-afee-467286ab8ece)
 
 ## Contributing Community Assets
 
