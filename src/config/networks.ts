@@ -43,7 +43,7 @@ export const NetworkList: Networks = {
     subscanEndpoint: 'https://subscan.goldberg.avail.tools',
     unit: 'AVL',
     units: 18,
-    ss58: 0,
+    ss58: 42,
     brand: {
       icon: AvailTokenSVG,
       token: AvailTokenSVG,
