@@ -96,9 +96,9 @@ export const Wrapper = styled(motion.div)`
   }
 
   &.active {
-    background: var(--gradient-highlight-primary);
+    background: var(--highlight-primary);
   }
   &.inactive:hover {
-    background: var(--gradient-highlight-secondary);
+    background: var(--highlight-secondary);
   }
 `;

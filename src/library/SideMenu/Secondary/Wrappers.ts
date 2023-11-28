@@ -35,10 +35,10 @@ export const Wrapper = styled(motion.button)<MinimisedProps>`
   }
 
   &.active {
-    background: var(--gradient-highlight-primary);
+    background: var(--highlight-primary);
   }
   &.inactive:hover {
-    background: var(--gradient-highlight-secondary);
+    background: var(--highlight-secondary);
   }
   &.success {
     border: 1px solid var(--status-success-color-transparent);
@@ -65,10 +65,10 @@ export const MinimisedWrapper = styled(motion.button)`
   width: 100%;
 
   &.active {
-    background: var(--gradient-highlight-primary);
+    background: var(--highlight-primary);
   }
   &.inactive:hover {
-    background: var(--gradient-highlight-secondary);
+    background: var(--highlight-secondary);
   }
   .icon {
     margin: 0;
