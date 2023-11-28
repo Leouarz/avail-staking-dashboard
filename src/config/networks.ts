@@ -3,6 +3,7 @@
 
 import { DefaultParams } from 'consts';
 import AvailTokenSVG from 'config/tokens/svg/AVL.svg?react';
+import AvailLogo from 'img/avail_logo.svg?react';
 
 import type { Networks } from 'types';
 
@@ -47,7 +48,7 @@ export const NetworkList: Networks = {
       icon: AvailTokenSVG,
       token: AvailTokenSVG,
       logo: {
-        svg: AvailTokenSVG,
+        svg: AvailLogo,
         width: '7.2em',
       },
       inline: {
