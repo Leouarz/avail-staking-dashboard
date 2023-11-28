@@ -4,10 +4,10 @@
 import type { LedgerApp } from 'contexts/Hardware/Ledger/types';
 // import AvailSVG from 'img/appIcons/avail.svg?react';
 
-export const LedgerApps: LedgerApp[] = [
-  // {
-  //   network: 'avail',
-  //   appName: 'Avail Goldberg',
-  //   Icon: AvailSVG,
-  // },
-];
+// {
+//   network: 'avail',
+//   appName: 'Avail Goldberg',
+//   Icon: AvailSVG,
+// },
+
+export const LedgerApps: LedgerApp[] = [];
