@@ -62,6 +62,7 @@ export const Connect = () => {
   const [readOnlyOpen, setReadOnlyOpen] = useState(false);
 
   // toggle proxy delegate management
+  // TODO PROXY
   // const [newProxyOpen, setNewProxyOpen] = useState(false);
 
   // active modal section
@@ -87,7 +88,7 @@ export const Connect = () => {
   // Resize modal on state change.
   useEffectIgnoreInitial(() => {
     refreshModalHeight();
-  }, [section, readOnlyOpen, /* newProxyOpen, */ extensionsStatus]);
+  }, [section, readOnlyOpen, /* newProxyOpen, */ extensionsStatus]); // TODO PROXY
 
   useEffect(() => {
     window.addEventListener('resize', refreshModalHeight);
@@ -165,6 +166,7 @@ export const Connect = () => {
                 onClick={() => setSection(1)}
                 active={section === 1}
               />
+              {/* TODO PROXY */}
               {/* <ButtonTab
                 title={t('proxies')}
                 onClick={() => setSection(2)}
@@ -230,6 +232,7 @@ export const Connect = () => {
           </div>
           <div className="section">
             <ModalPadding horizontalOnly ref={proxiesRef}>
+              {/* TODO PROXY */}
               {/* <Proxies
                 setInputOpen={setNewProxyOpen}
                 inputOpen={newProxyOpen}

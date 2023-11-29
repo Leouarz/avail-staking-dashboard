@@ -190,9 +190,11 @@ export const ProxiesProvider = ({
   const handleDeclareDelegate = async (delegator: string) => {
     if (!api) return [];
 
+    // TODO PROXY
     // const result: AnyApi = (await api.query.proxy.proxies(delegator)).toHuman();
 
     let addDelegatorAsExternal = false;
+    // TODO PROXY
     for (const { delegate: newDelegate } of /* result[0] || */ []) {
       if (
         accounts.find(({ address }) => address === newDelegate) &&
