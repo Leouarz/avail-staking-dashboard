@@ -303,12 +303,10 @@ export const ValidatorsProvider = ({
         await getValidatorEntries();
 
       validatorEntries = entries;
-      avg = notFullCommissionCount
-        ? totalNonAllCommission
-            .dividedBy(notFullCommissionCount)
-            .decimalPlaces(2)
-            .toNumber()
-        : 0;
+      avg = totalNonAllCommission
+        .dividedBy(validatorEntries.length - notFullCommissionCount)
+        .decimalPlaces(2)
+        .toNumber();
     }
 
     // Set entries data for the era to local storage.

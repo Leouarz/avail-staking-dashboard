@@ -12,11 +12,16 @@ export const TotalValidatorsStat = () => {
   const { staking } = useStaking();
   const { totalValidators, maxValidatorsCount } = staking;
 
+  let maxValidatorsCountToUse = new BigNumber(maxValidatorsCount);
+  if (maxValidatorsCountToUse.isNaN()) {
+    maxValidatorsCountToUse = new BigNumber(1500);
+  }
+
   // total validators as percent
   let totalValidatorsAsPercent = 0;
-  if (greaterThanZero(maxValidatorsCount)) {
+  if (greaterThanZero(maxValidatorsCountToUse)) {
     totalValidatorsAsPercent = totalValidators
-      .div(maxValidatorsCount.dividedBy(100))
+      .div(maxValidatorsCountToUse.dividedBy(100))
       .toNumber();
   }
 
@@ -24,12 +29,12 @@ export const TotalValidatorsStat = () => {
     label: t('validators.totalValidators'),
     stat: {
       value: totalValidators.toNumber(),
-      total: maxValidatorsCount.toNumber(),
+      total: maxValidatorsCountToUse.toNumber(),
       unit: '',
     },
     graph: {
       value1: totalValidators.toNumber(),
-      value2: maxValidatorsCount.minus(totalValidators).toNumber(),
+      value2: maxValidatorsCountToUse.minus(totalValidators).toNumber(),
     },
     tooltip: `${new BigNumber(totalValidatorsAsPercent)
       .decimalPlaces(2)
