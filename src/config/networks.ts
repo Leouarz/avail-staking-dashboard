@@ -5,7 +5,16 @@ import { DefaultParams } from 'consts';
 import AvailTokenSVG from 'config/tokens/svg/AVL.svg?react';
 import AvailLogo from 'img/avail_logo.svg?react';
 
-import type { Networks } from 'types';
+import type { NetworkName, Networks } from 'types';
+import BigNumber from 'bignumber.js';
+
+// DEPRECATION: Paged Rewards
+//
+// Temporary until paged rewards migration has completed on all networks.
+export const NetworksWithPagedRewards: NetworkName[] = [];
+export const PagedRewardsStartEra: Record<NetworkName, BigNumber | null> = {
+  avail: null,
+};
 
 export const NetworkList: Networks = {
   avail: {
@@ -65,5 +74,6 @@ export const NetworkList: Networks = {
       stakeTarget: 0.5,
     },
     defaultFeeReserve: 0.1,
+    maxExposurePageSize: new BigNumber(64),
   },
 };
