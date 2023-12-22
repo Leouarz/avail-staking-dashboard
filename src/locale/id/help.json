@@ -97,7 +97,7 @@
         ]
       ],
       "historicalRewardsRate": [
-        "Tingkat Imbalan Historis",
+        "Riwayat Reward Rate",
         [
           "Perkiraan hasil tahunan berdasarkan model distribusi imbalan {NAMA_JARINGAN}."
         ]
