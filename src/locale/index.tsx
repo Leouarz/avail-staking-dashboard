@@ -18,7 +18,7 @@ import { doDynamicImport, getInitialLanguage, getResources } from './utils';
 export const locales: Record<string, AnyJson> = {
   en: enGB,
   cn: zhCN,
-  id: id,
+  id,
 };
 
 // available languages as an array of strings.

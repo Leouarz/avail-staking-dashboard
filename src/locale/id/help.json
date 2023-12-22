@@ -104,7 +104,9 @@
       ],
       "idealStaked": [
         "Stake Ideal",
-        ["Persentase dari total pasokan yang distake dalam kondisi jaringan ideal."]
+        [
+          "Persentase dari total pasokan yang distake dalam kondisi jaringan ideal."
+        ]
       ],
       "inactiveNominations": [
         "Nominasi Tidak Aktif",
@@ -347,73 +349,73 @@
       "rewardsByCountryAndNetwork": [
         "Imbalan Berdasarkan Negara dan Jaringan",
         [
-            "Menunjukkan perkiraan persentase imbalan yang dihasilkan dari berbagai negara dan jaringan IP yang berbeda.",
-            "Analisis desatch decentralization analytics dihitung dengan menggabungkan imbalan berdasarkan Geolokasi IP dari Validator. Periode sampel adalah 60 hari terakhir."
+          "Menunjukkan perkiraan persentase imbalan yang dihasilkan dari berbagai negara dan jaringan IP yang berbeda.",
+          "Analisis desatch decentralization analytics dihitung dengan menggabungkan imbalan berdasarkan Geolokasi IP dari Validator. Periode sampel adalah 60 hari terakhir."
         ]
-    ],
-    "selfStake": [
+      ],
+      "selfStake": [
         "Self Stake",
         [
-            "Jumlah {NETWORK_UNIT} yang dipasang oleh validator sendiri.",
-            "Nilai ini ditambahkan ke jumlah {NETWORK_UNIT} yang dipasang oleh nominator untuk membentuk total staking validator."
+          "Jumlah {NETWORK_UNIT} yang dipasang oleh validator sendiri.",
+          "Nilai ini ditambahkan ke jumlah {NETWORK_UNIT} yang dipasang oleh nominator untuk membentuk total staking validator."
         ]
-    ],
-    "supplyStaked": [
+      ],
+      "supplyStaked": [
         "Supply Staked",
         [
-            "Supply kumulatif saat ini dari {NETWORK_UNIT} yang dipasang secara global.",
-            "Persentase {NETWORK_UNIT} yang dipasang relatif terhadap total supply {NETWORK_UNIT}."
+          "Supply kumulatif saat ini dari {NETWORK_UNIT} yang dipasang secara global.",
+          "Persentase {NETWORK_UNIT} yang dipasang relatif terhadap total supply {NETWORK_UNIT}."
         ]
-    ],
-    "totalNominators": [
+      ],
+      "totalNominators": [
         "Total Nominators",
         [
-            "Akun yang melakukan staking di jaringan, terlepas dari apakah mereka aktif atau tidak dalam sesi saat ini.",
-            "Untuk melakukan staking {NETWORK_UNIT}, Anda dapat menjadi nominator atau bergabung dengan pool yang bertindak sebagai nominator itu sendiri."
+          "Akun yang melakukan staking di jaringan, terlepas dari apakah mereka aktif atau tidak dalam sesi saat ini.",
+          "Untuk melakukan staking {NETWORK_UNIT}, Anda dapat menjadi nominator atau bergabung dengan pool yang bertindak sebagai nominator itu sendiri."
         ]
-    ],
-    "validator": [
+      ],
+      "validator": [
         "Validator",
         [
-            "Entitas yang memvalidasi blok untuk Relay Chain {NETWORK_NAME}. Validator memainkan peran kunci dalam {NETWORK_NAME} untuk mengamankan jaringan dan memproduksi blok.",
-            "Sebagai nominator, Anda memilih validator mana yang ingin Anda dukung, dan menerima imbalan sebagai imbalannya."
+          "Entitas yang memvalidasi blok untuk Relay Chain {NETWORK_NAME}. Validator memainkan peran kunci dalam {NETWORK_NAME} untuk mengamankan jaringan dan memproduksi blok.",
+          "Sebagai nominator, Anda memilih validator mana yang ingin Anda dukung, dan menerima imbalan sebagai imbalannya."
         ]
-    ],
-    "wrongTransaction": [
+      ],
+      "wrongTransaction": [
         "Transaksi Salah",
         [
-            "Kesalahan ini terjadi ketika perangkat Ledger menandatangani atau sedang dalam proses penandatanganan transaksi yang berbeda dengan yang aktif saat ini di dashboard",
-            "Pastikan tidak ada transaksi tertunda pada perangkat Ledger dan coba lagi."
+          "Kesalahan ini terjadi ketika perangkat Ledger menandatangani atau sedang dalam proses penandatanganan transaksi yang berbeda dengan yang aktif saat ini di dashboard",
+          "Pastikan tidak ada transaksi tertunda pada perangkat Ledger dan coba lagi."
         ]
-    ],
-    "yourBalance": [
+      ],
+      "yourBalance": [
         "Saldo Anda",
         [
-            "Saldo Anda mewakili total {NETWORK_UNIT} yang Anda miliki tersedia selain dari jumlah staking total Anda, yang mencakup jumlah yang Anda pasangkan di dalam sebuah pool.",
-            "Berbeda dengan saldo yang Anda staking, saldo pool yang Anda pasangkan di pool tersebut dipegang dan dikunci di dalam pool itu sendiri."
+          "Saldo Anda mewakili total {NETWORK_UNIT} yang Anda miliki tersedia selain dari jumlah staking total Anda, yang mencakup jumlah yang Anda pasangkan di dalam sebuah pool.",
+          "Berbeda dengan saldo yang Anda staking, saldo pool yang Anda pasangkan di pool tersebut dipegang dan dikunci di dalam pool itu sendiri."
         ]
-    ]
+      ]
     },
     "externals": {
-        "bondMore": "Mengikat Lebih Banyak Token ke Staking yang Sudah Ada",
-        "changeAccount": "Mengganti Akun Kontrol Anda",
-        "changeDestination": "Mengubah Tujuan Pembayaran Anda",
-        "changeNominations": "Mengubah Nominasi Anda",
-        "chooseValidators": "Bagaimana Cara Memilih Validator yang Tepat?",
-        "claimRewards": "Mengklaim Imbalan Pool Nominasi",
-        "connectAccounts": "Cara Menghubungkan Akun Anda",
-        "createPools": "Membuat Pool Nominasi",
-        "howToUse": "Cara Menggunakan Dashboard Staking: Tinjauan",
-        "rebonding": "Rebonding",
-        "stakeDot": "Melakukan Staking DOT Anda",
-        "unbondingTokens": "Melepaskan Kunci Token Anda"
+      "bondMore": "Mengikat Lebih Banyak Token ke Staking yang Sudah Ada",
+      "changeAccount": "Mengganti Akun Kontrol Anda",
+      "changeDestination": "Mengubah Tujuan Pembayaran Anda",
+      "changeNominations": "Mengubah Nominasi Anda",
+      "chooseValidators": "Bagaimana Cara Memilih Validator yang Tepat?",
+      "claimRewards": "Mengklaim Imbalan Pool Nominasi",
+      "connectAccounts": "Cara Menghubungkan Akun Anda",
+      "createPools": "Membuat Pool Nominasi",
+      "howToUse": "Cara Menggunakan Dashboard Staking: Tinjauan",
+      "rebonding": "Rebonding",
+      "stakeDot": "Melakukan Staking DOT Anda",
+      "unbondingTokens": "Melepaskan Kunci Token Anda"
     },
     "modal": {
-        "articles": "Artikel",
-        "close": "Tutup",
-        "definitions": "Definisi",
-        "helpResources": "Sumber Bantuan",
-        "related": "Terkait"
+      "articles": "Artikel",
+      "close": "Tutup",
+      "definitions": "Definisi",
+      "helpResources": "Sumber Bantuan",
+      "related": "Terkait"
     }
-  }    
+  }
 }

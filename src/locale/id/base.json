@@ -54,10 +54,10 @@
       "second_one": "detik",
       "second_other": "detik"
     },
+    "title": "Dashboard Staking Avail",
     "title_kusama": "Dashboard Staking Kusama",
     "title_polkadot": "Dashboard Staking Polkadot",
     "title_westend": "Dashboard Staking Westend",
-    "title": "Dashboard Staking Avail",
     "validators": "Validator"
   }
 }

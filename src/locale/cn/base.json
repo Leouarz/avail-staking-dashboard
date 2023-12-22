@@ -48,10 +48,10 @@
       "minute": "分钟",
       "second": "秒"
     },
+    "title": "Avail抵押平台",
     "title_kusama": "Kusama抵押平台",
     "title_polkadot": "Polkadot抵押平台",
     "title_westend": "Westend抵押平台",
-    "title": "Avail抵押平台",
     "validators": "验证人"
   }
 }
