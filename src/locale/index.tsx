@@ -1,7 +1,7 @@
 // Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { enGB, zhCN } from 'date-fns/locale';
+import { enGB, zhCN, id } from 'date-fns/locale';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { AppVersion, DefaultLocale } from 'consts';
@@ -18,12 +18,14 @@ import { doDynamicImport, getInitialLanguage, getResources } from './utils';
 export const locales: Record<string, AnyJson> = {
   en: enGB,
   cn: zhCN,
+  id: id,
 };
 
 // available languages as an array of strings.
 export const availableLanguages: Array<string[]> = [
   ['en', 'English'],
   ['cn', '中文'],
+  ['id', 'Indonesia'],
 ];
 
 // the supported namespaces.
@@ -82,6 +84,7 @@ const i18ToLocaleMap: Record<string, string> = {
   ...Object.fromEntries(availableLanguages.map((a) => [a[0], a[0]])),
   en: 'en-gb',
   cn: 'zh-cn',
+  id: 'id',
 };
 
 // convert i18n locale key to BCP 47 key if needed.

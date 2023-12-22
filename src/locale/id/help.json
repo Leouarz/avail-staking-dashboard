@@ -1,0 +1,419 @@
+{
+  "help": {
+    "definitions": {
+      "activeNominators": [
+        "Nominator Aktif",
+        [
+          "Nominator yang aktif dalam sesi saat ini.",
+          "Menjadi nominator aktif tidak menjamin imbalan, karena nominee Anda mungkin telah terlalu banyak yang mendukungnya."
+        ]
+      ],
+      "activePools": [
+        "Pool Aktif",
+        ["Jumlah pool nominasi aktif saat ini di {NAMA_JARINGAN}."]
+      ],
+      "activeStakeThreshold": [
+        "Ambang Stake Aktif",
+        [
+          "Jumlah {SATUAN_JARINGAN} yang diperlukan untuk aktif memilih dalam satu era.",
+          "Nilai ini berlaku untuk nominator dan untuk pool. Dalam kasus pool, penting untuk bergabung dengan pool dengan total jumlah ikatan setidaknya nilaini.",
+          "Berada di atas metrik ini hanya menjamin bahwa Anda akan hadir dalam himpunan nominator aktif untuk era tersebut. Jumlah ini masih tidak menjamin imbalan, karena nominasi aktif Anda mungkin masih terlalu banyak yang mendukungnya.",
+          "Hanya {MAX_EXPOSURE_PAGE_SIZE} nominator teratas yang diberi imbalan per validator di {NAMA_JARINGAN}. Memastikan ikatan aktif Anda di atas ambang batas ini akan meningkatkan peluang Anda untuk mendapatkan imbalan.",
+          "Anda dapat memantau metrik ini dari dashboard dan memperbarui posisi staking Anda jika diperlukan, baik dengan meningkatkan {SATUAN_JARINGAN} yang diikat, mengubah nominasi Anda, atau bergabung dengan pool lain."
+        ]
+      ],
+      "activeValidator": [
+        "Validator Aktif",
+        [
+          "Sebuah validator yang secara aktif memvalidasi blok. Imbalan diakumulasikan berdasarkan aktivitas validator.",
+          "Seperangkat validator baru dipilih untuk setiap era, jadi tidak ada jaminan bahwa validator yang sama akan aktif dalam era berikutnya.",
+          "{NAMA_JARINGAN} memungkinkan nominator untuk mencalonkan hingga 16 validator, meningkatkan peluang Anda untuk mencalonkan validator aktif dalam setiap era."
+        ]
+      ],
+      "adjustedRewardsRate": [
+        "Tingkat Imbalan Disesuaikan",
+        [
+          "Perkiraan hasil tahunan yang direalisasikan berdasarkan model distribusi imbalan {NAMA_JARINGAN}.",
+          "Angka ini pada dasarnya adalah tingkat imbalan historis dikurangi tingkat inflasi."
+        ]
+      ],
+      "averageCommission": [
+        "Komisi Rata-rata",
+        [
+          "Tingkat komisi validator rata-rata di {NAMA_JARINGAN}.",
+          "Metrik ini tidak termasuk validator yang mengenakan komisi 100%, karena node-node ini biasanya memblokir nominasi dan dijalankan untuk tujuan staking di platform pertukaran sentral."
+        ]
+      ],
+      "blockedNominations": [
+        "Nominasi Terblokir",
+        [
+          "Ketika seorang validator memiliki nominasi yang diblokir, nominator tidak dapat mencalonkan mereka."
+        ]
+      ],
+      "bondedInPool": [
+        "Terikat dalam Pool",
+        [
+          "Jumlah {SATUAN_JARINGAN} saat ini yang diikat dalam suatu pool.",
+          "Berbeda dengan mencalonkan secara langsung, di mana dana terikat Anda tetap ada di akun Anda tetapi terkunci, {SATUAN_JARINGAN} yang Anda ikat ke pool ditransfer ke akun penyimpanan pool. Namun, anggota pool tetap memiliki akses untuk melepaskan dana mereka kapan saja."
+        ]
+      ],
+      "bonding": [
+        "Ikatan",
+        [
+          "Mengikat dana adalah proses 'mengunci' ({stake}) {SATUAN_JARINGAN}. {SATUAN_JARINGAN} yang diikat akan secara otomatis dialokasikan ke satu atau lebih validator yang Anda calonkan.",
+          "Sebagai nominator, Anda mengalokasikan nominasi sendiri. Dalam pool, pemilik pool atau nominator pool akan mengalokasikan nominasi atas nama Anda, dan dana terikat Anda akan mendukung nominasi tersebut.",
+          "Minimum statistik untuk mendapatkan imbalan adalah jumlah minimum {SATUAN_JARINGAN} yang diikat oleh seorang nominator untuk era saat ini. Nilai ini juga merupakan jumlah minimum yang diperlukan untuk menerima imbalan."
+        ]
+      ],
+      "commission": [
+        "Komisi",
+        [
+          "Validator dapat mengambil persentase dari imbalan yang mereka dapatkan. Bagian ini disebut sebagai komisi mereka.",
+          "Mencalonkan validator dengan komisi rendah berarti Anda akan menerima bagian yang lebih besar dari imbalan yang mereka hasilkan.",
+          "Banyak validator akan memiliki tingkat komisi 100%, yang berarti Anda tidak akan menerima imbalan dengan mencalonkan validator tersebut.",
+          "Contoh validator seperti itu termasuk yang beroperasi atas nama bursa, di mana pencalonan dan distribusi imbalan dilakukan secara sentral di bursa yang bersangkutan.",
+          "Seorang validator dapat memperbarui tingkat komisi mereka kapan pun yang mereka inginkan, dan perubahan tersebut akan memengaruhi profitabilitas Anda. Pastikan untuk memantau nominasi Anda pada dashboard ini untuk tetap terkini tentang tingkat komisi mereka."
+        ]
+      ],
+      "epoch": [
+        "Epoch",
+        [
+          "Epoch adalah nama lain untuk sesi dalam {NAMA_JARINGAN}. Setiap era dibagi menjadi 6 epoch di mana validator ditugaskan sebagai produsen blok untuk kerangka waktu atau slot tertentu.",
+          "1 epoch saat ini adalah 4 jam dalam Polkadot."
+        ]
+      ],
+      "era": [
+        "Era",
+        [
+          "Di akhir setiap era, validator diberi imbalan {SATUAN_JARINGAN} berdasarkan berapa banyak poin era yang mereka kumpulkan dalam era tersebut. Imbalan {SATUAN_JARINGAN} ini kemudian didistribusikan di antara nominator validator melalui pembayaran.",
+          "1 era saat ini adalah 24 jam dalam Polkadot."
+        ]
+      ],
+      "eraPoints": [
+        "Poin Era",
+        [
+          "Poin Era dikumpulkan oleh validator selama setiap era, dan bergantung pada kinerja validator.",
+          "Sebagai staker, Anda tidak perlu khawatir tentang Poin Era. Secara umum, validator yang berperforma lebih baik menghasilkan lebih banyak Poin Era, yang pada gilirannya mengarah pada imbalan staking yang lebih tinggi."
+        ]
+      ],
+      "historicalRewardsRate": [
+        "Tingkat Imbalan Historis",
+        [
+          "Perkiraan hasil tahunan berdasarkan model distribusi imbalan {NAMA_JARINGAN}."
+        ]
+      ],
+      "idealStaked": [
+        "Stake Ideal",
+        ["Persentase dari total pasokan yang distake dalam kondisi jaringan ideal."]
+      ],
+      "inactiveNominations": [
+        "Nominasi Tidak Aktif",
+        [
+          "Nominasi yang berada dalam himpunan validator aktif untuk era saat ini, tetapi dana terikat belum dialokasikan untuk nominasi ini."
+        ]
+      ],
+      "inflation": [
+        "Inflasi",
+        [
+          "{SATUAN_JARINGAN} bersifat inflasi; tidak ada jumlah maksimum dari {SATUAN_JARINGAN}.",
+          "Inflasi dirancang untuk sekitar 10% per tahun, dengan imbalan validator menjadi fungsi dari jumlah yang distake dan sisanya masuk ke kas negara."
+        ]
+      ],
+      "lastEraPayout": [
+        "Pembayaran Era Terakhir",
+        [
+          "Total jumlah {SATUAN_JARINGAN} yang dibayarkan untuk era aktif terakhir.",
+          "Pembayaran didistribusikan secara merata di antara validator aktif untuk era tersebut, dan kemudian lebih lanjut didistribusikan ke nominator aktif yang berpartisipasi dalam era tersebut.",
+          "Jumlah pembayaran yang diterima tergantung pada seberapa banyak {SATUAN_JARINGAN} yang dimiliki oleh nominator, dan validator itu sendiri, yang diikat untuk era tersebut."
+        ]
+      ],
+      "ledgerAppNotOnLatestRuntimeVersion": [
+        "Aplikasi Ledger Tidak pada Versi Runtime Terbaru",
+        [
+          "Pesan ini muncul ketika aplikasi Ledger Anda tidak dikonfigurasi ke metadata runtime terbaru. Anda masih bisa mencoba mengirimkan transaksi Anda, tetapi bisa jadi gagal.",
+          "Untuk mencegah peringatan ini, perbarui perangkat Ledger Anda ke versi terbaru.",
+          "Biasanya ada keterlambatan antara upgrade runtime yang diterapkan dan pembaruan aplikasi Ledger. Ketika pembaruan aplikasi tersedia, Anda dapat memperbarui aplikasi Anda di Ledger Live."
+        ]
+      ],
+      "ledgerHardwareWallets": [
+        "Dompet Keras Ledger",
+        [
+          "Perangkat Ledger yang kompatibel sepenuhnya didukung pada dashboard staking. Gunakan Ledger Anda untuk mengelola aktivitas staking Anda di {NAMA_JARINGAN}.",
+          "Menggunakan dompet keras memastikan pengalaman yang aman, di mana kunci Anda tetap berada pada perangkat keras sepanjang waktu. Ini juga dikenal sebagai penyimpanan dingin, karena tidak ada koneksi internet aktif ke dompet Anda.",
+          "Untuk mengimpor dan menandatangani transaksi dengan perangkat Ledger Anda, perangkat Anda harus memiliki aplikasi Ledger {NAMA_JARINGAN} terinstal. Aplikasi {NAMA_JARINGAN} dapat diinstal melalui aplikasi Ledger Live milik Ledger sendiri.",
+          "Kedua koneksi USB dan Bluetooth didukung dalam dashboard staking. Jika Ledger Anda memiliki fitur Bluetooth, dan perangkat Anda memungkinkan koneksi Bluetooth, Anda dapat mengimpor akun dan menandatangani transaksi secara nirkabel melalui perangkat Ledger Anda.",
+          "Temukan informasi lebih lanjut tentang Ledger di situs web resmi mereka, ledger.com."
+        ]
+      ],
+      "ledgerRejectedTransaction": [
+        "Transaksi Ledger Ditolak",
+        [
+          "Transaksi ditolak pada perangkat Ledger dan tidak akan diserahkan.",
+          "Kirim transaksi dengan menyetujuinya pada perangkat Ledger."
+        ]
+      ],
+      "ledgerRequestTimeout": [
+        "Waktu Habis Permintaan Ledger",
+        [
+          "Error waktu habis dapat terjadi ketika perangkat Ledger sedang sibuk, atau ketika sebuah operasi gagal untuk diselesaikan tepat waktu.",
+          "Coba lakukan operasi lagi, dan jika kesalahan tetap berlanjut, coba restart perangkat Ledger."
+        ]
+      ],
+      "lockedBalance": [
+        "Saldo Terkunci",
+        [
+          "Dalam {NAMA_JARINGAN}, beberapa tindakan memerlukan saldo Anda untuk terkunci, seperti staking atau voting pada governance. Jika sebagian saldo Anda terkunci, itu tidak dapat ditransfer.",
+          "jumlah saldo terkunci yang ditampilkan pada dashboard staking mewakili semua kunci Anda selain dari kunci staking - oleh karena itu menampilkan semua saldo terkunci yang dapat Anda gunakan untuk melakukan nominasi.",
+          "Anda dapat melakukan nominasi dengan saldo terkunci yang tersisa, tetapi Anda tidak dapat bergabung dengan sebuah pool dengannya, karena hal tersebut memerlukan transfer ke akun pool."
+        ]
+      ],
+      "minimumToCreatePool": [
+        "Minimum Untuk Membuat Pool",
+        [
+          "Jumlah minimum {NETWORK_UNIT} yang dibutuhkan untuk membentuk sebuah pool.",
+          "Membuat pool memerlukan deposit yang lebih besar daripada bergabung dengan sebuah pool."
+        ]
+      ],
+      "minimumToJoinPool": [
+        "Minimum Untuk Bergabung dengan Pool",
+        [
+          "Jumlah minimum {NETWORK_UNIT} yang dibutuhkan untuk bergabung dengan sebuah pool.",
+          "Jumlah ini berbeda dari jumlah yang dibutuhkan untuk membuat sebuah pool."
+        ]
+      ],
+      "nominating": [
+        "Nominasi",
+        [
+          "Nominasi adalah proses memilih validator yang ingin Anda stakingkan {NETWORK_UNIT} Anda. Anda dapat memilih hingga 16 validator untuk setiap akun Anda.",
+          "Setelah Anda telah melakukan nominasi pada validator yang Anda pilih, mereka menjadi nominasi Anda."
+        ]
+      ],
+      "nominationPools": [
+        "Pool Nominasi",
+        [
+          "Pool nominasi memungkinkan pengguna untuk menyumbangkan {NETWORK_UNIT} dan mendapatkan imbalan dari staking.",
+          "Berbeda dengan nominasi, staking menggunakan pool memerlukan jumlah {NETWORK_UNIT} yang kecil, dan pool mengelola para nominator atas nama Anda."
+        ]
+      ],
+      "nominationStatus": [
+        "Status Nominasi",
+        [
+          "Status dari nominasi Anda secara sekilas.",
+          "Sebuah set nominasi akan tidak aktif ketika tidak ada dari nominator tersebut yang berpartisipasi dalam set validator saat ini (set validator yang saat ini terpilih untuk memvalidasi jaringan).",
+          "Ketika setidaknya satu dari nominasi Anda aktif, status nominasi ini akan menampilkan sebagai aktif melakukan nominasi - namun hal ini tidak menjamin mendapatkan imbalan.",
+          "Para nominator teratas {MAX_EXPOSURE_PAGE_SIZE} dari setiap validator yang aktif menerima imbalan pada {NETWORK_NAME}. Jadi jika seorang nominator aktif dan kelebihan langganan, Anda harus menjadi bagian dari {MAX_EXPOSURE_PAGE_SIZE} nominator terikat tertinggi untuk mendapatkan imbalan.",
+          "Jika seorang nominator aktif tidak kelebihan langganan, Anda akan mendapatkan imbalan."
+        ]
+      ],
+      "nominations": [
+        "Nominasi",
+        [
+          "Nominasi adalah validator yang dipilih oleh staker untuk di-nominate. Anda dapat melakukan nominasi hingga {MAX_NOMINATIONS} validator pada {NETWORK_NAME}.",
+          "Untuk pool nominasi, pemilik pool dan nominator pool bertanggung jawab dalam melakukan nominasi validator atas nama seluruh anggota pool.",
+          "Setelah nominasi diajukan, dana yang diikat secara otomatis didistribusikan ke validator yang aktif dalam era saat ini.",
+          "Selama setidaknya satu dari nominasi Anda secara aktif melakukan validasi dalam sebuah sesi, dana Anda akan mendukung validator tersebut."
+        ]
+      ],
+      "nominatorStake": [
+        "Stake Nominator",
+        [
+          "Jumlah {NETWORK_UNIT} yang mendukung validator dari para nominator.",
+          "Nilai ini ditambahkan ke staking diri validator untuk membentuk total staking dari validator. Perhatikan bahwa nilai ini berubah setiap era karena dana yang diikat dari para nominator didistribusikan kembali ke validator aktif pada sesi tersebut."
+        ]
+      ],
+      "openAppOnLedger": [
+        "Buka Aplikasi di Ledger",
+        [
+          "Pesan ini muncul ketika aplikasi {NETWORK_NAME} Ledger tidak sedang terbuka pada perangkat yang terhubung.",
+          "Buka aplikasi {NETWORK_NAME} pada perangkat Ledger dan coba lagi."
+        ]
+      ],
+      "overSubscribed": [
+        "Kelebihan Langganan",
+        [
+          "Hanya {MAX_EXPOSURE_PAGE_SIZE} nominator teratas untuk setiap validator yang mendapatkan imbalan di {NETWORK_NAME}. Ketika jumlah ini terlampaui, validator tersebut dianggap kelebihan langganan."
+        ]
+      ],
+      "payout": [
+        "Imbalan",
+        [
+          "Imbalan staking pada {NETWORK_NAME}. Imbalan ini bergantung pada berapa banyak 'Poin Era' yang diakumulasikan validator nominasi Anda dari waktu ke waktu. Imbalan ditentukan pada akhir setiap Era (periode 24 jam).",
+          "Untuk menerima imbalan staking, sebuah Imbalan harus diminta. Setiap nominator yang mendukung validator yang bersangkutan dapat meminta Imbalan.",
+          "Satu permintaan imbalan memicu pembayaran imbalan bagi setiap nominator."
+        ]
+      ],
+      "payoutDestination": [
+        "Tujuan Pembayaran Imbalan",
+        [
+          "Tujuan pembayaran imbalan Anda menentukan ke akun mana imbalan Anda akan dikirimkan.",
+          "Imbalan dapat secara otomatis di-stake di atas ikatan Anda saat ini, atau dapat dikirimkan ke stash Anda, controller Anda, atau akun eksternal pilihan Anda."
+        ]
+      ],
+      "payoutHistory": [
+        "Riwayat Pembayaran Imbalan",
+        [
+          "Catatan historis pembayaran imbalan yang dibuat karena menjadi nominator aktif.",
+          "Meminta pembayaran adalah proses manual, sehingga Anda dapat menerima pembayaran untuk beberapa era secara berurutan atau secara sporadis. Grafik pembayaran Anda oleh karena itu dapat memiliki beberapa pembayaran yang terjadi pada hari yang sama, atau memiliki hari di mana tidak ada pembayaran.",
+          "Hal ini tidak berarti bahwa Anda tidak melakukan nominasi atau menghasilkan imbalan dalam periode tersebut - hanya saja pembayaran untuk periode tersebut belum dibuat."
+        ]
+      ],
+      "polkadotVault": [
+        "Vault Polkadot",
+        [
+          "Vault Polkadot (sebelumnya Parity Signer) adalah solusi penyimpanan dingin yang memungkinkan Anda menggunakan ponsel dalam mode pesawat sebagai dompet yang terputus dari jaringan.",
+          "Aplikasi Vault sebenarnya bukan dompet, karena tidak memungkinkan transfer dana.",
+          "Ini lebih merupakan alat kunci yang akan memungkinkan Anda membuat, mengelola, dan memulihkan akun."
+        ]
+      ],
+      "poolCommissionChangeRate": [
+        "Tarif Perubahan Komisi Pool",
+        [
+          "Tarif perubahan komisi ditetapkan oleh Pool Root, dan menentukan seberapa banyak dan seberapa sering komisi dapat ditingkatkan.",
+          "Kenaikan maksimum dari tarif perubahan menentukan seberapa besar tingkat komisi yang dapat ditingkatkan dalam satu pembaruan. Penundaan minimum menentukan berapa banyak blok yang harus dilewati sebelum tingkat komisi dapat ditingkatkan lagi.",
+          "Setelah tarif perubahan awal ditetapkan, hanya nilai yang lebih restriktif yang dapat ditetapkan setelahnya. Nilai-nilai yang lebih restriktif terdiri dari kenaikan maksimum yang lebih kecil dan penundaan minimum yang lebih besar."
+        ]
+      ],
+      "poolCommissionRate": [
+        "Tarif Komisi Pool",
+        [
+          "Tarif komisi dari pool. Nilai ini ditetapkan oleh Pool Root, dan merupakan persentase imbalan yang akan diambil oleh pool dari anggotanya.",
+          "Akun penerima pembayaran juga harus disediakan untuk menerima komisi tersebut.",
+          "Tarif komisi diambil dari imbalan pool sebelum didistribusikan kepada anggotanya."
+        ]
+      ],
+      "poolMaxCommission": [
+        "Komisi Maksimum Pool",
+        [
+          "Tarif komisi maksimum yang dapat ditetapkan oleh pemilik pool untuk pool tersebut.",
+          "Nilai ini ditetapkan oleh Pool Root, dan merupakan persentase maksimum imbalan yang akan diambil oleh pool dari anggotanya.",
+          "Setelah komisi maksimum awal ditetapkan, hanya nilai yang lebih restriktif yang dapat ditetapkan setelahnya."
+        ]
+      ],
+      "poolMembership": [
+        "Keanggotaan Pool",
+        [
+          "Status keanggotaan pool Anda mencerminkan apakah Anda merupakan anggota dari sebuah pool.",
+          "Keanggotaan pool dapat berupa anggota pool atau pemilik pool.",
+          "Saat ini di {NETWORK_NAME}, akun hanya dapat bergabung dengan satu pool pada satu waktu. Jika Anda ingin bergabung dengan pool lain, Anda harus keluar dari pool Anda saat ini terlebih dahulu.",
+          "Untuk keluar dari sebuah pool, Anda hanya perlu meng-unbond dan menarik semua {NETWORK_UNIT} yang diikat Anda. Dashboard staking menyediakan tombol Keluar khusus untuk meng-unbond dari sebuah pool."
+        ]
+      ],
+      "poolRewards": [
+        "Imbalan Pool",
+        [
+          "Jumlah {NETWORK_UNIT} yang dihasilkan dari menjadi peserta aktif dalam sebuah pool.",
+          "Anggota pool harus mengklaim imbalan mereka untuk memindahkannya ke saldo mereka.",
+          "Pengguna memiliki 2 pilihan untuk mengklaim imbalan. Mereka dapat di-stake kembali ke dalam pool, yang akan meningkatkan bagian Anda dari pool dan mengumpulkan imbalan lebih lanjut. Imbalan juga dapat ditarik dari pool ke akun Anda sebagai {NETWORK_UNIT} bebas."
+        ]
+      ],
+      "poolRoles": [
+        "Peran Pool",
+        [
+          "Sebuah pool terdiri dari 4 peran, masing-masing memiliki tanggung jawab yang berbeda dalam mengelola jalannya pool.",
+          "Root: Dapat mengubah nominator, bouncer, atau dirinya sendiri. Selain itu, dapat melakukan salah satu dari tindakan yang dapat dilakukan oleh nominator atau bouncer.",
+          "Depositor: Membuat pool dan merupakan anggota awal. Depositor hanya dapat meninggalkan pool setelah semua anggota lainnya telah pergi. Setelah mereka pergi dengan menarik, pool sepenuhnya dihapus dari sistem.",
+          "Nominator: Dapat memilih validator yang dinominasikan oleh pool.",
+          "Bouncer: Dapat mengubah status pool dan mengeluarkan (tanpa izin meng-unbond/menarik) anggota jika pool diblokir."
+        ]
+      ],
+      "proxyAccounts": [
+        "Akun Proksi",
+        [
+          "Akun proksi adalah akun yang bertindak atas nama akun lain.",
+          "Dalam istilah akun proksi, akun proksi disebut sebagai akun delegasi, dan akun yang diproksikan yang sedang diwakili disebut sebagai akun delegator.",
+          "Dashboard staking memungkinkan delegasi untuk menandatangani transaksi atas nama delegator. Jika seorang delegasi ada dalam dashboard tanpa delegatornya, delegator tersebut diimpor sebagai akun baca saja secara otomatis."
+        ]
+      ],
+      "readOnlyAccounts": [
+        "Akun Hanya Baca",
+        [
+          "Akun hanya baca adalah akun yang dapat diimpor, tetapi tidak dapat menandatangani transaksi. Ini berarti Anda dapat melihat saldo akun dan informasi staking, tetapi Anda tidak dapat melakukan tindakan staking dengannya."
+        ]
+      ],
+      "reserveBalance": [
+        "Saldo Cadangan",
+        [
+          "Di {NETWORK_NAME}, Anda harus memiliki saldo di atas jumlah tertentu agar akun Anda ada di rantai. Jumlah ini disebut 'deposit eksistensial' Anda.",
+          "Dashboard staking memastikan bahwa jumlah {NETWORK_UNIT} ini tidak pernah tersentuh."
+        ]
+      ],
+      "reserveBalanceForExistentialDeposit": [
+        "Saldo Cadangan untuk Deposit Eksistensial",
+        [
+          "Jika akun Anda sudah memiliki saldo terkunci yang mencakup deposit eksistensial akun Anda, seperti saldo yang terkunci untuk melakukan nominasi, maka dashboard staking tidak akan mengunci saldo bebas tambahan.",
+          "Dalam skenario ini, \"Tidak ada\" ditampilkan di bawah bagian \"Reserve For Existential Deposit\" di pengaturan Saldo Cadangan Anda."
+        ]
+      ],
+      "rewardsByCountryAndNetwork": [
+        "Imbalan Berdasarkan Negara dan Jaringan",
+        [
+            "Menunjukkan perkiraan persentase imbalan yang dihasilkan dari berbagai negara dan jaringan IP yang berbeda.",
+            "Analisis desatch decentralization analytics dihitung dengan menggabungkan imbalan berdasarkan Geolokasi IP dari Validator. Periode sampel adalah 60 hari terakhir."
+        ]
+    ],
+    "selfStake": [
+        "Self Stake",
+        [
+            "Jumlah {NETWORK_UNIT} yang dipasang oleh validator sendiri.",
+            "Nilai ini ditambahkan ke jumlah {NETWORK_UNIT} yang dipasang oleh nominator untuk membentuk total staking validator."
+        ]
+    ],
+    "supplyStaked": [
+        "Supply Staked",
+        [
+            "Supply kumulatif saat ini dari {NETWORK_UNIT} yang dipasang secara global.",
+            "Persentase {NETWORK_UNIT} yang dipasang relatif terhadap total supply {NETWORK_UNIT}."
+        ]
+    ],
+    "totalNominators": [
+        "Total Nominators",
+        [
+            "Akun yang melakukan staking di jaringan, terlepas dari apakah mereka aktif atau tidak dalam sesi saat ini.",
+            "Untuk melakukan staking {NETWORK_UNIT}, Anda dapat menjadi nominator atau bergabung dengan pool yang bertindak sebagai nominator itu sendiri."
+        ]
+    ],
+    "validator": [
+        "Validator",
+        [
+            "Entitas yang memvalidasi blok untuk Relay Chain {NETWORK_NAME}. Validator memainkan peran kunci dalam {NETWORK_NAME} untuk mengamankan jaringan dan memproduksi blok.",
+            "Sebagai nominator, Anda memilih validator mana yang ingin Anda dukung, dan menerima imbalan sebagai imbalannya."
+        ]
+    ],
+    "wrongTransaction": [
+        "Transaksi Salah",
+        [
+            "Kesalahan ini terjadi ketika perangkat Ledger menandatangani atau sedang dalam proses penandatanganan transaksi yang berbeda dengan yang aktif saat ini di dashboard",
+            "Pastikan tidak ada transaksi tertunda pada perangkat Ledger dan coba lagi."
+        ]
+    ],
+    "yourBalance": [
+        "Saldo Anda",
+        [
+            "Saldo Anda mewakili total {NETWORK_UNIT} yang Anda miliki tersedia selain dari jumlah staking total Anda, yang mencakup jumlah yang Anda pasangkan di dalam sebuah pool.",
+            "Berbeda dengan saldo yang Anda staking, saldo pool yang Anda pasangkan di pool tersebut dipegang dan dikunci di dalam pool itu sendiri."
+        ]
+    ]
+    },
+    "externals": {
+        "bondMore": "Mengikat Lebih Banyak Token ke Staking yang Sudah Ada",
+        "changeAccount": "Mengganti Akun Kontrol Anda",
+        "changeDestination": "Mengubah Tujuan Pembayaran Anda",
+        "changeNominations": "Mengubah Nominasi Anda",
+        "chooseValidators": "Bagaimana Cara Memilih Validator yang Tepat?",
+        "claimRewards": "Mengklaim Imbalan Pool Nominasi",
+        "connectAccounts": "Cara Menghubungkan Akun Anda",
+        "createPools": "Membuat Pool Nominasi",
+        "howToUse": "Cara Menggunakan Dashboard Staking: Tinjauan",
+        "rebonding": "Rebonding",
+        "stakeDot": "Melakukan Staking DOT Anda",
+        "unbondingTokens": "Melepaskan Kunci Token Anda"
+    },
+    "modal": {
+        "articles": "Artikel",
+        "close": "Tutup",
+        "definitions": "Definisi",
+        "helpResources": "Sumber Bantuan",
+        "related": "Terkait"
+    }
+  }    
+}

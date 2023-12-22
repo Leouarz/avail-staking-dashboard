@@ -1,0 +1,103 @@
+{
+  "tips": {
+    "connectExtensions": [
+      "Menghubungkan Ekstensi",
+      "Sambungkan akun Anda untuk mulai menggunakan Dashboard Penyatuan Polkadot.",
+      [
+        "Sambungkan akun Anda untuk mulai menggunakan Dashboard Penyatuan Polkadot.",
+        "Akun diakses melalui ekstensi web, yang berfungsi sebagai dompet. Dompet Anda digunakan untuk menandatangani transaksi yang Anda kirim dalam dashboard.",
+        "Sambungkan dompet Anda dari tombol Sambung di kanan atas dashboard, dan pilih akun yang ingin Anda staking untuk melanjutkan.",
+        "Dashboard Penyatuan mendukung berbagai jenis ekstensi dan dompet."
+      ]
+    ],
+    "howToStake": [
+      "Bagaimana Anda Ingin Menyatukan?",
+      "Buat nominator atau menjadi anggota suatu pool.",
+      [
+        "Ada beberapa cara untuk menyatukan di {NETWORK_NAME}.",
+        "Anda dapat menjadi nominator atau menjadi anggota suatu pool.",
+        "Menyatukan secara langsung memerlukan Anda untuk menyetorkan {NETWORK_UNIT} dan memilih validator yang ingin Anda dukung, serta menominasikan hingga {MAX_NOMINATIONS} dari mereka. Untuk mendapatkan imbalan sebagai nominator, saat ini Anda perlu menyetorkan minimal {MIN_ACTIVE_STAKE} {NETWORK_UNIT}.",
+        "Bergabung dengan pool jauh lebih murah, hanya memerlukan deposit minimum {MIN_POOL_JOIN_BOND} {NETWORK_UNIT}. Menominasikan validator dilakukan atas nama Anda, dan Anda hanya perlu mengklaim imbalan dari pool.",
+        "Membuat pool juga mungkin dilakukan, dengan memerlukan minimum {MIN_POOL_CREATE_BOND} {NETWORK_UNIT}."
+      ]
+    ],
+    "joinAnotherPool": [
+      "Bergabung dengan Pool Lain",
+      "Beralih ke akun lain untuk bergabung dengan pool lain.",
+      [
+        "Hanya satu pool yang dapat bergabung per akun di {NETWORK_NAME}. Untuk bergabung dengan lebih banyak pool, pertama-tama beralih ke akun lain."
+      ]
+    ],
+    "keepPoolNominating": [
+      "Mengelola Pool Anda",
+      "Penting untuk menjaga pool Anda aktif dalam menominasikan.",
+      [
+        "Penting untuk menjaga pool Anda aktif dalam menominasikan.",
+        "Jika pool Anda tidak menghasilkan imbalan, anggota akan cenderung meninggalkan dan bergabung dengan pool lain.",
+        "Peran root dan nominator Anda penting untuk mengelola nominasi Anda. Jika nominasi tidak berkinerja baik, pilih yang lain untuk meningkatkan peluang pool Anda mendapatkan imbalan."
+      ]
+    ],
+    "managingNominations": [
+      "Mengelola Nominasi",
+      "Pastikan untuk memeriksa kinerja nominasi Anda secara teratur.",
+      [
+        "Pastikan untuk memeriksa kinerja nominasi Anda secara teratur.",
+        "Untuk memaksimalkan variasi dan campuran validator yang terdesentralisasi, pilih validator dari berbagai entitas."
+      ]
+    ],
+    "module": {
+      "cancel": "Batal",
+      "close": "Tutup",
+      "disableTips": "Nonaktifkan Tips Dashboard",
+      "dismissResult": "Menolak tips akan menghapusnya dari tinjauan Anda.",
+      "dismissTips": "Menolak Tips",
+      "more": "Lebih Banyak",
+      "of": "dari",
+      "oneMoment": "Tunggu sebentar",
+      "reEnable": "Tips dapat diaktifkan kembali dari pengaturan dashboard, yang dapat diakses melalui ikon gigi di sudut kiri bawah menu samping.",
+      "syncingWith": "Sinkronisasi dengan {{network}}",
+      "tips": "Tips"
+    },
+    "monitoringPool": [
+      "Mengelola Keanggotaan Pool",
+      "Bagus untuk secara teratur memeriksa apakah pool Anda aktif menghasilkan imbalan.",
+      [
+        "Pool akan mengelola nominasi atas nama Anda, namun tetap baik untuk secara teratur memeriksa apakah pool Anda aktif menghasilkan imbalan.",
+        "Pantau status pool Anda untuk memastikan bahwa pool tersebut berkinerja dengan baik secara teratur, dan pertimbangkan untuk bergabung dengan pool lain jika Anda tidak menerima imbalan."
+      ]
+    ],
+    "recommendedJoinPool": [
+      "Rekomendasi: Bergabung dengan Pool",
+      "Akun Anda lebih cocok untuk bergabung dengan pool.",
+      [
+        "Berdasarkan jumlah {NETWORK_UNIT} yang saat ini dipegang oleh akun Anda, bergabung dengan pool adalah cara terbaik bagi Anda untuk memulai penyatuan.",
+        "Bergabung dengan pool memerlukan deposit minimum {MIN_POOL_JOIN_BOND} {NETWORK_UNIT}."
+      ]
+    ],
+    "recommendedNominator": [
+      "Rekomendasi: Menjadi Nominator",
+      "Anda memiliki cukup {NETWORK_UNIT} untuk menjadi nominator.",
+      [
+        "Anda memiliki cukup {NETWORK_UNIT} untuk menjadi nominator dan mulai mendapatkan imbalan.",
+        "Namun, menominasikan secara langsung memerlukan Anda untuk secara aktif memeriksa validator yang Anda dukung."
+      ]
+    ],
+    "reviewingPayouts": [
+      "Mengulas Imbalan",
+      "Secara teratur mengulas imbalan Anda adalah cara baik untuk menilai seberapa baik kinerja nominasi Anda.",
+      [
+        "Secara teratur mengulas imbalan Anda adalah cara baik untuk menilai seberapa baik kinerja nominasi Anda.",
+        "Pergi ke Halaman Imbalan untuk mendapatkan rincian terperinci dari setiap imbalan yang Anda terima, dan dari validator (atau pool) mana imbalan itu berasal."
+      ]
+    ],
+    "understandingValidatorPerformance": [
+      "Memahami Kinerja Validator",
+      "Berbagai faktor memengaruhi seberapa besar imbalan yang diterima validator.",
+      [
+        "Berbagai faktor memengaruhi seberapa besar imbalan yang diterima validator, seperti jumlah poin era yang dihasilkannya, berapa banyak nominator yang mendukungnya, dan apakah validator tersebut kelebihan langganan.",
+        "Semua metrik ini berubah dari waktu ke waktu, kadang-kadang dengan cara yang tidak dapat diprediksi. Oleh karena itu, penting bagi nominator untuk secara aktif memantau validator dan kinerjanya.",
+        "Dashboard Penyatuan menyediakan berbagai metrik untuk membantu Anda memahami seberapa baik kinerja validator."
+      ]
+    ]
+  }
+}

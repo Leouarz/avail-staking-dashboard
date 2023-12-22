@@ -1,0 +1,63 @@
+{
+  "base": {
+    "active": "Aktif",
+    "allowAll": "Izinkan Semua",
+    "allowAnyoneCompound": "Izinkan siapa pun untuk menggandakan imbalan atas nama Anda.",
+    "allowAnyoneCompoundWithdraw": "Izinkan siapa pun untuk menggandakan atau withdraw imbalan atas nama Anda.",
+    "allowAnyoneWithdraw": "Izinkan siapa pun untuk withdraw imbalan atas nama Anda.",
+    "allowCompound": "Izinkan Compound",
+    "allowWithdraw": "Izinkan Withdraw",
+    "community": "Komunitas",
+    "feedback": "Umpan Balik",
+    "goTo": "Pergi Ke",
+    "help": "Bantuan",
+    "inactive": "Inactive",
+    "network": "Jaringan",
+    "nominate": "Nominate",
+    "overview": "Gambaran",
+    "payee": {
+      "account": {
+        "subtitle": "Kirim pembayaran ke akun lain sebagai saldo bebas.",
+        "title": "Ke Akun Lain"
+      },
+      "none": {
+        "subtitle": "Tidak memiliki tujuan pembayaran yang ditetapkan.",
+        "title_active": "Belum Ditentukan",
+        "title_default": "Tidak Ada"
+      },
+      "staked": {
+        "subtitle": "Tambahkan pembayaran ke saldo yang di stake Anda secara otomatis.",
+        "title_active": "Penggandaan",
+        "title_default": "Gandakan"
+      },
+      "stash": {
+        "subtitle": "Pembayaran dikirim ke akun Anda sebagai saldo bebas.",
+        "title": "Ke Akun Anda"
+      }
+    },
+    "payouts": "Pembayaran",
+    "pools": "Pool",
+    "resources": "Sumber Daya",
+    "stake": "Stake",
+    "support": "Support",
+    "time": {
+      "day_one": "hari",
+      "day_other": "hari",
+      "hour_one": "jam",
+      "hour_other": "jam",
+      "hr_one": "jam",
+      "hr_other": "jam",
+      "min_one": "menit",
+      "min_other": "menit",
+      "minute_one": "menit",
+      "minute_other": "menit",
+      "second_one": "detik",
+      "second_other": "detik"
+    },
+    "title_kusama": "Dashboard Staking Kusama",
+    "title_polkadot": "Dashboard Staking Polkadot",
+    "title_westend": "Dashboard Staking Westend",
+    "title": "Dashboard Staking Avail",
+    "validators": "Validator"
+  }
+}
