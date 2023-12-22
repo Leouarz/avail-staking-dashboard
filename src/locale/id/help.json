@@ -27,7 +27,7 @@
         [
           "Sebuah validator yang secara aktif memvalidasi blok. Imbalan diakumulasikan berdasarkan aktivitas validator.",
           "Seperangkat validator baru dipilih untuk setiap era, jadi tidak ada jaminan bahwa validator yang sama akan aktif dalam era berikutnya.",
-          "{NAMA_JARINGAN} memungkinkan nominator untuk mencalonkan hingga 16 validator, meningkatkan peluang Anda untuk mencalonkan validator aktif dalam setiap era."
+          "{NAMA_JARINGAN} memungkinkan nominator untuk mennominasikan hingga 16 validator, meningkatkan peluang Anda untuk mennominasikan validator aktif dalam setiap era."
         ]
       ],
       "adjustedRewardsRate": [
@@ -47,21 +47,21 @@
       "blockedNominations": [
         "Nominasi Terblokir",
         [
-          "Ketika seorang validator memiliki nominasi yang diblokir, nominator tidak dapat mencalonkan mereka."
+          "Ketika seorang validator memiliki nominasi yang diblokir, nominator tidak dapat mennominasikan mereka."
         ]
       ],
       "bondedInPool": [
         "Terikat dalam Pool",
         [
           "Jumlah {SATUAN_JARINGAN} saat ini yang diikat dalam suatu pool.",
-          "Berbeda dengan mencalonkan secara langsung, di mana dana terikat Anda tetap ada di akun Anda tetapi terkunci, {SATUAN_JARINGAN} yang Anda ikat ke pool ditransfer ke akun penyimpanan pool. Namun, anggota pool tetap memiliki akses untuk melepaskan dana mereka kapan saja."
+          "Berbeda dengan menominasi secara langsung, di mana saldo terikat Anda tetap ada di akun Anda tetapi terkunci, {SATUAN_JARINGAN} yang Anda ikat ke pool ditransfer ke akun penyimpanan pool. Namun, anggota pool tetap memiliki akses untuk melepaskan saldo mereka kapan saja."
         ]
       ],
       "bonding": [
         "Ikatan",
         [
-          "Mengikat dana adalah proses 'mengunci' ({stake}) {SATUAN_JARINGAN}. {SATUAN_JARINGAN} yang diikat akan secara otomatis dialokasikan ke satu atau lebih validator yang Anda calonkan.",
-          "Sebagai nominator, Anda mengalokasikan nominasi sendiri. Dalam pool, pemilik pool atau nominator pool akan mengalokasikan nominasi atas nama Anda, dan dana terikat Anda akan mendukung nominasi tersebut.",
+          "Mengikat saldo adalah proses 'mengunci' ({stake}) {SATUAN_JARINGAN}. {SATUAN_JARINGAN} yang diikat akan secara otomatis dialokasikan ke satu atau lebih validator yang Anda nominasikan.",
+          "Sebagai nominator, Anda mengalokasikan nominasi sendiri. Dalam pool, pemilik pool atau nominator pool akan mengalokasikan nominasi atas nama Anda, dan saldo terikat Anda akan mendukung nominasi tersebut.",
           "Minimum statistik untuk mendapatkan imbalan adalah jumlah minimum {SATUAN_JARINGAN} yang diikat oleh seorang nominator untuk era saat ini. Nilai ini juga merupakan jumlah minimum yang diperlukan untuk menerima imbalan."
         ]
       ],
@@ -69,9 +69,9 @@
         "Komisi",
         [
           "Validator dapat mengambil persentase dari imbalan yang mereka dapatkan. Bagian ini disebut sebagai komisi mereka.",
-          "Mencalonkan validator dengan komisi rendah berarti Anda akan menerima bagian yang lebih besar dari imbalan yang mereka hasilkan.",
-          "Banyak validator akan memiliki tingkat komisi 100%, yang berarti Anda tidak akan menerima imbalan dengan mencalonkan validator tersebut.",
-          "Contoh validator seperti itu termasuk yang beroperasi atas nama bursa, di mana pencalonan dan distribusi imbalan dilakukan secara sentral di bursa yang bersangkutan.",
+          "Menominasikan validator dengan komisi rendah berarti Anda akan menerima bagian yang lebih besar dari imbalan yang mereka hasilkan.",
+          "Banyak validator akan memiliki tingkat komisi 100%, yang berarti Anda tidak akan menerima imbalan dengan menominasikan validator tersebut.",
+          "Contoh validator seperti itu termasuk yang beroperasi atas nama bursa, di mana penominasian dan distribusi imbalan dilakukan secara sentral di bursa yang bersangkutan.",
           "Seorang validator dapat memperbarui tingkat komisi mereka kapan pun yang mereka inginkan, dan perubahan tersebut akan memengaruhi profitabilitas Anda. Pastikan untuk memantau nominasi Anda pada dashboard ini untuk tetap terkini tentang tingkat komisi mereka."
         ]
       ],
@@ -111,7 +111,7 @@
       "inactiveNominations": [
         "Nominasi Tidak Aktif",
         [
-          "Nominasi yang berada dalam himpunan validator aktif untuk era saat ini, tetapi dana terikat belum dialokasikan untuk nominasi ini."
+          "Nominasi yang berada dalam himpunan validator aktif untuk era saat ini, tetapi saldo terikat belum dialokasikan untuk nominasi ini."
         ]
       ],
       "inflation": [
@@ -212,15 +212,15 @@
         [
           "Nominasi adalah validator yang dipilih oleh staker untuk di-nominate. Anda dapat melakukan nominasi hingga {MAX_NOMINATIONS} validator pada {NETWORK_NAME}.",
           "Untuk pool nominasi, pemilik pool dan nominator pool bertanggung jawab dalam melakukan nominasi validator atas nama seluruh anggota pool.",
-          "Setelah nominasi diajukan, dana yang diikat secara otomatis didistribusikan ke validator yang aktif dalam era saat ini.",
-          "Selama setidaknya satu dari nominasi Anda secara aktif melakukan validasi dalam sebuah sesi, dana Anda akan mendukung validator tersebut."
+          "Setelah nominasi diajukan, saldo yang diikat secara otomatis didistribusikan ke validator yang aktif dalam era saat ini.",
+          "Selama setidaknya satu dari nominasi Anda secara aktif melakukan validasi dalam sebuah sesi, saldo Anda akan mendukung validator tersebut."
         ]
       ],
       "nominatorStake": [
         "Stake Nominator",
         [
           "Jumlah {NETWORK_UNIT} yang mendukung validator dari para nominator.",
-          "Nilai ini ditambahkan ke staking diri validator untuk membentuk total staking dari validator. Perhatikan bahwa nilai ini berubah setiap era karena dana yang diikat dari para nominator didistribusikan kembali ke validator aktif pada sesi tersebut."
+          "Nilai ini ditambahkan ke staking diri validator untuk membentuk total staking dari validator. Perhatikan bahwa nilai ini berubah setiap era karena saldo yang diikat dari para nominator didistribusikan kembali ke validator aktif pada sesi tersebut."
         ]
       ],
       "openAppOnLedger": [
@@ -263,7 +263,7 @@
         "Vault Polkadot",
         [
           "Vault Polkadot (sebelumnya Parity Signer) adalah solusi penyimpanan dingin yang memungkinkan Anda menggunakan ponsel dalam mode pesawat sebagai dompet yang terputus dari jaringan.",
-          "Aplikasi Vault sebenarnya bukan dompet, karena tidak memungkinkan transfer dana.",
+          "Aplikasi Vault sebenarnya bukan dompet, karena tidak memungkinkan transfer saldo.",
           "Ini lebih merupakan alat kunci yang akan memungkinkan Anda membuat, mengelola, dan memulihkan akun."
         ]
       ],
