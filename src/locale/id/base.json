@@ -14,7 +14,7 @@
     "inactive": "Inactive",
     "network": "Jaringan",
     "nominate": "Nominate",
-    "overview": "Gambaran",
+    "overview": "Overview",
     "payee": {
       "account": {
         "subtitle": "Kirim pembayaran ke akun lain sebagai saldo bebas.",
@@ -27,15 +27,15 @@
       },
       "staked": {
         "subtitle": "Tambahkan pembayaran ke saldo yang di stake Anda secara otomatis.",
-        "title_active": "Penggandaan",
-        "title_default": "Gandakan"
+        "title_active": "Compound",
+        "title_default": "Compound"
       },
       "stash": {
         "subtitle": "Pembayaran dikirim ke akun Anda sebagai saldo bebas.",
         "title": "Ke Akun Anda"
       }
     },
-    "payouts": "Pembayaran",
+    "payouts": "Payout",
     "pools": "Pool",
     "resources": "Sumber Daya",
     "stake": "Stake",
