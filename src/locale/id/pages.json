@@ -226,6 +226,7 @@
       "fetchingValidators": "Mengambil validator",
       "networkValidators": "Validator Jaringan",
       "noFavorites": "Tidak Ada Favorit.",
+      "totalValidators": "Total Validator",
       "validators": "Validator"
     }
   }

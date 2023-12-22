@@ -261,6 +261,7 @@
     "unbondSomeOfYour": "Unbond sebagian dari",
     "unbondToMaintain": "Unbond hingga minimum {{minJoinBondUnit}} {{unit}} untuk menjaga keanggotaan pool Anda",
     "unbondToMinimum": "Unbond Hingga Minimum",
+    "unbondToMinimumCreate": "Unbond hingga minimum {{minCreateBondUnit}} {{unit}} untuk pool depositors.",
     "unbonding": "Unbonding",
     "unbondingWithdraw": "Unbonding juga akan menarik reward yang tertunda sebesar",
     "undergoingMaintenance": "Sedang dalam Pemeliharaan",
