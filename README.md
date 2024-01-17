@@ -25,7 +25,7 @@ URL variables take precedence over saved values in local storage, and will overw
 The following URL will load Avail and use the English localisation resource:
 
 ```
-staking.avail.tools/#/overview?n=avail&l=en
+staking.goldberg.avail.tools/#/overview?n=avail&l=en
 ```
 
 ## Using Containers
