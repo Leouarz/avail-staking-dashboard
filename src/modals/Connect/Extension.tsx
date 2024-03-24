@@ -1,23 +1,19 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faExternalLinkAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ModalConnectItem } from '@polkadot-cloud/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  useExtensions,
-  useExtensionAccounts,
-} from '@polkadot-cloud/react/hooks';
-import { useNotifications } from 'contexts/Notifications';
-import { getExtensionIcon } from '@polkadot-cloud/assets/extensions';
+import { ExtensionIcons } from '@w3ux/extension-assets/util';
 import { ExtensionInner } from './Wrappers';
 import type { ExtensionProps } from './types';
+import { NotificationsController } from 'controllers/NotificationsController';
+import { ModalConnectItem } from 'kits/Overlay/structure/ModalConnectItem';
+import { useExtensionAccounts, useExtensions } from '@w3ux/react-connect-kit';
 
 export const Extension = ({ meta, size, flag }: ExtensionProps) => {
   const { t } = useTranslation('modals');
-  const { addNotification } = useNotifications();
   const { connectExtensionAccounts } = useExtensionAccounts();
   const { extensionsStatus, extensionInstalled, extensionCanConnect } =
     useExtensions();
@@ -26,7 +22,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
   const canConnect = extensionCanConnect(id);
 
   // Force re-render on click.
-  const [increment, setIncrement] = useState(0);
+  const [increment, setIncrement] = useState<number>(0);
 
   // click to connect to extension
   const handleClick = async () => {
@@ -35,15 +31,21 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
       // force re-render to display error messages
       setIncrement(increment + 1);
 
-      if (connected)
-        addNotification({
+      if (connected) {
+        NotificationsController.emit({
           title: t('extensionConnected'),
           subtitle: `${t('titleExtensionConnected', { title })}`,
         });
+      }
     }
   };
 
-  const Icon = getExtensionIcon(id);
+  // Get the correct icon id for the extension.
+  const iconId =
+    window?.walletExtension?.isNovaWallet && id === 'polkadot-js'
+      ? 'nova-wallet'
+      : id;
+  const Icon = ExtensionIcons[iconId];
 
   // determine message to be displayed based on extension status.
   let statusJsx;
@@ -63,8 +65,9 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
       );
   }
 
-  const shortUrl = Array.isArray(website) ? website[0] : website;
-  const longUrl = Array.isArray(website) ? website[1] : website;
+  const websiteText = typeof website === 'string' ? website : website.text;
+  const websiteUrl = typeof website === 'string' ? website : website.url;
+
   const disabled = extensionsStatus[id] === 'connected' || !isInstalled;
 
   return (
@@ -96,11 +99,11 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
           <div className="foot">
             <a
               className="link"
-              href={`https://${longUrl}`}
+              href={`https://${websiteUrl}`}
               target="_blank"
               rel="noreferrer"
             >
-              {shortUrl}
+              {websiteText}
               <FontAwesomeIcon icon={faExternalLinkAlt} transform="shrink-6" />
             </a>
           </div>

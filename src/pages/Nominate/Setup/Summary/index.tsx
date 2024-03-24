@@ -1,16 +1,16 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ellipsisFn, unitToPlanck } from '@polkadot-cloud/utils';
+import { ellipsisFn, unitToPlanck } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useTranslation } from 'react-i18next';
 import { useSetup } from 'contexts/Setup';
 import { Warning } from 'library/Form/Warning';
-import { useBatchCall } from 'library/Hooks/useBatchCall';
-import { usePayeeConfig } from 'library/Hooks/usePayeeConfig';
-import { useSubmitExtrinsic } from 'library/Hooks/useSubmitExtrinsic';
+import { useBatchCall } from 'hooks/useBatchCall';
+import { usePayeeConfig } from 'hooks/usePayeeConfig';
+import { useSubmitExtrinsic } from 'hooks/useSubmitExtrinsic';
 import { Header } from 'library/SetupSteps/Header';
 import { MotionContainer } from 'library/SetupSteps/MotionContainer';
 import type { SetupStepProps } from 'library/SetupSteps/types';
@@ -31,9 +31,9 @@ export const Summary = ({ section }: SetupStepProps) => {
   const { getPayeeItems } = usePayeeConfig();
   const { accountHasSigner } = useImportedAccounts();
   const { activeAccount, activeProxy } = useActiveAccounts();
-  const { getSetupProgress, removeSetupProgress } = useSetup();
+  const { getNominatorSetup, removeSetupProgress } = useSetup();
 
-  const setup = getSetupProgress('nominator', activeAccount);
+  const setup = getNominatorSetup(activeAccount);
   const { progress } = setup;
   const { bond, nominations, payee } = progress;
 
@@ -42,9 +42,11 @@ export const Summary = ({ section }: SetupStepProps) => {
       return null;
     }
 
-    const targetsToSubmit = nominations.map((item: any) => ({
-      Id: item.address,
-    }));
+    const targetsToSubmit = nominations.map(
+      ({ address }: { address: string }) => ({
+        Id: address,
+      })
+    );
 
     const payeeToSubmit =
       payee.destination === 'Account'
@@ -53,7 +55,7 @@ export const Summary = ({ section }: SetupStepProps) => {
           }
         : payee.destination;
 
-    const bondToSubmit = unitToPlanck(bond, units);
+    const bondToSubmit = unitToPlanck(bond || '0', units);
     const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
 
     const txs = [
@@ -67,7 +69,6 @@ export const Summary = ({ section }: SetupStepProps) => {
     tx: getTxs(),
     from: activeAccount,
     shouldSubmit: true,
-    callbackSubmit: () => {},
     callbackInBlock: () => {
       removeSetupProgress('nominator', activeAccount);
     },
@@ -114,7 +115,7 @@ export const Summary = ({ section }: SetupStepProps) => {
               {t('nominate.bondAmount')}:
             </div>
             <div>
-              {new BigNumber(bond).toFormat()} {unit}
+              {new BigNumber(bond || 0).toFormat()} {unit}
             </div>
           </section>
         </SummaryWrapper>

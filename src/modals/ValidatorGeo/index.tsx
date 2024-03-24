@@ -1,8 +1,8 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonHelp, Polkicon } from '@polkadot-cloud/react';
-import { ellipsisFn } from '@polkadot-cloud/utils';
+import { Polkicon } from '@w3ux/react-polkicon';
+import { ellipsisFn } from '@w3ux/utils';
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHelp } from 'contexts/Help';
@@ -10,29 +10,30 @@ import { CardHeaderWrapper, CardWrapper } from 'library/Card/Wrappers';
 import { GeoDonut } from 'library/Graphs/GeoDonut';
 import { formatSize } from 'library/Graphs/Utils';
 import { GraphWrapper } from 'library/Graphs/Wrapper';
-import { useSize } from 'library/Hooks/useSize';
+import { useSize } from 'hooks/useSize';
 import { Title } from 'library/Modal/Title';
 import { StatusLabel } from 'library/StatusLabel';
-import type { ValidatorDetail } from '@polkawatch/ddp-client';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { PolkawatchApi, type ValidatorDetail } from '@polkawatch/ddp-client';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { PluginLabel } from 'library/PluginLabel';
-import { usePolkawatchApi } from 'contexts/Plugins/Polkawatch';
 import { usePlugins } from 'contexts/Plugins';
+import { useNetwork } from 'contexts/Network';
+import { PolkaWatchController } from 'controllers/PolkaWatchController';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
 
 export const ValidatorGeo = () => {
   const { t } = useTranslation('modals');
-  const { pwApi, networkSupported } = usePolkawatchApi();
+  const { network } = useNetwork();
   const { options } = useOverlay().modal.config;
   const { address, identity } = options;
   const { openHelp } = useHelp();
 
   const ref = useRef<HTMLDivElement>(null);
-  const size = useSize(ref.current);
+  const size = useSize(ref?.current || undefined);
   const { height, minHeight } = formatSize(size, 300);
-  const [pwData, setPwData] = useState({} as ValidatorDetail);
-  const [analyticsAvailable, setAnalyticsAvailable] = useState(true);
+  const [pwData, setPwData] = useState<ValidatorDetail>({} as ValidatorDetail);
+  const [analyticsAvailable, setAnalyticsAvailable] = useState<boolean>(true);
   const { pluginEnabled } = usePlugins();
-
   const enabled = pluginEnabled('polkawatch');
 
   // In Small Screens we will display the most relevant chart.
@@ -40,9 +41,15 @@ export const ValidatorGeo = () => {
   const isSmallScreen = window.innerWidth <= 650;
   const chartWidth = '330px';
 
+  const networkSupported =
+    PolkaWatchController.SUPPORTED_NETWORKS.includes(network);
+
   useEffect(() => {
-    if (networkSupported && enabled)
-      pwApi
+    if (networkSupported && enabled) {
+      const polkaWatchApi = new PolkawatchApi(
+        PolkaWatchController.apiConfig(network)
+      );
+      polkaWatchApi
         .ddpIpfsValidatorDetail({
           lastDays: 60,
           validator: address,
@@ -53,9 +60,10 @@ export const ValidatorGeo = () => {
           setPwData(response.data);
         })
         .catch(() => setAnalyticsAvailable(false));
-    else setAnalyticsAvailable(false);
-    return () => {};
-  }, [pwApi, address]);
+    } else {
+      setAnalyticsAvailable(false);
+    }
+  }, [address, network]);
 
   return (
     <>

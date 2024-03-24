@@ -1,11 +1,9 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type {
-  BondedContextInterface,
-  Nominations,
-} from 'contexts/Bonded/types';
+import type { Nominations } from 'contexts/Balances/types';
+import type { BondedContextInterface } from 'contexts/Bonded/types';
 
 export const nominations: Nominations = {
   targets: [],
@@ -13,9 +11,6 @@ export const nominations: Nominations = {
 };
 
 export const defaultBondedContext: BondedContextInterface = {
-  getAccount: (address) => null,
   getBondedAccount: (address) => null,
-  getAccountNominations: (address) => [],
-  isController: (address) => false,
   bondedAccounts: [],
 };

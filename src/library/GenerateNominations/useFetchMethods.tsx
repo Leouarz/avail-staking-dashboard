@@ -1,11 +1,11 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { shuffle } from '@polkadot-cloud/utils';
+import { shuffle } from '@w3ux/utils';
 import { useFavoriteValidators } from 'contexts/Validators/FavoriteValidators';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
 import type { Validator } from 'contexts/Validators/types';
-import { useValidatorFilters } from 'library/Hooks/useValidatorFilters';
+import { useValidatorFilters } from 'hooks/useValidatorFilters';
 import type { AddNominationsType } from './types';
 
 export const useFetchMehods = () => {
@@ -185,7 +185,9 @@ export const useFetchMehods = () => {
 
     // take one validator
     const validator = shuffle(all).slice(0, 1)[0] || null;
-    if (validator) nominations.push(validator);
+    if (validator) {
+      nominations.push(validator);
+    }
     return nominations;
   };
 
@@ -194,7 +196,9 @@ export const useFetchMehods = () => {
 
     // take one validator
     const validator = shuffle(all).slice(0, 1)[0] || null;
-    if (validator) nominations.push(validator);
+    if (validator) {
+      nominations.push(validator);
+    }
     return nominations;
   };
 
@@ -203,7 +207,9 @@ export const useFetchMehods = () => {
 
     // take one validator
     const validator = shuffle(all).slice(0, 1)[0] || null;
-    if (validator) nominations.push(validator);
+    if (validator) {
+      nominations.push(validator);
+    }
     return nominations;
   };
 

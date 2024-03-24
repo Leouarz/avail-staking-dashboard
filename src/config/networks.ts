@@ -1,7 +1,6 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { DefaultParams } from 'consts';
 import AvailTokenSVG from 'config/tokens/svg/AVL.svg?react';
 import AvailLogo from 'img/avail_logo.svg?react';
 
@@ -20,7 +19,7 @@ export const NetworkList: Networks = {
   avail: {
     name: 'avail',
     endpoints: {
-      lightClient: null,
+      lightClient: '',
       defaultRpcEndpoint: 'Avail RPC',
       rpcEndpoints: {
         'Avail RPC': 'wss://goldberg.avail.tools/ws',
@@ -49,8 +48,7 @@ export const NetworkList: Networks = {
         dark: 'rgb(60, 163, 252, 0.33)',
       },
     },
-    subscanEndpoint: 'https://subscan.goldberg.avail.tools',
-    unit: 'AVL',
+    unit: 'AVAIL',
     units: 18,
     ss58: 42,
     brand: {
@@ -66,12 +64,8 @@ export const NetworkList: Networks = {
       },
     },
     api: {
-      unit: 'AVL',
-      priceTicker: 'AVLUSDT',
-    },
-    params: {
-      ...DefaultParams,
-      stakeTarget: 0.5,
+      unit: 'AVAIL',
+      priceTicker: 'AVAILUSDT',
     },
     defaultFeeReserve: 0.1,
     maxExposurePageSize: new BigNumber(64),

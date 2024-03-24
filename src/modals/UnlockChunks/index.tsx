@@ -1,23 +1,22 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import {
-  ModalFixedTitle,
-  ModalMotionTwoSection,
-  ModalSection,
-} from '@polkadot-cloud/react';
-import { setStateWithRef } from '@polkadot-cloud/utils';
+import { setStateWithRef } from '@w3ux/utils';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBalances } from 'contexts/Balances';
-import { useActivePools } from 'contexts/Pools/ActivePools';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { Title } from 'library/Modal/Title';
 import { useTxMeta } from 'contexts/TxMeta';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useLedgerHardware } from 'contexts/Hardware/Ledger/LedgerHardware';
 import { Forms } from './Forms';
 import { Overview } from './Overview';
+import type { UnlockChunk } from 'contexts/Balances/types';
+import { ModalSection } from 'kits/Overlay/structure/ModalSection';
+import { ModalFixedTitle } from 'kits/Overlay/structure/ModalFixedTitle';
+import { ModalMotionTwoSection } from 'kits/Overlay/structure/ModalMotionTwoSection';
 
 export const UnlockChunks = () => {
   const { t } = useTranslation('modals');
@@ -26,10 +25,10 @@ export const UnlockChunks = () => {
     setModalHeight,
     modalMaxHeight,
   } = useOverlay().modal;
+  const { getLedger } = useBalances();
   const { notEnoughFunds } = useTxMeta();
-  const { getStashLedger } = useBalances();
+  const { getPoolUnlocking } = useActivePool();
   const { activeAccount } = useActiveAccounts();
-  const { getPoolUnlocking } = useActivePools();
   const { integrityChecked } = useLedgerHardware();
   const { bondFor } = options || {};
 
@@ -42,7 +41,7 @@ export const UnlockChunks = () => {
         unlocking = getPoolUnlocking();
         break;
       default:
-        ledger = getStashLedger(activeAccount);
+        ledger = getLedger({ stash: activeAccount });
         unlocking = ledger.unlocking;
     }
     return unlocking;
@@ -51,7 +50,7 @@ export const UnlockChunks = () => {
   const unlocking = getUnlocking();
 
   // active modal section
-  const [section, setSectionState] = useState(0);
+  const [section, setSectionState] = useState<number>(0);
   const sectionRef = useRef(section);
 
   const setSection = (s: number) => {
@@ -62,7 +61,7 @@ export const UnlockChunks = () => {
   const [task, setTask] = useState<string | null>(null);
 
   // unlock value of interest
-  const [unlock, setUnlock] = useState(null);
+  const [unlock, setUnlock] = useState<UnlockChunk | null>(null);
 
   // counter to trigger modal height calculation
   const [calculateHeight, setCalculateHeight] = useState<number>(0);

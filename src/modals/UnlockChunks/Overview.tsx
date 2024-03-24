@@ -1,34 +1,47 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheckCircle, faClock } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ButtonSubmit, ModalNotes, ModalPadding } from '@polkadot-cloud/react';
-import { planckToUnit } from '@polkadot-cloud/utils';
+import { planckToUnit } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { getUnixTime } from 'date-fns';
+import type { Dispatch, ForwardedRef, SetStateAction } from 'react';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
-import { useNetworkMetrics } from 'contexts/NetworkMetrics';
-import { useErasToTimeLeft } from 'library/Hooks/useErasToTimeLeft';
-import { timeleftAsString } from 'library/Hooks/useTimeLeft/utils';
-import { useUnstaking } from 'library/Hooks/useUnstaking';
+import { useErasToTimeLeft } from 'hooks/useErasToTimeLeft';
+import { timeleftAsString } from 'hooks/useTimeLeft/utils';
+import { useUnstaking } from 'hooks/useUnstaking';
 import { StatWrapper, StatsWrapper } from 'library/Modal/Wrappers';
 import { StaticNote } from 'modals/Utils/StaticNote';
-import type { AnyJson } from 'types';
+import type { BondFor } from 'types';
 import { useNetwork } from 'contexts/Network';
 import { Chunk } from './Chunk';
 import { ContentWrapper } from './Wrappers';
+import type { UnlockChunk } from 'contexts/Balances/types';
+import { ButtonSubmit } from 'kits/Buttons/ButtonSubmit';
+import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
+import { ModalNotes } from 'kits/Overlay/structure/ModalNotes';
+
+interface OverviewProps {
+  unlocking: UnlockChunk[];
+  bondFor: BondFor;
+  setSection: (section: number) => void;
+  setUnlock: Dispatch<SetStateAction<UnlockChunk | null>>;
+  setTask: (task: string) => void;
+}
 
 export const Overview = forwardRef(
-  ({ unlocking, bondFor, setSection, setUnlock, setTask }: any, ref: any) => {
+  (
+    { unlocking, bondFor, setSection, setUnlock, setTask }: OverviewProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) => {
     const { t } = useTranslation('modals');
-    const { consts } = useApi();
+    const { consts, activeEra } = useApi();
     const {
       networkData: { units, unit },
     } = useNetwork();
-    const { activeEra } = useNetworkMetrics();
     const { bondDuration } = consts;
     const { isFastUnstaking } = useUnstaking();
     const { erasToSeconds } = useErasToTimeLeft();
@@ -54,7 +67,7 @@ export const Overview = forwardRef(
       }
     }
 
-    const onRebondHandler = (chunk: AnyJson) => {
+    const onRebondHandler = (chunk: UnlockChunk) => {
       setTask('rebond');
       setUnlock(chunk);
       setSection(1);
@@ -122,7 +135,7 @@ export const Overview = forwardRef(
             </div>
           )}
 
-          {unlocking.map((chunk: any, i: number) => (
+          {unlocking.map((chunk, i: number) => (
             <Chunk
               key={`unlock_chunk_${i}`}
               chunk={chunk}
@@ -145,3 +158,5 @@ export const Overview = forwardRef(
     );
   }
 );
+
+Overview.displayName = 'Overview';

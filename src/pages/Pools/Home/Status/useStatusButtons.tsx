@@ -1,44 +1,47 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faPlusCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
-import { useActivePools } from 'contexts/Pools/ActivePools';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { useBondedPools } from 'contexts/Pools/BondedPools';
-import { usePoolMemberships } from 'contexts/Pools/PoolMemberships';
-import { usePoolsConfig } from 'contexts/Pools/PoolsConfig';
 import { useSetup } from 'contexts/Setup';
 import { useTransferOptions } from 'contexts/TransferOptions';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import { usePoolsTabs } from '../context';
+import { useBalances } from 'contexts/Balances';
 
 export const useStatusButtons = () => {
   const { t } = useTranslation('pages');
-  const { isReady } = useApi();
-  const { stats } = usePoolsConfig();
-  const { isOwner } = useActivePools();
+  const {
+    isReady,
+    poolsConfig: { maxPools },
+  } = useApi();
+  const { isOwner } = useActivePool();
   const { setActiveTab } = usePoolsTabs();
   const { bondedPools } = useBondedPools();
-  const { membership } = usePoolMemberships();
+  const { getPoolMembership } = useBalances();
   const { activeAccount } = useActiveAccounts();
   const { getTransferOptions } = useTransferOptions();
   const { isReadOnlyAccount } = useImportedAccounts();
   const { setOnPoolSetup, getPoolSetupPercent } = useSetup();
 
-  const { maxPools } = stats;
+  const membership = getPoolMembership(activeAccount);
   const { active } = getTransferOptions(activeAccount).pool;
   const poolSetupPercent = getPoolSetupPercent(activeAccount);
 
   const disableCreate = () => {
-    if (!isReady || isReadOnlyAccount(activeAccount) || !activeAccount)
+    if (!isReady || isReadOnlyAccount(activeAccount) || !activeAccount) {
       return true;
+    }
     if (
       maxPools &&
-      (maxPools.isZero() || bondedPools.length === stats.maxPools?.toNumber())
-    )
+      (maxPools.isZero() || bondedPools.length === maxPools?.toNumber())
+    ) {
       return true;
+    }
     return false;
   };
 
@@ -65,7 +68,7 @@ export const useStatusButtons = () => {
       isReadOnlyAccount(activeAccount) ||
       !activeAccount ||
       !bondedPools.length,
-    onClick: () => setActiveTab(2),
+    onClick: () => setActiveTab(1),
   };
 
   if (!membership) {

@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type BigNumber from 'bignumber.js';
@@ -13,7 +13,7 @@ export interface MetaInterface {
 }
 
 export interface FastUnstakeContextInterface {
-  getLocalkey: (a: MaybeAddress) => string;
+  getLocalkey: (address: MaybeAddress) => string;
   checking: boolean;
   meta: MetaInterface;
   isExposed: boolean | null;

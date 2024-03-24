@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -7,13 +7,8 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  ButtonHelp,
-  ButtonMonoInvert,
-  ButtonSecondary,
-  Polkicon,
-} from '@polkadot-cloud/react';
-import React from 'react';
+import { Polkicon } from '@w3ux/react-polkicon';
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHelp } from 'contexts/Help';
 import { useProxies } from 'contexts/Proxies';
@@ -25,6 +20,9 @@ import {
   ManualAccountsWrapper,
 } from './Wrappers';
 import type { ListWithInputProps } from './types';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonMonoInvert } from 'kits/Buttons/ButtonMonoInvert';
+import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
 
 export const Proxies = ({ setInputOpen, inputOpen }: ListWithInputProps) => {
   const { t } = useTranslation('modals');
@@ -61,22 +59,20 @@ export const Proxies = ({ setInputOpen, inputOpen }: ListWithInputProps) => {
       <ManualAccountsWrapper>
         <div className="content">
           {inputOpen && (
-            <>
-              <AccountInput
-                resetOnSuccess
-                defaultLabel={t('inputDelegatorAddress')}
-                successCallback={async (delegator) => {
-                  const result = await handleDeclareDelegate(delegator);
-                  return result;
-                }}
-              />
-            </>
+            <AccountInput
+              resetOnSuccess
+              defaultLabel={t('inputDelegatorAddress')}
+              successCallback={async (delegator) => {
+                const result = await handleDeclareDelegate(delegator);
+                return result;
+              }}
+            />
           )}
           {Object.entries(importedDelegates).length ? (
             <div className="accounts">
               {Object.entries(importedDelegates).map(
                 ([delegate, delegators], i) => (
-                  <React.Fragment key={`user_delegate_account_${i}}`}>
+                  <Fragment key={`user_delegate_account_${i}}`}>
                     {delegators.map(({ delegator, proxyType }, j) => (
                       <ManualAccount key={`user_delegate_${i}_delegator_${j}`}>
                         <div>
@@ -101,7 +97,7 @@ export const Proxies = ({ setInputOpen, inputOpen }: ListWithInputProps) => {
                         <ButtonSecondary text={t('declared')} disabled />
                       </ManualAccount>
                     ))}
-                  </React.Fragment>
+                  </Fragment>
                 )
               )}
             </div>

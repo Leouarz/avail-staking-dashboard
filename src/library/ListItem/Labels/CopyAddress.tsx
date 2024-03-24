@@ -1,16 +1,15 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
-import { useNotifications } from 'contexts/Notifications';
-import type { NotificationText } from 'contexts/Notifications/types';
+import type { NotificationText } from 'controllers/NotificationsController/types';
 import type { CopyAddressProps } from '../types';
+import { NotificationsController } from 'controllers/NotificationsController';
 
 export const CopyAddress = ({ address }: CopyAddressProps) => {
   const { t } = useTranslation('library');
-  const { addNotification } = useNotifications();
 
   // copy address notification
   const notificationCopyAddress: NotificationText | null =
@@ -27,7 +26,7 @@ export const CopyAddress = ({ address }: CopyAddressProps) => {
         type="button"
         onClick={() => {
           if (notificationCopyAddress) {
-            addNotification(notificationCopyAddress);
+            NotificationsController.emit(notificationCopyAddress);
           }
           navigator.clipboard.writeText(address || '');
         }}

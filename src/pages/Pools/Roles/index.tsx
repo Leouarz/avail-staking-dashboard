@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -6,20 +6,13 @@ import {
   faEdit,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  ButtonHelp,
-  ButtonPrimary,
-  ButtonPrimaryInvert,
-} from '@polkadot-cloud/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
 import { useHelp } from 'contexts/Help';
-import { useIdentities } from 'contexts/Identities';
-import { useActivePools } from 'contexts/Pools/ActivePools';
-import { useUi } from 'contexts/UI';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { CardHeaderWrapper } from 'library/Card/Wrappers';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
@@ -27,25 +20,28 @@ import { RolesWrapper } from '../Home/ManagePool/Wrappers';
 import { PoolAccount } from '../PoolAccount';
 import { RoleEditInput } from './RoleEditInput';
 import type { RoleEditEntry, RolesProps } from './types';
+import { useSyncing } from 'hooks/useSyncing';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
 
 export const Roles = ({
-  batchKey,
   defaultRoles,
   setters = [],
   inline = false,
-  listenIsValid = () => {},
+  listenIsValid,
 }: RolesProps) => {
   const { t } = useTranslation('pages');
   const { isReady } = useApi();
   const { openHelp } = useHelp();
   const { network } = useNetwork();
-  const { isPoolSyncing } = useUi();
   const { openModal } = useOverlay().modal;
   const { activeAccount } = useActiveAccounts();
+  const { isOwner, activePool } = useActivePool();
+  const { syncing } = useSyncing(['active-pools']);
   const { isReadOnlyAccount } = useImportedAccounts();
-  const { fetchIdentitiesMetaBatch } = useIdentities();
-  const { isOwner, selectedActivePool } = useActivePools();
-  const { id } = selectedActivePool || { id: 0 };
+
+  const { id } = activePool || { id: 0 };
   const roles = defaultRoles;
 
   const initialiseEdits = (() => {
@@ -62,20 +58,17 @@ export const Roles = ({
   })();
 
   // store any role edits that take place
-  const [roleEdits, setRoleEdits] = useState(initialiseEdits);
+  const [roleEdits, setRoleEdits] =
+    useState<Record<string, RoleEditEntry>>(initialiseEdits);
 
   // store whether roles are being edited
-  const [isEditing, setIsEditing] = useState(false);
-
-  // store role accounts
-  const [accounts, setAccounts] = useState(Object.values(roles));
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   // is this the initial fetch
-  const [fetched, setFetched] = useState(false);
+  const [fetched, setFetched] = useState<boolean>(false);
 
   // update default roles on account switch
   useEffect(() => {
-    setAccounts(Object.values(roles));
     setIsEditing(false);
     setRoleEdits(initialiseEdits);
     setFetched(false);
@@ -85,7 +78,6 @@ export const Roles = ({
   useEffect(() => {
     if (isReady && !fetched) {
       setFetched(true);
-      fetchIdentitiesMetaBatch(batchKey, Object.values(roles), true);
     }
   }, [isReady, fetched]);
 
@@ -108,7 +100,7 @@ export const Roles = ({
       if (listenIsValid) {
         listenIsValid(isRoleEditsValid());
       }
-      const rolesUpdated: any = {};
+      const rolesUpdated: Record<string, string> = {};
       for (const [k, v] of Object.entries(roleEdits)) {
         rolesUpdated[k] = v.newAddress;
       }
@@ -161,9 +153,7 @@ export const Roles = ({
           </h3>
         )}
 
-        {!(isOwner() === true || setters.length) ? (
-          <></>
-        ) : (
+        {!(isOwner() === true || setters.length) ? null : (
           <>
             {isEditing && (
               <div>
@@ -171,7 +161,7 @@ export const Roles = ({
                   iconLeft={faTimesCircle}
                   iconTransform="grow-1"
                   text={t('pools.cancel')}
-                  disabled={isPoolSyncing || isReadOnlyAccount(activeAccount)}
+                  disabled={syncing || isReadOnlyAccount(activeAccount)}
                   onClick={() => cancelHandler()}
                 />
               </div>
@@ -183,7 +173,7 @@ export const Roles = ({
                 iconTransform="grow-1"
                 text={isEditing ? t('pools.save') : t('pools.edit')}
                 disabled={
-                  isPoolSyncing ||
+                  syncing ||
                   isReadOnlyAccount(activeAccount) ||
                   !isRoleEditsValid()
                 }
@@ -197,11 +187,7 @@ export const Roles = ({
         <section>
           <div className="inner">
             <h4>{t('pools.depositor')}</h4>
-            <PoolAccount
-              address={roles.depositor ?? null}
-              batchIndex={accounts.indexOf(roles.depositor ?? '-1')}
-              batchKey={batchKey}
-            />
+            <PoolAccount address={roles.depositor ?? null} pool={activePool} />
           </div>
         </section>
         <section>
@@ -214,11 +200,7 @@ export const Roles = ({
                 setRoleEdit={setRoleEditHandler}
               />
             ) : (
-              <PoolAccount
-                address={roles.root ?? null}
-                batchIndex={accounts.indexOf(roles.root ?? '-1')}
-                batchKey={batchKey}
-              />
+              <PoolAccount address={roles.root ?? null} pool={activePool} />
             )}
           </div>
         </section>
@@ -234,8 +216,7 @@ export const Roles = ({
             ) : (
               <PoolAccount
                 address={roles.nominator ?? null}
-                batchIndex={accounts.indexOf(roles.nominator ?? '-1')}
-                batchKey={batchKey}
+                pool={activePool}
               />
             )}
           </div>
@@ -250,11 +231,7 @@ export const Roles = ({
                 setRoleEdit={setRoleEditHandler}
               />
             ) : (
-              <PoolAccount
-                address={roles.bouncer ?? null}
-                batchIndex={accounts.indexOf(roles.bouncer ?? '-1')}
-                batchKey={batchKey}
-              />
+              <PoolAccount address={roles.bouncer ?? null} pool={activePool} />
             )}
           </div>
         </section>

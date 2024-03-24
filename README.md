@@ -42,6 +42,8 @@ Then run your container with:
 podman run --d -p 8080:80 localhost/avail-staking-dashboard
 ```
 
+<!-- markdown-link-check-disable -->
+
 And access the **Staking Dashboard** at http://localhost:8080/.
 
 ## Presentations of the Polkadot Staking Dashboard

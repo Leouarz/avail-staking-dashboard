@@ -1,7 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import type { TimeLeftFormatted } from 'library/Hooks/useTimeLeft/types';
+import type { TimeLeftFormatted } from 'hooks/useTimeLeft/types';
 
 export interface NumberProps {
   label: string;
@@ -46,4 +46,4 @@ export interface TimeleftProps {
 }
 
 export type TimeLeftRaw = TimeLeftRawItem[];
-export type TimeLeftRawItem = Array<number | string>;
+export type TimeLeftRawItem = (number | string)[];

@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
@@ -63,7 +63,7 @@ export const StatBoxWrapper = styled(motion.div)`
     }
 
     h4 {
-      font-family: InterSemiBold, sans-serif;
+      font-family: Inter, sans-serif;
       flex: 1;
       display: flex;
       flex-flow: row wrap;

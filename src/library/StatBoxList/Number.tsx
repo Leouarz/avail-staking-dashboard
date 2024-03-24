@@ -1,11 +1,12 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonHelp, Odometer } from '@polkadot-cloud/react';
+import { Odometer } from '@w3ux/react-odometer';
 import { useHelp } from 'contexts/Help';
 import BigNumber from 'bignumber.js';
 import { StatBox } from './Item';
 import type { NumberProps } from './types';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
 
 export const Number = ({
   label,
@@ -27,7 +28,7 @@ export const Number = ({
                 .decimalPlaces(decimals || 0)
                 .toFormat()}
             />
-            {unit ? <>{unit}</> : null}
+            {unit || null}
           </h3>
           <h4>
             {label}

@@ -1,13 +1,14 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
+import type { MotionContainerProps } from './types';
 
 export const MotionContainer = ({
   thisSection,
   activeSection,
   children,
-}: any) => {
+}: MotionContainerProps) => {
   // container variants
   const containerVariants = {
     hidden: {

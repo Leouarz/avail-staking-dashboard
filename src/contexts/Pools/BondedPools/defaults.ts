@@ -1,21 +1,20 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function */
 
-import type { BondedPoolsContextState } from '../types';
+import type { BondedPoolsContextState } from './types';
 
 export const defaultBondedPoolsContext: BondedPoolsContextState = {
-  queryBondedPool: (p) => {},
-  getBondedPool: (p) => null,
-  updateBondedPools: (p) => {},
-  addToBondedPools: (p) => {},
-  removeFromBondedPools: (p) => {},
-  getPoolNominationStatus: (n, o) => {},
-  getPoolNominationStatusCode: (t) => '',
-  getAccountRoles: (w) => null,
-  getAccountPools: (w) => null,
-  replacePoolRoles: (p, e) => {},
-  poolSearchFilter: (l, v) => {},
+  queryBondedPool: (poolId) => {},
+  getBondedPool: (poolId) => null,
+  updateBondedPools: (bondedPools) => {},
+  addToBondedPools: (bondedPool) => {},
+  removeFromBondedPools: (poolId) => {},
+  getPoolNominationStatus: (nominator, address) => {},
+  getPoolNominationStatusCode: (statuses) => '',
+  getAccountPoolRoles: (address) => null,
+  replacePoolRoles: (poolId, roleEdits) => {},
+  poolSearchFilter: (filteredPools, searchTerm) => {},
   bondedPools: [],
   poolsMetaData: {},
   poolsNominations: {},

@@ -1,7 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { greaterThanZero, planckToUnit } from '@polkadot-cloud/utils';
+import { greaterThanZero, planckToUnit } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import {
   addDays,
@@ -15,28 +15,6 @@ import {
 import { MaxPayoutDays } from 'consts';
 import type { AnyApi, AnyJson, AnySubscan } from 'types';
 import type { PayoutDayCursor } from './types';
-
-// Take non-zero rewards in most-recent order.
-export const sortNonZeroPayouts = (
-  payouts: AnySubscan,
-  poolClaims: AnySubscan,
-  capMaxDays: boolean
-) => {
-  const list = [
-    ...payouts.concat(poolClaims).filter((p: AnySubscan) => p.amount > 0),
-  ].sort(
-    (a: AnySubscan, b: AnySubscan) => b.block_timestamp - a.block_timestamp
-  );
-
-  // this function always calculates from the current date (not fromDate).
-  const fromTimestamp = getUnixTime(subDays(new Date(), MaxPayoutDays));
-
-  if (capMaxDays) {
-    return list.filter((l: AnySubscan) => l.block_timestamp >= fromTimestamp);
-  }
-
-  return list;
-};
 
 // Given payouts, calculate daily income and fill missing days with zero amounts.
 export const calculateDailyPayouts = (
@@ -56,7 +34,9 @@ export const calculateDailyPayouts = (
   );
 
   // return now if no payouts.
-  if (!payouts.length) return payouts;
+  if (!payouts.length) {
+    return payouts;
+  }
 
   // post-fill any missing days. [current day -> last payout]
   dailyPayouts = postFillMissingDays(payouts, fromDate, maxDays);
@@ -79,7 +59,9 @@ export const calculateDailyPayouts = (
     const thisDay = startOfDay(fromUnixTime(payout.block_timestamp));
 
     // initialise current day if first payout.
-    if (p === 1) curDay = thisDay;
+    if (p === 1) {
+      curDay = thisDay;
+    }
 
     // handle surpassed maximum days.
     if (daysPassed(thisDay, fromDate) >= maxDays) {
@@ -146,7 +128,9 @@ export const calculatePayoutAverages = (
   avgDays: number
 ) => {
   // if we don't need to take an average, just return `payouts`.
-  if (avgDays <= 1) return payouts;
+  if (avgDays <= 1) {
+    return payouts;
+  }
 
   // create moving average value over `avgDays` past days, if any.
   let payoutsAverages = [];
@@ -285,15 +269,13 @@ const getPreMaxDaysPayouts = (
   fromDate: Date,
   days: number,
   avgDays: number
-) => {
+) =>
   // remove payouts that are not within `avgDays` `days` pre-graph window.
-  return payouts.filter(
+  payouts.filter(
     (p: AnySubscan) =>
       daysPassed(fromUnixTime(p.block_timestamp), fromDate) > days &&
       daysPassed(fromUnixTime(p.block_timestamp), fromDate) <= days + avgDays
   );
-};
-
 // Combine payouts and pool claims.
 //
 // combines payouts and pool claims into daily records. Removes the `event_id` field from records.

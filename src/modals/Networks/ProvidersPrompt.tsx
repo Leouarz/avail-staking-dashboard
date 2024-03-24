@@ -1,3 +1,6 @@
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// SPDX-License-Identifier: GPL-3.0-only
+
 import { useApi } from 'contexts/Api';
 import { Title } from 'library/Prompt/Title';
 import { useTranslation } from 'react-i18next';
@@ -5,7 +8,7 @@ import { PromptSelectItem } from 'library/Prompt/Wrappers';
 import { useNetwork } from 'contexts/Network';
 import { NetworkList } from 'config/networks';
 import { usePrompt } from 'contexts/Prompt';
-import { capitalizeFirstLetter } from '@polkadot-cloud/utils';
+import { capitalizeFirstLetter } from '@w3ux/utils';
 
 export const ProvidersPrompt = () => {
   const { t } = useTranslation();

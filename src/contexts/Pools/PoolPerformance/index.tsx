@@ -1,35 +1,39 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import React, { useState } from 'react';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { MaxEraRewardPointsEras } from 'consts';
-import { useEffectIgnoreInitial } from '@polkadot-cloud/react/hooks';
+import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import Worker from 'workers/poolPerformance?worker';
 import { useNetwork } from 'contexts/Network';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
 import { useBondedPools } from 'contexts/Pools/BondedPools';
-import { useNetworkMetrics } from 'contexts/NetworkMetrics';
 import { useApi } from 'contexts/Api';
-import type { Sync } from '@polkadot-cloud/react/types';
 import BigNumber from 'bignumber.js';
-import { mergeDeep } from '@polkadot-cloud/utils';
+import { mergeDeep } from '@w3ux/utils';
 import { useStaking } from 'contexts/Staking';
 import { formatRawExposures } from 'contexts/Staking/Utils';
 import type { PoolPerformanceContextInterface } from './types';
 import { defaultPoolPerformanceContext } from './defaults';
+import type { Sync } from 'types';
 
 const worker = new Worker();
+
+export const PoolPerformanceContext =
+  createContext<PoolPerformanceContextInterface>(defaultPoolPerformanceContext);
+
+export const usePoolPerformance = () => useContext(PoolPerformanceContext);
 
 export const PoolPerformanceProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
-  const { api } = useApi();
   const { network } = useNetwork();
   const { bondedPools } = useBondedPools();
-  const { activeEra, isPagedRewardsActive } = useNetworkMetrics();
   const { getPagedErasStakers } = useStaking();
+  const { api, activeEra, isPagedRewardsActive } = useApi();
   const { erasRewardPointsFetched, erasRewardPoints } = useValidators();
 
   // Store whether pool performance data is being fetched.
@@ -52,7 +56,9 @@ export const PoolPerformanceProvider = ({
     if (message) {
       const { data } = message;
       const { task } = data;
-      if (task !== 'processNominationPoolsRewardData') return;
+      if (task !== 'processNominationPoolsRewardData') {
+        return;
+      }
 
       // Update state with new data.
       const { poolRewardData } = data;
@@ -79,7 +85,9 @@ export const PoolPerformanceProvider = ({
 
   // Get era data and send to worker.
   const processEra = async (era: BigNumber) => {
-    if (!api) return;
+    if (!api) {
+      return;
+    }
     setCurrentEra(era);
 
     let exposures;
@@ -147,11 +155,3 @@ export const PoolPerformanceProvider = ({
     </PoolPerformanceContext.Provider>
   );
 };
-
-export const PoolPerformanceContext =
-  React.createContext<PoolPerformanceContextInterface>(
-    defaultPoolPerformanceContext
-  );
-
-export const usePoolPerformance = () =>
-  React.useContext(PoolPerformanceContext);

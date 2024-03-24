@@ -1,18 +1,18 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ModalPadding } from '@polkadot-cloud/react';
 import { useTranslation } from 'react-i18next';
 import ForumSVG from 'img/forum.svg?react';
 import { Title } from 'library/Modal/Title';
+import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
 
 export const GoToFeedback = () => {
   const { t } = useTranslation('modals');
   return (
     <>
-      <Title title={t('feedback')} Svg={ForumSVG} />
+      <Title title={t('helpAndSupport')} Svg={ForumSVG} />
       <ModalPadding verticalOnly>
         <div
           style={{
@@ -20,14 +20,7 @@ export const GoToFeedback = () => {
             width: '100%',
           }}
         >
-          <h4 style={{ paddingBottom: '0.75rem' }}>
-            {/* {t('feedbackPage')}{' '}
-            <a href="https://canny.io/" target="_blank" rel="noreferrer">
-              Canny.io
-            </a> */}
-            {/* .  */}
-            {t('welcomeToReport')}
-          </h4>
+          <h4 style={{ paddingBottom: '0.75rem' }}>{t('feedbackPage')}</h4>
           <h2 style={{ marginTop: '0.75rem' }}>
             <a
               href="https://discord.gg/y6fHnxZQX8"
@@ -35,7 +28,7 @@ export const GoToFeedback = () => {
               rel="noreferrer"
               style={{ color: 'var(--network-color-primary' }}
             >
-              {t('openFeedback')} &nbsp;
+              {t('openSupport')} &nbsp;
               <FontAwesomeIcon icon={faExternalLinkAlt} transform="shrink-3" />
             </a>
           </h2>

@@ -1,19 +1,19 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCog } from '@fortawesome/free-solid-svg-icons';
-import { determinePoolDisplay } from '@polkadot-cloud/utils';
+import { determinePoolDisplay } from '@w3ux/utils';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
-import { useActivePools } from 'contexts/Pools/ActivePools';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { useBondedPools } from 'contexts/Pools/BondedPools';
 import { useTransferOptions } from 'contexts/TransferOptions';
-import { useUi } from 'contexts/UI';
 import { Stat } from 'library/Stat';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import { useStatusButtons } from './useStatusButtons';
+import { useSyncing } from 'hooks/useSyncing';
 
 export const MembershipStatus = ({
   showButtons = true,
@@ -24,32 +24,27 @@ export const MembershipStatus = ({
 }) => {
   const { t } = useTranslation('pages');
   const { isReady } = useApi();
-  const { isPoolSyncing } = useUi();
+  const { syncing } = useSyncing('*');
   const { openModal } = useOverlay().modal;
+  const { poolsMetaData } = useBondedPools();
   const { activeAccount } = useActiveAccounts();
   const { label, buttons } = useStatusButtons();
   const { isReadOnlyAccount } = useImportedAccounts();
   const { getTransferOptions } = useTransferOptions();
-  const { bondedPools, poolsMetaData } = useBondedPools();
-  const { selectedActivePool, isOwner, isBouncer, isMember } = useActivePools();
+  const { activePool, isOwner, isBouncer, isMember } = useActivePool();
 
   const { active } = getTransferOptions(activeAccount).pool;
-  const poolState = selectedActivePool?.bondedPool?.state ?? null;
+  const poolState = activePool?.bondedPool?.state ?? null;
 
   const membershipButtons = [];
   let membershipDisplay = t('pools.notInPool');
 
-  if (selectedActivePool) {
-    const pool = bondedPools.find(
-      (p) => p.addresses.stash === selectedActivePool.addresses.stash
+  if (activePool) {
+    // Determine pool membership display.
+    membershipDisplay = determinePoolDisplay(
+      activePool.addresses.stash,
+      poolsMetaData[Number(activePool.id)]
     );
-    if (pool) {
-      // Determine pool membership display.
-      membershipDisplay = determinePoolDisplay(
-        selectedActivePool.addresses.stash,
-        poolsMetaData[Number(pool.id)]
-      );
-    }
 
     // Display manage button if active account is pool owner or bouncer.
     // Or display manage button if active account is a pool member.
@@ -72,30 +67,24 @@ export const MembershipStatus = ({
     }
   }
 
-  return (
-    <>
-      {selectedActivePool ? (
-        <>
-          <Stat
-            label={label}
-            helpKey="Pool Membership"
-            type="address"
-            stat={{
-              address: selectedActivePool?.addresses?.stash ?? '',
-              display: membershipDisplay,
-            }}
-            buttons={showButtons ? membershipButtons : []}
-          />
-        </>
-      ) : (
-        <Stat
-          label={t('pools.poolMembership')}
-          helpKey="Pool Membership"
-          stat={t('pools.notInPool')}
-          buttons={!showButtons || isPoolSyncing ? [] : buttons}
-          buttonType={buttonType}
-        />
-      )}
-    </>
+  return activePool ? (
+    <Stat
+      label={label}
+      helpKey="Pool Membership"
+      type="address"
+      stat={{
+        address: activePool?.addresses?.stash ?? '',
+        display: membershipDisplay,
+      }}
+      buttons={showButtons ? membershipButtons : []}
+    />
+  ) : (
+    <Stat
+      label={t('pools.poolMembership')}
+      helpKey="Pool Membership"
+      stat={t('pools.notInPool')}
+      buttons={!showButtons || syncing ? [] : buttons}
+      buttonType={buttonType}
+    />
   );
 };

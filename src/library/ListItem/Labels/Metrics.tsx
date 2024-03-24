@@ -1,9 +1,9 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import type { MetricsProps } from '../types';
 
 export const Metrics = ({ display, address }: MetricsProps) => {

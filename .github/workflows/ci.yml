@@ -7,21 +7,27 @@ on:
     branches: [main]
 
 jobs:
-  check-license-lines:
+  check-license:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Check License Lines
         uses: kt3k/license_checker@v1.0.6
-  validate-locales:
+
+  # NOTE: replace `markdown-link-check` with <https://github.com/UmbrellaDocs/linkspector> when
+  # Github Action is available.
+  markdown-link-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@master
+      - name: Check Markdown Links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
-          node-version: 16.x
-      - run: yarn run locale:validate
+          base-branch: main
+          use-quiet-mode: 'yes'
+          check-modified-files-only: 'yes'
+          config-file: 'check-markdown-links-config.json'
+
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -38,9 +44,19 @@ jobs:
       - run: yarn lint
       - run: yarn test
 
+  validate-locales:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - run: yarn install
+      - run: yarn run locale:validate
+
   all:
-    # This job ensures that all jobs above (now we have just build) are successful.
-    needs: [check-license-lines, build, validate-locales]
+    needs: [check-license, markdown-link-check, build, validate-locales]
     runs-on: ubuntu-latest
     steps:
       - run: echo Success

@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type BigNumber from 'bignumber.js';
@@ -8,6 +8,7 @@ export interface TransferOptionsContextInterface {
   getTransferOptions: (a: MaybeAddress) => TransferOptions;
   setFeeReserveBalance: (r: BigNumber) => void;
   feeReserve: BigNumber;
+  getFeeReserve: (address: MaybeAddress) => BigNumber;
 }
 
 export interface TransferOptions {

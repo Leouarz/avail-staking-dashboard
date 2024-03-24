@@ -1,18 +1,16 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { setStateWithRef } from '@polkadot-cloud/utils';
+import { setStateWithRef } from '@w3ux/utils';
 import throttle from 'lodash.throttle';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TipsConfig } from 'config/tips';
-import { DefaultLocale, TipsThresholdMedium, TipsThresholdSmall } from 'consts';
-import { useActivePools } from 'contexts/Pools/ActivePools';
-import { usePoolMemberships } from 'contexts/Pools/PoolMemberships';
+import { TipsThresholdMedium, TipsThresholdSmall } from 'consts';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { useStaking } from 'contexts/Staking';
 import { useTransferOptions } from 'contexts/TransferOptions';
-import { useUi } from 'contexts/UI';
-import { useFillVariables } from 'library/Hooks/useFillVariables';
+import { useFillVariables } from 'hooks/useFillVariables';
 import type { AnyJson } from 'types';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
@@ -20,18 +18,27 @@ import { Items } from './Items';
 import { PageToggle } from './PageToggle';
 import { Syncing } from './Syncing';
 import { TipsWrapper } from './Wrappers';
+import type { TipDisplay } from './types';
+import { useApi } from 'contexts/Api';
+import { useBalances } from 'contexts/Balances';
+import { useSyncing } from 'hooks/useSyncing';
+import { DefaultLocale } from 'locale';
 
 export const Tips = () => {
   const { i18n, t } = useTranslation();
   const { network } = useNetwork();
-  const { isNetworkSyncing } = useUi();
+  const {
+    stakingMetrics: { minNominatorBond },
+  } = useApi();
+  const { isOwner } = useActivePool();
+  const { isNominating } = useStaking();
+  const { getPoolMembership } = useBalances();
   const { activeAccount } = useActiveAccounts();
   const { fillVariables } = useFillVariables();
-  const { membership } = usePoolMemberships();
-  const { isNominating, staking } = useStaking();
-  const { isOwner } = useActivePools();
+  const { syncing } = useSyncing(['initialization']);
   const { feeReserve, getTransferOptions } = useTransferOptions();
-  const { minNominatorBond } = staking;
+
+  const membership = getPoolMembership(activeAccount);
   const transferOptions = getTransferOptions(activeAccount);
 
   // multiple tips per row is currently turned off.
@@ -59,7 +66,7 @@ export const Tips = () => {
   // This function ensures totalPages is never surpassed, but does not guarantee
   // that the start item will maintain across resizes.
   const getPage = () => {
-    const totalItmes = isNetworkSyncing ? 1 : items.length;
+    const totalItmes = syncing ? 1 : items.length;
     const itemsPerPage = getItemsPerPage();
     const totalPages = Math.ceil(totalItmes / itemsPerPage);
     if (pageRef.current > totalPages) {
@@ -134,14 +141,14 @@ export const Tips = () => {
   }
 
   // filter tips relevant to connected account.
-  let items = TipsConfig.filter((i: AnyJson) => segments.includes(i.s));
+  let items = TipsConfig.filter((i) => segments.includes(i.s));
 
-  items = items.map((i: any) => {
-    const { id } = i;
+  items = items.map((item) => {
+    const { id } = item;
 
     return fillVariables(
       {
-        ...i,
+        ...item,
         title: t(`${id}.0`, { ns: 'tips' }),
         subtitle: t(`${id}.1`, { ns: 'tips' }),
         description: i18n.getResource(
@@ -155,14 +162,14 @@ export const Tips = () => {
   });
 
   // determine items to be displayed
-  const end = isNetworkSyncing
+  const end = syncing
     ? 1
     : Math.min(pageRef.current * itemsPerPageRef.current, items.length);
-  const start = isNetworkSyncing
+  const start = syncing
     ? 1
     : pageRef.current * itemsPerPageRef.current - (itemsPerPageRef.current - 1);
 
-  const itemsDisplay = items.slice(start - 1, end);
+  const itemsDisplay = items.slice(start - 1, end) as TipDisplay[];
 
   const setPageHandler = (newPage: number) => {
     setStateWithRef(newPage, setPage, pageRef);
@@ -170,7 +177,7 @@ export const Tips = () => {
   return (
     <TipsWrapper>
       <div style={{ flexGrow: 1 }}>
-        {isNetworkSyncing ? (
+        {syncing ? (
           <Syncing />
         ) : (
           <Items

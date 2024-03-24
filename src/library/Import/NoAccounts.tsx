@@ -1,13 +1,22 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { ButtonSecondary } from '@polkadot-cloud/react';
 import { useTranslation } from 'react-i18next';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { NoAccountsWrapper } from './Wrappers';
+import type { FunctionComponent, ReactNode, SVGProps } from 'react';
+import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
 
-export const NoAccounts = ({ children, text, Icon }: any) => {
+export const NoAccounts = ({
+  children,
+  text,
+  Icon,
+}: {
+  children: ReactNode;
+  text: string;
+  Icon: FunctionComponent<SVGProps<SVGSVGElement>>;
+}) => {
   const { t } = useTranslation('modals');
   const { replaceModal } = useOverlay().modal;
 

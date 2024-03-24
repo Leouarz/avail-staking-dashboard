@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
@@ -11,19 +11,26 @@ import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { Subheading } from 'pages/Nominate/Wrappers';
 import { GenerateNominations } from '../GenerateNominations';
 import type { NominationsProps } from './types';
+import type { AnyJson } from 'types';
 
 export const Nominate = ({ bondFor, section }: NominationsProps) => {
   const { t } = useTranslation('library');
   const { consts } = useApi();
   const { activeAccount } = useActiveAccounts();
-  const { getSetupProgress, setActiveAccountSetup } = useSetup();
-  const setup = getSetupProgress(bondFor, activeAccount);
+  const { getNominatorSetup, getPoolSetup, setActiveAccountSetup } = useSetup();
+
+  const setup =
+    bondFor === 'nominator'
+      ? getNominatorSetup(activeAccount)
+      : getPoolSetup(activeAccount);
+
   const { progress } = setup;
   const { maxNominations } = consts;
 
   // Handler for updating setup.
-  const handleSetupUpdate = (value: any) =>
+  const handleSetupUpdate = (value: AnyJson) => {
     setActiveAccountSetup(bondFor, value);
+  };
 
   return (
     <>
@@ -47,12 +54,16 @@ export const Nominate = ({ bondFor, section }: NominationsProps) => {
             {
               current: {
                 callable: true,
-                fn: () => getSetupProgress(bondFor, activeAccount).progress,
+                fn: () =>
+                  (bondFor === 'nominator'
+                    ? getNominatorSetup(activeAccount)
+                    : getPoolSetup(activeAccount)
+                  ).progress,
               },
               set: handleSetupUpdate,
             },
           ]}
-          nominations={progress.nominations}
+          nominations={{ nominations: progress.nominations }}
         />
 
         <Footer complete={progress.nominations.length > 0} bondFor={bondFor} />

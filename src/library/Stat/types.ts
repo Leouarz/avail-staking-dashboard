@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -8,7 +8,7 @@ export interface StatProps {
   label: string;
   stat: AnyJson;
   type?: string;
-  buttons?: any;
+  buttons?: AnyJson[];
   helpKey: string;
   icon?: IconProp;
   buttonType?: string;

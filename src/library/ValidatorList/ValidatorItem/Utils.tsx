@@ -1,11 +1,15 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { u8aToString, u8aUnwrapBytes } from '@polkadot/util';
 import type BigNumber from 'bignumber.js';
 import { MaxEraRewardPointsEras } from 'consts';
+import type { AnyJson } from 'types';
 
-export const getIdentityDisplay = (_identity: any, _superIdentity: any) => {
+export const getIdentityDisplay = (
+  _identity: AnyJson,
+  _superIdentity: AnyJson
+) => {
   let displayFinal = '';
   let foundSuper = false;
 
@@ -77,7 +81,9 @@ export const normaliseEraPoints = (
 export const prefillEraPoints = (eraPoints: number[]): number[] => {
   const missing = Math.max(MaxEraRewardPointsEras - eraPoints.length, 0);
 
-  if (!missing) return eraPoints;
+  if (!missing) {
+    return eraPoints;
+  }
 
   return Array(missing).fill(0).concat(eraPoints);
 };

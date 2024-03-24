@@ -1,18 +1,19 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { greaterThanZero } from '@polkadot-cloud/utils';
+import { greaterThanZero } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useTranslation } from 'react-i18next';
 import { useStaking } from 'contexts/Staking';
 import { Pie } from 'library/StatBoxList/Pie';
+import { useApi } from 'contexts/Api';
 
 export const ActiveValidatorsStat = () => {
   const { t } = useTranslation('pages');
   const {
-    staking: { validatorCount },
     eraStakers: { activeValidators },
   } = useStaking();
+  const { validatorCount } = useApi().stakingMetrics;
 
   // active validators as percent. Avoiding dividing by zero.
   let activeValidatorsAsPercent = new BigNumber(0);

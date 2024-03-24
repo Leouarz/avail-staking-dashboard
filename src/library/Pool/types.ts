@@ -1,7 +1,9 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import type { PoolAddresses, PoolRoles, PoolState } from 'contexts/Pools/types';
+import type { PoolRoles, PoolState } from 'contexts/Pools/ActivePool/types';
+import type { PoolAddresses } from 'contexts/Pools/BondedPools/types';
+import type { Identity, SuperIdentity } from 'contexts/Validators/types';
 import type { DisplayFor } from 'types';
 
 export interface PoolProps {
@@ -15,6 +17,10 @@ export interface Pool {
   id: number;
   state: PoolState;
   roles: PoolRoles;
+  roleIdentities: {
+    identities: Record<string, Identity>;
+    supers: Record<string, SuperIdentity>;
+  };
 }
 
 export interface RewardProps {

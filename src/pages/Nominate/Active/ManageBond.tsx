@@ -1,28 +1,26 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faLockOpen } from '@fortawesome/free-solid-svg-icons';
-import {
-  ButtonHelp,
-  ButtonPrimary,
-  ButtonRow,
-  Odometer,
-} from '@polkadot-cloud/react';
-import { minDecimalPlaces, planckToUnit } from '@polkadot-cloud/utils';
+import { Odometer } from '@w3ux/react-odometer';
+import { minDecimalPlaces, planckToUnit } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useTranslation } from 'react-i18next';
 import { useBalances } from 'contexts/Balances';
 import { useHelp } from 'contexts/Help';
 import { useStaking } from 'contexts/Staking';
 import { useTransferOptions } from 'contexts/TransferOptions';
-import { useUi } from 'contexts/UI';
 import { CardHeaderWrapper } from 'library/Card/Wrappers';
-import { useUnstaking } from 'library/Hooks/useUnstaking';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useUnstaking } from 'hooks/useUnstaking';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { BondedChart } from 'library/BarChart/BondedChart';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
+import { useSyncing } from 'hooks/useSyncing';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
+import { ButtonRow } from 'kits/Structure/ButtonRow';
 
 export const ManageBond = () => {
   const { t } = useTranslation('pages');
@@ -32,16 +30,16 @@ export const ManageBond = () => {
       brand: { token: Token },
     },
   } = useNetwork();
-  const { isSyncing } = useUi();
   const { openHelp } = useHelp();
   const { inSetup } = useStaking();
+  const { syncing } = useSyncing('*');
+  const { getLedger } = useBalances();
   const { openModal } = useOverlay().modal;
-  const { getStashLedger } = useBalances();
   const { isFastUnstaking } = useUnstaking();
   const { isReadOnlyAccount } = useImportedAccounts();
   const { getTransferOptions, feeReserve } = useTransferOptions();
   const { activeAccount } = useActiveAccounts();
-  const ledger = getStashLedger(activeAccount);
+  const ledger = getLedger({ stash: activeAccount });
   const { active }: { active: BigNumber } = ledger;
   const allTransferOptions = getTransferOptions(activeAccount);
 
@@ -71,7 +69,7 @@ export const ManageBond = () => {
           <ButtonPrimary
             disabled={
               inSetup() ||
-              isSyncing ||
+              syncing ||
               isReadOnlyAccount(activeAccount) ||
               isFastUnstaking
             }
@@ -88,7 +86,7 @@ export const ManageBond = () => {
           <ButtonPrimary
             disabled={
               inSetup() ||
-              isSyncing ||
+              syncing ||
               isReadOnlyAccount(activeAccount) ||
               isFastUnstaking
             }
@@ -103,9 +101,7 @@ export const ManageBond = () => {
             text="-"
           />
           <ButtonPrimary
-            disabled={
-              isSyncing || inSetup() || isReadOnlyAccount(activeAccount)
-            }
+            disabled={syncing || inSetup() || isReadOnlyAccount(activeAccount)}
             iconLeft={faLockOpen}
             marginRight
             onClick={() =>

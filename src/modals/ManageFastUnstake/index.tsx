@@ -1,35 +1,37 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import {
-  ActionItem,
-  ModalNotes,
-  ModalPadding,
-  ModalWarnings,
-} from '@polkadot-cloud/react';
-import { planckToUnit } from '@polkadot-cloud/utils';
+import { planckToUnit } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
 import { useBonded } from 'contexts/Bonded';
 import { useFastUnstake } from 'contexts/FastUnstake';
-import { useNetworkMetrics } from 'contexts/NetworkMetrics';
 import { useTransferOptions } from 'contexts/TransferOptions';
 import { Warning } from 'library/Form/Warning';
-import { useSignerWarnings } from 'library/Hooks/useSignerWarnings';
-import { useSubmitExtrinsic } from 'library/Hooks/useSubmitExtrinsic';
-import { useUnstaking } from 'library/Hooks/useUnstaking';
+import { useSignerWarnings } from 'hooks/useSignerWarnings';
+import { useSubmitExtrinsic } from 'hooks/useSubmitExtrinsic';
+import { useUnstaking } from 'hooks/useUnstaking';
 import { Close } from 'library/Modal/Close';
 import { SubmitTx } from 'library/SubmitTx';
 import { useTxMeta } from 'contexts/TxMeta';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
+import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
+import { ModalWarnings } from 'kits/Overlay/structure/ModalWarnings';
+import { ActionItem } from 'library/ActionItem';
+import { ModalNotes } from 'kits/Overlay/structure/ModalNotes';
 
 export const ManageFastUnstake = () => {
   const { t } = useTranslation('modals');
-  const { api, consts } = useApi();
+  const {
+    api,
+    consts: { bondDuration, fastUnstakeDeposit },
+    networkMetrics: { fastUnstakeErasToCheckPerBlock },
+    activeEra,
+  } = useApi();
   const {
     networkData: { units, unit },
   } = useNetwork();
@@ -39,12 +41,9 @@ export const ManageFastUnstake = () => {
   const { isFastUnstaking } = useUnstaking();
   const { setModalResize, setModalStatus } = useOverlay().modal;
   const { getSignerWarnings } = useSignerWarnings();
-  const { activeEra, metrics } = useNetworkMetrics();
   const { feeReserve, getTransferOptions } = useTransferOptions();
   const { isExposed, counterForQueue, queueDeposit, meta } = useFastUnstake();
 
-  const { bondDuration, fastUnstakeDeposit } = consts;
-  const { fastUnstakeErasToCheckPerBlock } = metrics;
   const { checked } = meta;
   const controller = getBondedAccount(activeAccount);
   const allTransferOptions = getTransferOptions(activeAccount);
@@ -99,7 +98,6 @@ export const ManageFastUnstake = () => {
     tx: getTx(),
     from: controller,
     shouldSubmit: valid,
-    callbackSubmit: () => {},
     callbackInBlock: () => {
       setModalStatus('closing');
     },
@@ -171,35 +169,29 @@ export const ManageFastUnstake = () => {
               </p>
             </ModalNotes>
           </>
+        ) : !isFastUnstaking ? (
+          <>
+            <ActionItem text={t('fastUnstake', { context: 'register' })} />
+            <ModalNotes>
+              <p>
+                {t('registerFastUnstake')}{' '}
+                {planckToUnit(fastUnstakeDeposit, units).toString()} {unit}.{' '}
+                {t('fastUnstakeOnceRegistered')}
+              </p>
+              <p>
+                {t('fastUnstakeCurrentQueue')}: <b>{counterForQueue}</b>
+              </p>
+            </ModalNotes>
+          </>
         ) : (
           <>
-            {!isFastUnstaking ? (
-              <>
-                <ActionItem text={t('fastUnstake', { context: 'register' })} />
-                <ModalNotes>
-                  <p>
-                    <>
-                      {t('registerFastUnstake')}{' '}
-                      {planckToUnit(fastUnstakeDeposit, units).toString()}{' '}
-                      {unit}. {t('fastUnstakeOnceRegistered')}
-                    </>
-                  </p>
-                  <p>
-                    {t('fastUnstakeCurrentQueue')}: <b>{counterForQueue}</b>
-                  </p>
-                </ModalNotes>
-              </>
-            ) : (
-              <>
-                <ActionItem text={t('fastUnstakeRegistered')} />
-                <ModalNotes>
-                  <p>
-                    {t('fastUnstakeCurrentQueue')}: <b>{counterForQueue}</b>
-                  </p>
-                  <p>{t('fastUnstakeUnorderedNote')}</p>
-                </ModalNotes>
-              </>
-            )}
+            <ActionItem text={t('fastUnstakeRegistered')} />
+            <ModalNotes>
+              <p>
+                {t('fastUnstakeCurrentQueue')}: <b>{counterForQueue}</b>
+              </p>
+              <p>{t('fastUnstakeUnorderedNote')}</p>
+            </ModalNotes>
           </>
         )}
       </ModalPadding>

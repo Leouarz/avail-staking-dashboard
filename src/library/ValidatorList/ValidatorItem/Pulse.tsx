@@ -1,8 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import BigNumber from 'bignumber.js';
-import { useNetworkMetrics } from 'contexts/NetworkMetrics';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
 import { Fragment } from 'react';
 import {
@@ -18,8 +17,7 @@ import type { PulseGraphProps, PulseProps } from './types';
 
 export const Pulse = ({ address, displayFor }: PulseProps) => {
   const { t } = useTranslation('library');
-  const { isReady } = useApi();
-  const { activeEra } = useNetworkMetrics();
+  const { isReady, activeEra } = useApi();
   const { setTooltipTextAndOpen } = useTooltip();
   const { getValidatorPointsFromEras, eraPointsBoundaries, erasRewardPoints } =
     useValidators();
@@ -133,24 +131,22 @@ export const PulseGraph = ({
 
       {!syncing &&
         [{ y1: vbHeight * 0.5, y2: vbHeight * 0.5 }].map(
-          ({ y1, y2 }, index) => {
-            return (
-              <line
-                key={`grid_coord_${index}`}
-                strokeWidth="3.75"
-                stroke={
-                  displayFor === 'canvas'
-                    ? 'var(--grid-color-secondary)'
-                    : 'var(--grid-color-primary)'
-                }
-                x1={0}
-                y1={y1}
-                x2={vbWidth}
-                y2={y2}
-                opacity={0.5}
-              />
-            );
-          }
+          ({ y1, y2 }, index) => (
+            <line
+              key={`grid_coord_${index}`}
+              strokeWidth="3.75"
+              stroke={
+                displayFor === 'canvas'
+                  ? 'var(--grid-color-secondary)'
+                  : 'var(--grid-color-primary)'
+              }
+              x1={0}
+              y1={y1}
+              x2={vbWidth}
+              y2={y2}
+              opacity={0.5}
+            />
+          )
         )}
 
       {!syncing &&

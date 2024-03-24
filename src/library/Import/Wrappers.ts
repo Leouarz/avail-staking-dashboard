@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import styled from 'styled-components';
@@ -135,7 +135,7 @@ export const QRViewerWrapper = styled.div`
   }
 
   .viewer {
-    border-radius: 1.25rem;
+    border-radius: 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;

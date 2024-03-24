@@ -1,4 +1,8 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// SPDX-License-Identifier: GPL-3.0-only
+
+import type { ValidatorSupportedChains } from '@w3ux/validator-assets';
+import type { Dispatch, SetStateAction } from 'react';
 
 export interface ItemProps {
   item: Item;
@@ -6,11 +10,22 @@ export interface ItemProps {
 }
 
 export interface Item {
-  bio: string;
+  bio?: string;
   name: string;
-  email: string;
-  twitter: string;
-  website: string;
-  thumbnail: string;
-  validators: Record<string, string>;
+  email?: string;
+  x?: string;
+  website?: string;
+  icon: string;
+  validators: Partial<{
+    [K in ValidatorSupportedChains]: string[];
+  }>;
+}
+
+export interface CommunitySectionsContextInterface {
+  setActiveSection: (t: number) => void;
+  activeSection: number;
+  activeItem: Item;
+  setActiveItem: Dispatch<SetStateAction<Item>>;
+  scrollPos: number;
+  setScrollPos: Dispatch<SetStateAction<number>>;
 }

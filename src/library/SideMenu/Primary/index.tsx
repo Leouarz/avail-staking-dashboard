@@ -1,11 +1,11 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useUi } from 'contexts/UI';
-import { useDotLottieButton } from 'library/Hooks/useDotLottieButton';
+import { useDotLottieButton } from 'hooks/useDotLottieButton';
 import type { PrimaryProps } from '../types';
 import { Wrapper } from './Wrappers';
 

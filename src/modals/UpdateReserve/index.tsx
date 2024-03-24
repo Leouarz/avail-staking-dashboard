@@ -1,16 +1,10 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  ButtonHelp,
-  ButtonPrimaryInvert,
-  ModalPadding,
-} from '@polkadot-cloud/react';
-import { planckToUnit, unitToPlanck } from '@polkadot-cloud/utils';
+import { planckToUnit, unitToPlanck } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
-import Slider from 'rc-slider';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHelp } from 'contexts/Help';
@@ -20,10 +14,14 @@ import { Close } from 'library/Modal/Close';
 import { Title } from 'library/Modal/Title';
 import { SliderWrapper } from 'modals/ManagePool/Wrappers';
 import 'rc-slider/assets/index.css';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
+import { StyledSlider } from 'library/StyledSlider';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
+import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
 
 export const UpdateReserve = () => {
   const { t } = useTranslation('modals');
@@ -48,17 +46,6 @@ export const UpdateReserve = () => {
     planckToUnit(feeReserve, units).plus(minReserve).decimalPlaces(3).toNumber()
   );
 
-  const sliderProps = {
-    trackStyle: {
-      backgroundColor: 'var(--network-color-primary)',
-    },
-    handleStyle: {
-      backgroundColor: 'var(--background-primary)',
-      borderColor: 'var(--network-color-primary)',
-      opacity: 1,
-    },
-  };
-
   const handleChange = (val: BigNumber) => {
     // deduct ED from reserve amount.
     val = val.decimalPlaces(3);
@@ -80,20 +67,18 @@ export const UpdateReserve = () => {
         <SliderWrapper style={{ marginTop: '1rem' }}>
           <p>{t('reserveText', { unit })}</p>
           <div>
-            <div className="slider no-value">
-              <Slider
-                min={0}
-                max={maxReserve.toNumber()}
-                value={sliderReserve}
-                step={0.01}
-                onChange={(val) => {
-                  if (typeof val === 'number' && val >= minReserve.toNumber()) {
-                    handleChange(new BigNumber(val));
-                  }
-                }}
-                {...sliderProps}
-              />
-            </div>
+            <StyledSlider
+              classNaame="no-padding"
+              min={0}
+              max={maxReserve.toNumber()}
+              value={sliderReserve}
+              step={0.01}
+              onChange={(val) => {
+                if (typeof val === 'number' && val >= minReserve.toNumber()) {
+                  handleChange(new BigNumber(val));
+                }
+              }}
+            />
           </div>
 
           <div className="stats">
@@ -151,3 +136,4 @@ export const UpdateReserve = () => {
     </>
   );
 };
+//

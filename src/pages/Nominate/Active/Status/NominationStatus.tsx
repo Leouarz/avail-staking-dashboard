@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -10,16 +10,15 @@ import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
 import { useBonded } from 'contexts/Bonded';
 import { useFastUnstake } from 'contexts/FastUnstake';
-import { useNetworkMetrics } from 'contexts/NetworkMetrics';
 import { useSetup } from 'contexts/Setup';
 import { useStaking } from 'contexts/Staking';
-import { useUi } from 'contexts/UI';
-import { useNominationStatus } from 'library/Hooks/useNominationStatus';
-import { useUnstaking } from 'library/Hooks/useUnstaking';
+import { useNominationStatus } from 'hooks/useNominationStatus';
+import { useUnstaking } from 'hooks/useUnstaking';
 import { Stat } from 'library/Stat';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
+import { useSyncing } from 'hooks/useSyncing';
 
 export const NominationStatus = ({
   showButtons = true,
@@ -29,22 +28,23 @@ export const NominationStatus = ({
   buttonType?: string;
 }) => {
   const { t } = useTranslation('pages');
-  const { isReady } = useApi();
   const { inSetup } = useStaking();
-  const { isNetworkSyncing } = useUi();
   const { openModal } = useOverlay().modal;
-  const { metrics } = useNetworkMetrics();
   const { getBondedAccount } = useBonded();
+  const { syncing } = useSyncing(['initialization', 'era-stakers', 'balances']);
+  const {
+    isReady,
+    networkMetrics: { fastUnstakeErasToCheckPerBlock },
+  } = useApi();
+  const { activeAccount } = useActiveAccounts();
   const { checking, isExposed } = useFastUnstake();
   const { isReadOnlyAccount } = useImportedAccounts();
   const { getNominationStatus } = useNominationStatus();
-  const { activeAccount } = useActiveAccounts();
   const { getFastUnstakeText, isUnstaking } = useUnstaking();
   const { setOnNominatorSetup, getNominatorSetupPercent } = useSetup();
 
   const fastUnstakeText = getFastUnstakeText();
   const controller = getBondedAccount(activeAccount);
-  const { fastUnstakeErasToCheckPerBlock } = metrics;
   const nominationStatus = getNominationStatus(activeAccount, 'nominator');
 
   // Determine whether to display fast unstake button or regular unstake button.
@@ -82,26 +82,24 @@ export const NominationStatus = ({
       helpKey="Nomination Status"
       stat={nominationStatus.message}
       buttons={
-        !showButtons
+        !showButtons || syncing
           ? []
           : !inSetup()
             ? !isUnstaking
               ? [unstakeButton]
               : []
-            : isNetworkSyncing
-              ? []
-              : [
-                  {
-                    title: startTitle,
-                    icon: faChevronCircleRight,
-                    transform: 'grow-1',
-                    disabled:
-                      !isReady ||
-                      isReadOnlyAccount(activeAccount) ||
-                      !activeAccount,
-                    onClick: () => setOnNominatorSetup(true),
-                  },
-                ]
+            : [
+                {
+                  title: startTitle,
+                  icon: faChevronCircleRight,
+                  transform: 'grow-1',
+                  disabled:
+                    !isReady ||
+                    isReadOnlyAccount(activeAccount) ||
+                    !activeAccount,
+                  onClick: () => setOnNominatorSetup(true),
+                },
+              ]
       }
       buttonType={buttonType}
     />

@@ -1,13 +1,13 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
-import { ButtonSubmit } from '@polkadot-cloud/react';
-import React from 'react';
+import type { ReactNode } from 'react';
 import { useTxMeta } from 'contexts/TxMeta';
 import { EstimatedTxFee } from 'library/EstimatedTxFee';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import type { SubmitProps } from './types';
+import { ButtonSubmit } from 'kits/Buttons/ButtonSubmit';
 
 export const Default = ({
   onSubmit,
@@ -17,7 +17,7 @@ export const Default = ({
   buttons,
   submitAddress,
   displayFor,
-}: SubmitProps & { buttons?: React.ReactNode[] }) => {
+}: SubmitProps & { buttons?: ReactNode[] }) => {
   const { txFeesValid } = useTxMeta();
   const { accountHasSigner } = useImportedAccounts();
 

@@ -1,8 +1,9 @@
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// SPDX-License-Identifier: GPL-3.0-only
+
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ButtonPrimary } from '@polkadot-cloud/react';
 import { useApi } from 'contexts/Api';
-import { useNotifications } from 'contexts/Notifications';
 import { useFavoriteValidators } from 'contexts/Validators/FavoriteValidators';
 import type { Validator } from 'contexts/Validators/types';
 import { Identity } from 'library/ListItem/Labels/Identity';
@@ -12,6 +13,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FooterWrapper, PromptListItem } from 'library/Prompt/Wrappers';
 import type { FavoritesPromptProps } from '../types';
+import { NotificationsController } from 'controllers/NotificationsController';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
 
 export const FavoritesPrompt = ({
   callback,
@@ -19,7 +22,6 @@ export const FavoritesPrompt = ({
 }: FavoritesPromptProps) => {
   const { t } = useTranslation('modals');
   const { consts } = useApi();
-  const { addNotification } = useNotifications();
   const { favoritesList } = useFavoriteValidators();
   const { maxNominations } = consts;
 
@@ -42,7 +44,7 @@ export const FavoritesPrompt = ({
     <>
       <Title title={t('nominateFavorites')} closeText={t('cancel')} />
       <div className="padded">
-        {remaining.isZero() ? (
+        {remaining.isLessThanOrEqualTo(0) ? (
           <h4 className="subheading">
             {t('moreFavoritesSurpassLimit', {
               max: maxNominations.toString(),
@@ -56,7 +58,7 @@ export const FavoritesPrompt = ({
 
         {favoritesList?.map((favorite: Validator, i) => {
           const inInitial = !!nominations.find(
-            ({ address }: Validator) => address === favorite.address
+            ({ address }) => address === favorite.address
           );
           const isDisabled =
             selected.includes(favorite) || !canAdd || inInitial;
@@ -69,9 +71,11 @@ export const FavoritesPrompt = ({
               <SelectWrapper
                 disabled={inInitial}
                 onClick={() => {
-                  if (selected.includes(favorite))
+                  if (selected.includes(favorite)) {
                     removeFromSelected([favorite]);
-                  else addToSelected(favorite);
+                  } else {
+                    addToSelected(favorite);
+                  }
                 }}
               >
                 {(inInitial || selected.includes(favorite)) && (
@@ -88,7 +92,7 @@ export const FavoritesPrompt = ({
             text={t('addToNominations')}
             onClick={() => {
               callback(nominations.concat(selected));
-              addNotification({
+              NotificationsController.emit({
                 title: t('favoritesAddedTitle', { count: selected.length }),
                 subtitle: t('favoritesAddedSubtitle', {
                   count: selected.length,

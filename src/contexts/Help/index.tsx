@@ -1,9 +1,9 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import React, { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import type { MaybeString } from 'types';
-import { useEffectIgnoreInitial } from '@polkadot-cloud/react/hooks';
+import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import * as defaults from './defaults';
 import type {
   HelpContextInterface,
@@ -12,6 +12,12 @@ import type {
   HelpStatus,
 } from './types';
 
+export const HelpContext = createContext<HelpContextInterface>(
+  defaults.defaultHelpContext
+);
+
+export const useHelp = () => useContext(HelpContext);
+
 export const HelpProvider = ({ children }: HelpContextProps) => {
   // help module state
   const [state, setState] = useState<HelpContextState>({
@@ -19,7 +25,7 @@ export const HelpProvider = ({ children }: HelpContextProps) => {
     definition: null,
   });
 
-  // when fade out completes, reset active definiton
+  // when fade out completes, reset active definition
   useEffectIgnoreInitial(() => {
     if (state.status === 'closed') {
       setState({
@@ -73,9 +79,3 @@ export const HelpProvider = ({ children }: HelpContextProps) => {
     </HelpContext.Provider>
   );
 };
-
-export const HelpContext = React.createContext<HelpContextInterface>(
-  defaults.defaultHelpContext
-);
-
-export const useHelp = () => React.useContext(HelpContext);

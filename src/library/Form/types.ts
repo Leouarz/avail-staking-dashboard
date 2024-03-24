@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type BigNumber from 'bignumber.js';
@@ -6,8 +6,9 @@ import type { Balance } from 'contexts/Balances/types';
 import type {
   ExtensionAccount,
   ExternalAccount,
-} from '@polkadot-cloud/react/types';
+} from '@w3ux/react-connect-kit/types';
 import type { BondFor, MaybeAddress } from 'types';
+import type { ClaimPermission } from 'contexts/Pools/types';
 
 export interface ExtensionAccountItem extends ExtensionAccount {
   active?: boolean;
@@ -33,14 +34,16 @@ export interface AccountDropdownProps {
   to: MaybeAddress;
 }
 
+export type BondSetter = ({ bond }: { bond: BigNumber }) => void;
+
 export interface BondFeedbackProps {
   syncing?: boolean;
-  setters: any;
+  setters: BondSetter[];
   bondFor: BondFor;
-  defaultBond: number | null;
+  defaultBond: string | null;
   inSetup?: boolean;
   joiningPool?: boolean;
-  listenIsValid: { (valid: boolean, errors: string[]): void } | { (): void };
+  listenIsValid?: ((valid: boolean, errors: string[]) => void) | (() => void);
   parentErrors?: string[];
   disableTxFeeUpdate?: boolean;
   setLocalResize?: () => void;
@@ -53,17 +56,17 @@ export interface BondInputProps {
   value: string;
   defaultValue: string;
   syncing?: boolean;
-  setters: any;
+  setters: BondSetter[];
   disabled: boolean;
   disableTxFeeUpdate?: boolean;
 }
 
 export interface UnbondFeedbackProps {
-  setters: any;
+  setters: BondSetter[];
   bondFor: BondFor;
   defaultBond?: number;
   inSetup?: boolean;
-  listenIsValid: { (valid: boolean, errors: string[]): void } | { (): void };
+  listenIsValid?: ((valid: boolean, errors: string[]) => void) | (() => void);
   parentErrors?: string[];
   setLocalResize?: () => void;
   txFees: BigNumber;
@@ -72,26 +75,23 @@ export interface UnbondFeedbackProps {
 export interface UnbondInputProps {
   active: BigNumber;
   unbondToMin: BigNumber;
-  defaultValue: number | string;
+  defaultValue: string;
   disabled: boolean;
-  setters: any;
-  value: any;
+  setters: BondSetter[];
+  value: string;
 }
 
 export interface NominateStatusBarProps {
   value: BigNumber;
 }
 
-export interface DropdownProps {
-  items: DropdownInput[];
-  onChange: (o: any) => void;
-  label?: string;
-  placeholder: string;
-  value: DropdownInput;
-  current: DropdownInput;
-  height: string;
-}
-
 export interface WarningProps {
   text: string;
+}
+
+// PoolMembers types
+export interface ClaimPermissionConfig {
+  label: string;
+  value: ClaimPermission;
+  description: string;
 }

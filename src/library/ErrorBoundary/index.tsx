@@ -1,10 +1,10 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faBug } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
-import React from 'react';
+import type { FC } from 'react';
 import { Wrapper } from './Wrapper';
 
 export const ErrorFallbackApp = ({
@@ -21,7 +21,10 @@ export const ErrorFallbackApp = ({
       </h3>
       <h1>{t('errorUnknown')}</h1>
       <h2>
-        <button type="button" onClick={resetErrorBoundary}>
+        <button
+          type="button"
+          onClick={() => resetErrorBoundary && resetErrorBoundary()}
+        >
           {t('clickToReload')}
         </button>
       </h2>
@@ -43,7 +46,10 @@ export const ErrorFallbackRoutes = ({
       </h3>
       <h1>{t('errorUnknown')}</h1>
       <h2>
-        <button type="button" onClick={resetErrorBoundary}>
+        <button
+          type="button"
+          onClick={() => resetErrorBoundary && resetErrorBoundary()}
+        >
           {t('clickToReload')}
         </button>
       </h2>
@@ -54,7 +60,7 @@ export const ErrorFallbackRoutes = ({
 interface ErrorFallbackProps {
   resetErrorBoundary?: () => void;
 }
-export const ErrorFallbackModal: React.FC = (props: ErrorFallbackProps) => {
+export const ErrorFallbackModal: FC = (props: ErrorFallbackProps) => {
   const { resetErrorBoundary } = props;
   const { t } = useTranslation('library');
 
