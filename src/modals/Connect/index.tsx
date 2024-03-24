@@ -50,6 +50,16 @@ export const Connect = () => {
     ...value,
   }));
 
+  const disabledExtensionIds = [
+    'metamask-polkadot-snap',
+    'enkrypt',
+    'fearless-wallet',
+    'polkagate',
+    'polkagate-snap',
+    'polkadotvault',
+    'walletconnect',
+  ];
+
   const web = inSubWallet
     ? extensionsAsArray.filter((a) => a.id === 'subwallet-js')
     : // If in Nova Wallet, fetch nova wallet metadata and replace its id with `polkadot-js`.
@@ -59,7 +69,10 @@ export const Connect = () => {
           .map((a) => ({ ...a, id: 'polkadot-js' }))
       : // Otherwise, keep all extensions except `polkadot-js`.
         extensionsAsArray.filter(
-          (a) => a.id !== 'polkadot-js' && a.category === 'web-extension'
+          (a) =>
+            a.id !== 'polkadot-js' &&
+            a.category === 'web-extension' &&
+            !disabledExtensionIds.includes(a.id)
         );
 
   const installed = web.filter((a) =>
@@ -132,7 +145,6 @@ export const Connect = () => {
       </ExtensionsWrapper>
     </>
   );
-
   // Display hardware before extensions. If in Nova Wallet or SubWallet Mobile, display extension
   // before hardware.
   const ConnectCombinedJSX = !inMobileWallet ? (

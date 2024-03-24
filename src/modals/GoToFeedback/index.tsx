@@ -26,7 +26,7 @@ export const GoToFeedback = () => {
               href="https://discord.gg/y6fHnxZQX8"
               target="_blank"
               rel="noreferrer"
-              style={{ color: 'var(--network-color-primary' }}
+              style={{ color: 'var(--accent-color-primary' }}
             >
               {t('openSupport')} &nbsp;
               <FontAwesomeIcon icon={faExternalLinkAlt} transform="shrink-3" />

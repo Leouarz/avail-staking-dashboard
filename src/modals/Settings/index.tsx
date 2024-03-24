@@ -22,12 +22,12 @@ export const Settings = () => {
         <ContentWrapper>
           <h4>{t('togglePlugins')}</h4>
           <h5>{t('No plugins to enable')}</h5>
-          {/* <StatusButton
+          <StatusButton
             checked={plugins.includes('subscan')}
             label="Subscan API"
             onClick={() => togglePlugin('subscan')}
           />
-          <StatusButton
+          {/* <StatusButton
             checked={plugins.includes('polkawatch')}
             label="Polkawatch API"
             onClick={() => togglePlugin('polkawatch')}

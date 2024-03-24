@@ -32,8 +32,8 @@ export const NetworkList: Networks = {
         dark: 'rgb(60, 163, 252)',
       },
       secondary: {
-        light: '#552bbf',
-        dark: '#6d39ee',
+        light: '#dedae8',
+        dark: '#dedae8',
       },
       stroke: {
         light: 'rgb(60, 163, 252)',
@@ -48,7 +48,7 @@ export const NetworkList: Networks = {
         dark: 'rgb(60, 163, 252, 0.33)',
       },
     },
-    unit: 'AVAIL',
+    unit: 'AVL',
     units: 18,
     ss58: 42,
     brand: {
@@ -64,8 +64,8 @@ export const NetworkList: Networks = {
       },
     },
     api: {
-      unit: 'AVAIL',
-      priceTicker: 'AVAILUSDT',
+      unit: 'AVL',
+      priceTicker: 'AVLUSDT',
     },
     defaultFeeReserve: 0.1,
     maxExposurePageSize: new BigNumber(64),

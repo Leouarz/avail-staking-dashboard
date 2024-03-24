@@ -161,7 +161,7 @@ export const PulseGraph = ({
               stroke={
                 zero
                   ? 'var(--text-color-tertiary)'
-                  : 'var(--network-color-primary)'
+                  : 'var(--accent-color-primary)'
               }
               x1={x1}
               y1={y1}

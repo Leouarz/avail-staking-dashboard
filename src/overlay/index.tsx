@@ -17,7 +17,7 @@ import { GoToFeedback } from '../modals/GoToFeedback';
 import { ImportLedger } from '../modals/ImportLedger';
 import { ImportVault } from '../modals/ImportVault';
 import { JoinPool } from '../modals/JoinPool';
-import { ManageFastUnstake } from '../modals/ManageFastUnstake';
+// import { ManageFastUnstake } from '../modals/ManageFastUnstake';
 import { ManagePool } from '../modals/ManagePool';
 import { Networks } from '../modals/Networks';
 import { PoolNominations } from '../modals/PoolNominations';
@@ -55,7 +55,7 @@ export const Overlays = () => {
         ImportLedger,
         ImportVault,
         ManagePool,
-        ManageFastUnstake,
+        // ManageFastUnstake,
         Networks,
         PoolNominations,
         Settings,

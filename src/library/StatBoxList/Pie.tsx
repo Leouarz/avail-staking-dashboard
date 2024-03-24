@@ -36,7 +36,7 @@ export const Pie = ({ label, stat, graph, tooltip, helpKey }: PieProps) => {
             items={[
               {
                 value: graph?.value1,
-                color: 'var(--network-color-primary)',
+                color: 'var(--accent-color-primary)',
               },
               {
                 value: graph?.value2,

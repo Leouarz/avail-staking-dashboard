@@ -27,7 +27,7 @@ export const Timeleft = ({
             items={[
               {
                 value: graph?.value1,
-                color: 'var(--network-color-primary)',
+                color: 'var(--accent-color-primary)',
               },
               {
                 value: graph?.value2,

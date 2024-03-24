@@ -2,7 +2,7 @@
 
 # Avail Staking Dashboard
 
-![image](https://github.com/Leouarz/avail-staking-dashboard/assets/15839293/29f683da-67bb-4f00-afee-467286ab8ece)
+![image](https://github.com/availproject/avail-staking-dashboard/assets/15839293/29f683da-67bb-4f00-afee-467286ab8ece)
 
 ## Contributing Community Assets
 

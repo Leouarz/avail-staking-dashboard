@@ -5,7 +5,7 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
-import { useStaking } from 'contexts/Staking';
+// import { useStaking } from 'contexts/Staking';
 import { MoreWrapper } from './Wrappers';
 import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
 import { Separator } from 'kits/Structure/Separator';
@@ -13,7 +13,7 @@ import { Separator } from 'kits/Structure/Separator';
 export const BalanceLinks = () => {
   const { t } = useTranslation('pages');
   const { network } = useNetwork();
-  const { isNominating } = useStaking();
+  // const { isNominating } = useStaking();
   const { activeAccount } = useActiveAccounts();
 
   return (
@@ -33,10 +33,9 @@ export const BalanceLinks = () => {
           iconTransform="shrink-2"
           text="Subscan"
           marginRight
-          // disabled={!activeAccount}
-          disabled
+          disabled={!activeAccount}
         />
-        <ButtonPrimaryInvert
+        {/* <ButtonPrimaryInvert
           lg
           onClick={() =>
             window.open(
@@ -54,7 +53,7 @@ export const BalanceLinks = () => {
               isNominating()
             )
           }
-        />
+        /> */}
       </section>
     </MoreWrapper>
   );

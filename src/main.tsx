@@ -8,6 +8,7 @@ import { App } from 'App';
 import 'theme/accents/polkadot-relay.css';
 import 'theme/accents/kusama-relay.css';
 import 'theme/accents/westend-relay.css';
+import 'theme/accents/avail-relay.css';
 
 // App styles.
 import 'theme/fonts.scss';

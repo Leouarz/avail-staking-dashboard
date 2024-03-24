@@ -24,7 +24,10 @@ export const ThemedRouter = () => {
 
   return (
     <ThemeProvider theme={{ mode }}>
-      <Entry mode={mode} theme={`${network}-relay`}>
+      <Entry
+        mode={mode}
+        theme={`${network.includes('avail') ? 'avail' : network}-relay`}
+      >
         <Router />
       </Entry>
     </ThemeProvider>

@@ -253,7 +253,7 @@ export class Api {
       this.api.consts.babe.epochDuration,
       this.api.consts.balances.existentialDeposit,
       this.api.consts.staking.historyDepth,
-      this.api.consts.fastUnstake.deposit,
+      undefined as any, // this.api.consts.fastUnstake.deposit,
       this.api.consts.nominationPools.palletId,
     ];
 
@@ -292,9 +292,9 @@ export class Api {
     const networkMetrics = await this.api.queryMulti([
       // Network metrics.
       this.api.query.balances.totalIssuance,
-      this.api.query.auctions.auctionCounter,
-      this.api.query.paraSessionInfo.earliestStoredSession,
-      this.api.query.fastUnstake.erasToCheckPerBlock,
+      this.api.query.balances.totalIssuance, //this.api.query.auctions.auctionCounter,
+      this.api.query.balances.totalIssuance, //this.api.query.paraSessionInfo.earliestStoredSession,
+      this.api.query.balances.totalIssuance, //this.api.query.fastUnstake.erasToCheckPerBlock,
       this.api.query.staking.minimumActiveStake,
       // Nomination pool configs.
       this.api.query.nominationPools.counterForPoolMembers,
@@ -367,11 +367,9 @@ export class Api {
       },
       networkMetrics: {
         totalIssuance: new BigNumber(networkMetrics[0].toString()),
-        auctionCounter: new BigNumber(networkMetrics[1].toString()),
-        earliestStoredSession: new BigNumber(networkMetrics[2].toString()),
-        fastUnstakeErasToCheckPerBlock: Number(
-          rmCommas(networkMetrics[3].toString())
-        ),
+        auctionCounter: new BigNumber(0), //new BigNumber(networkMetrics[1].toString()),
+        earliestStoredSession: new BigNumber(0), //new BigNumber(networkMetrics[2].toString()),
+        fastUnstakeErasToCheckPerBlock: 0, //Number(rmCommas(result[3].toString())),
         minimumActiveStake: new BigNumber(networkMetrics[4].toString()),
       },
       activeEra,
@@ -420,19 +418,17 @@ export class Api {
       const unsub = await this.api.queryMulti(
         [
           this.api.query.balances.totalIssuance,
-          this.api.query.auctions.auctionCounter,
-          this.api.query.paraSessionInfo.earliestStoredSession,
-          this.api.query.fastUnstake.erasToCheckPerBlock,
+          this.api.query.balances.totalIssuance, //this.api.query.auctions.auctionCounter,
+          this.api.query.balances.totalIssuance, //this.api.query.paraSessionInfo.earliestStoredSession,
+          this.api.query.balances.totalIssuance, //this.api.query.fastUnstake.erasToCheckPerBlock,
           this.api.query.staking.minimumActiveStake,
         ],
         (result) => {
           const networkMetrics = {
             totalIssuance: new BigNumber(result[0].toString()),
-            auctionCounter: new BigNumber(result[1].toString()),
-            earliestStoredSession: new BigNumber(result[2].toString()),
-            fastUnstakeErasToCheckPerBlock: Number(
-              rmCommas(result[3].toString())
-            ),
+            auctionCounter: new BigNumber(0), //new BigNumber(result[1].toString()),
+            earliestStoredSession: new BigNumber(0), //new BigNumber(result[2].toString()),
+            fastUnstakeErasToCheckPerBlock: 0, //Number(rmCommas(result[3].toString())),
             minimumActiveStake: new BigNumber(result[4].toString()),
           };
 

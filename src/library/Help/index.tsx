@@ -167,8 +167,8 @@ export const Help = () => {
               iconLeft={faTimes}
               onClick={() => closeHelp()}
               style={{
-                color: 'var(--network-color-primary)',
-                border: '1px solid var(--network-color-primary)',
+                color: 'var(--accent-color-primary)',
+                border: '1px solid var(--accent-color-primary)',
               }}
             />
           </div>

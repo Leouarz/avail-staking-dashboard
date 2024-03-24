@@ -98,7 +98,8 @@ export const FastUnstakeProvider = ({ children }: { children: ReactNode }) => {
   // Subscribe to fast unstake queue as soon as api is ready.
   useEffect(() => {
     if (isReady) {
-      subscribeToFastUnstakeQueue();
+      // subscribeToFastUnstakeQueue();
+      console.log('disabled', subscribeToFastUnstakeQueue.name);
     }
   }, [isReady]);
 
