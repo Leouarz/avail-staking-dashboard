@@ -16,6 +16,7 @@ import { useCommunitySections } from './context';
 import type { Validator } from 'contexts/Validators/types';
 import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
 import { PageHeadingWrapper } from 'kits/Structure/PageHeading/Wrapper';
+import type { ValidatorSupportedChains } from '@w3ux/validator-assets';
 
 export const Entity = () => {
   const { t } = useTranslation('pages');
@@ -25,7 +26,8 @@ export const Entity = () => {
   const { setActiveSection, activeItem } = useCommunitySections();
 
   const { name, validators: entityAllValidators } = activeItem;
-  const validators = entityAllValidators[network] ?? [];
+  const validators =
+    entityAllValidators[network as ValidatorSupportedChains] ?? [];
 
   // include validators that exist in `erasStakers`
   const [activeValidators, setActiveValidators] = useState<Validator[]>(

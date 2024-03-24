@@ -15,6 +15,7 @@ import { useNetwork } from 'contexts/Network';
 import { ItemWrapper } from './Wrappers';
 import { useCommunitySections } from './context';
 import type { ItemProps } from './types';
+import type { ValidatorSupportedChains } from '@w3ux/validator-assets';
 
 export const Item = ({ item, actionable }: ItemProps) => {
   const { t } = useTranslation('pages');
@@ -30,7 +31,8 @@ export const Item = ({ item, actionable }: ItemProps) => {
     icon,
     validators: entityAllValidators,
   } = item;
-  const validatorCount = entityAllValidators[network]?.length ?? 0;
+  const validatorCount =
+    entityAllValidators[network as ValidatorSupportedChains]?.length ?? 0;
 
   const { setActiveSection, setActiveItem, setScrollPos } =
     useCommunitySections();

@@ -7,7 +7,10 @@ import { useNetwork } from 'contexts/Network';
 import { Item } from './Item';
 import { ItemsWrapper } from './Wrappers';
 import { useCommunitySections } from './context';
-import type { ValidatorEntry } from '@w3ux/validator-assets';
+import type {
+  ValidatorEntry,
+  ValidatorSupportedChains,
+} from '@w3ux/validator-assets';
 import { useCommunity } from 'contexts/Community';
 
 export const List = () => {
@@ -16,12 +19,16 @@ export const List = () => {
   const { validatorCommunity } = useCommunity();
 
   const [entityItems, setEntityItems] = useState<ValidatorEntry[]>(
-    validatorCommunity.filter((v) => v.validators[network] !== undefined)
+    validatorCommunity.filter(
+      (v) => v.validators[network as ValidatorSupportedChains] !== undefined
+    )
   );
 
   useEffect(() => {
     setEntityItems(
-      validatorCommunity.filter((v) => v.validators[network] !== undefined)
+      validatorCommunity.filter(
+        (v) => v.validators[network as ValidatorSupportedChains] !== undefined
+      )
     );
   }, [network]);
 
