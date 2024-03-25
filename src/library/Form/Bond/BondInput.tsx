@@ -93,7 +93,7 @@ export const BondInput = ({
             text={t('max')}
             disabled={disabled || syncing || freeToBond.isZero()}
             onClick={() => {
-              setLocalBond(freeToBond.toString());
+              setLocalBond(freeToBond.toFixed().toString());
               updateParentState(freeToBond);
             }}
           />

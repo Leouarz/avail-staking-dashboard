@@ -72,7 +72,7 @@ export const Forms = forwardRef(
       }
       // rebond is only available when staking directly.
       if (task === 'rebond' && isStaking) {
-        tx = api.tx.staking.rebond(unlock.value.toNumber() || 0);
+        tx = api.tx.staking.rebond(unlock.value.toFixed().toString() || '0');
       } else if (task === 'withdraw' && isStaking) {
         tx = api.tx.staking.withdrawUnbonded(historyDepth.toString());
       } else if (task === 'withdraw' && isPooling && activePool) {

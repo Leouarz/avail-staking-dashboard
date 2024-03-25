@@ -341,7 +341,7 @@ export const PayoutsProvider = ({ children }: { children: ReactNode }) => {
         if (!unclaimedPayout.isZero()) {
           unclaimed[era] = {
             ...unclaimed[era],
-            [validator]: [exposedPage, unclaimedPayout.toString()],
+            [validator]: [exposedPage, unclaimedPayout.toFixed().toString()],
           };
           j++;
         }

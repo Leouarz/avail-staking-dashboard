@@ -4,7 +4,7 @@
 import {
   greaterThanZero,
   isNotZero,
-  rmCommas,
+  // rmCommas,
   setStateWithRef,
 } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
@@ -61,9 +61,10 @@ export const FastUnstakeProvider = ({ children }: { children: ReactNode }) => {
   const [queueDeposit, setqueueDeposit] = useState<AnyApi>(null);
   const queueDepositRef = useRef(queueDeposit);
 
-  // store fastUnstake head.
-  const [head, setHead] = useState<AnyApi>(null);
-  const headRef = useRef(head);
+  // // store fastUnstake head.
+  // const [head, setHead] = useState<AnyApi>(null);
+  // const headRef = useRef(head);
+  const head: AnyApi = null;
 
   // store fastUnstake counter for queue.
   const [counterForQueue, setCounterForQueue] = useState<number | null>(null);
@@ -95,13 +96,12 @@ export const FastUnstakeProvider = ({ children }: { children: ReactNode }) => {
     // Resubscribe to fast unstake queue.
   }, [activeAccount, network]);
 
-  // Subscribe to fast unstake queue as soon as api is ready.
-  useEffect(() => {
-    if (isReady) {
-      // subscribeToFastUnstakeQueue();
-      console.log('disabled', subscribeToFastUnstakeQueue.name);
-    }
-  }, [isReady]);
+  // // Subscribe to fast unstake queue as soon as api is ready.
+  // useEffect(() => {
+  //   if (isReady) {
+  //     subscribeToFastUnstakeQueue();
+  //   }
+  // }, [isReady]);
 
   // initiate fast unstake check for accounts that are nominating but not active.
   useEffectIgnoreInitial(() => {
@@ -267,49 +267,49 @@ export const FastUnstakeProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  // subscribe to fastUnstake queue
-  const subscribeToFastUnstakeQueue = async () => {
-    if (!api) {
-      return;
-    }
-    const subscribeQueue = async (a: MaybeAddress) => {
-      const u = await api.query.fastUnstake.queue(a, (q: AnyApi) =>
-        setStateWithRef(
-          new BigNumber(rmCommas(q.unwrapOrDefault(0).toString())),
-          setqueueDeposit,
-          queueDepositRef
-        )
-      );
-      return u;
-    };
-    const subscribeHead = async () => {
-      const u = await api.query.fastUnstake.head((result: AnyApi) => {
-        const h = result.unwrapOrDefault(null).toHuman();
-        setStateWithRef(h, setHead, headRef);
-      });
-      return u;
-    };
-    const subscribeCounterForQueue = async () => {
-      const u = await api.query.fastUnstake.counterForQueue(
-        (result: AnyApi) => {
-          const c = result.toHuman();
-          setStateWithRef(c, setCounterForQueue, counterForQueueRef);
-        }
-      );
-      return u;
-    };
+  // // subscribe to fastUnstake queue
+  // const subscribeToFastUnstakeQueue = async () => {
+  //   if (!api) {
+  //     return;
+  //   }
+  //   const subscribeQueue = async (a: MaybeAddress) => {
+  //     const u = await api.query.fastUnstake.queue(a, (q: AnyApi) =>
+  //       setStateWithRef(
+  //         new BigNumber(rmCommas(q.unwrapOrDefault(0).toString())),
+  //         setqueueDeposit,
+  //         queueDepositRef
+  //       )
+  //     );
+  //     return u;
+  //   };
+  //   const subscribeHead = async () => {
+  //     const u = await api.query.fastUnstake.head((result: AnyApi) => {
+  //       const h = result.unwrapOrDefault(null).toHuman();
+  //       setStateWithRef(h, setHead, headRef);
+  //     });
+  //     return u;
+  //   };
+  //   const subscribeCounterForQueue = async () => {
+  //     const u = await api.query.fastUnstake.counterForQueue(
+  //       (result: AnyApi) => {
+  //         const c = result.toHuman();
+  //         setStateWithRef(c, setCounterForQueue, counterForQueueRef);
+  //       }
+  //     );
+  //     return u;
+  //   };
 
-    // Subscribe to queue + head.
+  //   // Subscribe to queue + head.
 
-    // initiate subscription, add to unsubs.
-    await Promise.all([
-      subscribeQueue(activeAccount),
-      subscribeHead(),
-      subscribeCounterForQueue(),
-    ]).then((u) => {
-      unsubs.current = u;
-    });
-  };
+  //   // initiate subscription, add to unsubs.
+  //   await Promise.all([
+  //     subscribeQueue(activeAccount),
+  //     subscribeHead(),
+  //     subscribeCounterForQueue(),
+  //   ]).then((u) => {
+  //     unsubs.current = u;
+  //   });
+  // };
 
   // gets any existing fast unstake metadata for an account.
   const getLocalMeta = (): LocalMeta | null => {

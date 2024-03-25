@@ -64,7 +64,7 @@ export const BondFeedback = ({
 
   // handler to set bond as a string
   const handleSetBond = (newBond: { bond: BigNumber }) => {
-    setBond({ bond: newBond.bond.toString() });
+    setBond({ bond: newBond.bond.toFixed().toString() });
   };
 
   // current bond value BigNumber

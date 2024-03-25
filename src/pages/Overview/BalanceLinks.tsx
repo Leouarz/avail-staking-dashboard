@@ -12,7 +12,7 @@ import { Separator } from 'kits/Structure/Separator';
 
 export const BalanceLinks = () => {
   const { t } = useTranslation('pages');
-  const { network } = useNetwork();
+  const { networkData } = useNetwork();
   // const { isNominating } = useStaking();
   const { activeAccount } = useActiveAccounts();
 
@@ -25,7 +25,7 @@ export const BalanceLinks = () => {
           lg
           onClick={() =>
             window.open(
-              `https://${network}.subscan.io/account/${activeAccount}`,
+              `https://${networkData.subscanPrefix || ''}.subscan.io/account/${activeAccount}`,
               '_blank'
             )
           }
@@ -33,7 +33,7 @@ export const BalanceLinks = () => {
           iconTransform="shrink-2"
           text="Subscan"
           marginRight
-          disabled={!activeAccount}
+          disabled={!activeAccount || !networkData.subscanPrefix}
         />
         {/* <ButtonPrimaryInvert
           lg

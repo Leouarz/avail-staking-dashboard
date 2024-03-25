@@ -91,7 +91,7 @@ export const UnbondInput = ({
             text={t('max')}
             disabled={disabled}
             onClick={() => {
-              setLocalBond(unbondToMinUnit.toString());
+              setLocalBond(unbondToMinUnit.toFixed().toString());
               updateParentState(unbondToMinUnit);
             }}
           />

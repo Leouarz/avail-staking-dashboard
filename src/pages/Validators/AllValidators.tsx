@@ -49,7 +49,7 @@ export const AllValidators = () => {
                     excludes: [
                       'all_commission',
                       'blocked_nominations',
-                      'missing_identity',
+                      // 'missing_identity',
                     ],
                   }}
                   defaultOrder="rank"

@@ -21,7 +21,7 @@ export const PluginsContext = createContext<PluginsContextInterface>(
 export const usePlugins = () => useContext(PluginsContext);
 
 export const PluginsProvider = ({ children }: { children: ReactNode }) => {
-  const { network } = useNetwork();
+  const { network, networkData } = useNetwork();
   const { isReady, activeEra } = useApi();
   const { activeAccount } = useActiveAccounts();
 
@@ -49,10 +49,13 @@ export const PluginsProvider = ({ children }: { children: ReactNode }) => {
 
   // Reset payouts on Subscan plugin not enabled. Otherwise fetch payouts.
   useEffectIgnoreInitial(() => {
-    if (!plugins.includes('subscan')) {
+    if (!plugins.includes('subscan') || !networkData.subscanPrefix) {
       SubscanController.resetData();
+      if (plugins.includes('subscan')) {
+        togglePlugin('subscan');
+      }
     } else if (isReady && isNotZero(activeEra.index)) {
-      SubscanController.network = network;
+      SubscanController.network = networkData.subscanPrefix;
       if (activeAccount) {
         SubscanController.handleFetchPayouts(activeAccount);
       }

@@ -60,7 +60,7 @@ export const LeavePool = ({
 
   // local bond value
   const [bond, setBond] = useState<{ bond: string }>({
-    bond: freeToUnbond.toString(),
+    bond: freeToUnbond.toFixed().toString(),
   });
 
   // bond valid
@@ -71,7 +71,7 @@ export const LeavePool = ({
 
   // update bond value on task change
   useEffect(() => {
-    setBond({ bond: freeToUnbond.toString() });
+    setBond({ bond: freeToUnbond.toFixed().toString() });
     setBondValid(isValid);
   }, [freeToUnbond.toString(), isValid]);
 
@@ -86,7 +86,9 @@ export const LeavePool = ({
     }
 
     const bondToSubmit = unitToPlanck(!bondValid ? '0' : bond.bond, units);
-    const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
+    const bondAsString = bondToSubmit.isNaN()
+      ? '0'
+      : bondToSubmit.toFixed().toString();
     tx = api.tx.nominationPools.unbond(activeAccount, bondAsString);
     return tx;
   };
@@ -108,7 +110,7 @@ export const LeavePool = ({
 
   if (greaterThanZero(pendingRewardsUnit)) {
     warnings.push(
-      `${t('unbondingWithdraw')} ${pendingRewardsUnit.toString()} ${unit}.`
+      `${t('unbondingWithdraw')} ${pendingRewardsUnit.toFixed().toString()} ${unit}.`
     );
   }
 

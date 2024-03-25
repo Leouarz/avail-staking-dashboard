@@ -60,7 +60,7 @@ export const Unstake = () => {
 
   // local bond value
   const [bond, setBond] = useState<{ bond: string }>({
-    bond: freeToUnbond.toString(),
+    bond: freeToUnbond.toFixed().toString(),
   });
 
   // bond valid
@@ -71,7 +71,7 @@ export const Unstake = () => {
 
   // update bond value on task change
   useEffect(() => {
-    setBond({ bond: freeToUnbond.toString() });
+    setBond({ bond: freeToUnbond.toFixed().toString() });
     setBondValid(isValid);
   }, [freeToUnbond.toString(), isValid]);
 
@@ -89,7 +89,9 @@ export const Unstake = () => {
       String(!bondValid ? '0' : bond.bond),
       units
     );
-    const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
+    const bondAsString = bondToSubmit.isNaN()
+      ? '0'
+      : bondToSubmit.toFixed().toString();
 
     if (!bondAsString) {
       return api.tx.staking.chill();

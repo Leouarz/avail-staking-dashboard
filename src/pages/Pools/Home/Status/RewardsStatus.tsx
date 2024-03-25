@@ -30,7 +30,7 @@ export const RewardsStatus = () => {
   const minUnclaimedDisplay = new BigNumber(1_000_000);
 
   const labelRewards = pendingPoolRewards.isGreaterThan(minUnclaimedDisplay)
-    ? planckToUnit(pendingPoolRewards, units).toString()
+    ? planckToUnit(pendingPoolRewards, units).toFixed().toString()
     : '0';
 
   // Display Reward buttons if unclaimed rewards is a non-zero value.

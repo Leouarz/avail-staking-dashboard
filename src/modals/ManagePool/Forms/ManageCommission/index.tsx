@@ -137,7 +137,10 @@ export const ManageCommission = ({
           poolId,
           currentCommissionSet
             ? [
-                new BigNumber(commission).multipliedBy(10000000).toString(),
+                new BigNumber(commission)
+                  .multipliedBy(10000000)
+                  .toFixed()
+                  .toString(),
                 payee,
               ]
             : null
@@ -148,7 +151,10 @@ export const ManageCommission = ({
       txs.push(
         api.tx.nominationPools.setCommissionMax(
           poolId,
-          new BigNumber(maxCommission).multipliedBy(10000000).toString()
+          new BigNumber(maxCommission)
+            .multipliedBy(10000000)
+            .toFixed()
+            .toString()
         )
       );
     }
@@ -157,6 +163,7 @@ export const ManageCommission = ({
         api.tx.nominationPools.setCommissionChangeRate(poolId, {
           maxIncrease: new BigNumber(changeRate.maxIncrease)
             .multipliedBy(10000000)
+            .toFixed()
             .toString(),
           minDelay: changeRate.minDelay.toString(),
         })

@@ -6,7 +6,7 @@ import type { LedgerApp } from 'contexts/Hardware/Ledger/types';
 
 // {
 //   network: 'avail',
-//   appName: 'Avail Goldberg',
+//   appName: 'Avail',
 //   Icon: AvailSVG,
 // },
 

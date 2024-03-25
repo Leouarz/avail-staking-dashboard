@@ -14,7 +14,7 @@ export const getAvailablePlugins = () => {
   ) as Plugin[];
 
   // If fiat is disabled, remove `binance_spot` service.
-  const DISABLE_FIAT = Number(import.meta.env.VITE_DISABLE_FIAT ?? 0);
+  const DISABLE_FIAT = true; //Number(import.meta.env.VITE_DISABLE_FIAT ?? 0);
   if (DISABLE_FIAT && localPlugins.includes('binance_spot')) {
     const index = localPlugins.indexOf('binance_spot');
     if (index !== -1) {

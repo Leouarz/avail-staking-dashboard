@@ -36,7 +36,7 @@ export const Item = ({
             </span>
           </h4>
           <h2>
-            {planckToUnit(totalPayout, units).toString()} {unit}
+            {planckToUnit(totalPayout, units).toFixed().toString()} {unit}
           </h2>
         </section>
 
@@ -48,7 +48,7 @@ export const Item = ({
                 setPayouts([
                   {
                     era,
-                    payout: totalPayout.toString(),
+                    payout: totalPayout.toFixed().toString(),
                     paginatedValidators: Object.entries(unclaimedPayout).map(
                       ([v, [page]]) => [page, v]
                     ),

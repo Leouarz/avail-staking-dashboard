@@ -120,7 +120,10 @@ export const WithdrawMember = ({
         <ModalNotes>
           <p>
             <p>
-              {t('amountWillBeWithdrawn', { bond: bonded.toString(), unit })}
+              {t('amountWillBeWithdrawn', {
+                bond: bonded.toFixed().toString(),
+                unit,
+              })}
             </p>{' '}
           </p>
           <p>{t('withdrawRemoveNote')}</p>

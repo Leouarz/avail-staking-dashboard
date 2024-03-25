@@ -54,7 +54,11 @@ export class BalancesController {
     newAccounts: string[]
   ): Promise<void> => {
     // Handle accounts that have been removed.
-    this.handleRemovedAccounts(newAccounts);
+    // We changed this so we can actually update accounts.
+    // Initially we're expecting different addresses format,
+    // for use they are same so we resync all available.
+    // this.handleRemovedAccounts(newAccounts);
+    this.handleRemovedAccounts([]);
 
     // Determine new accounts that need to be subscribed to.
     const accountsAdded = newAccounts.filter(

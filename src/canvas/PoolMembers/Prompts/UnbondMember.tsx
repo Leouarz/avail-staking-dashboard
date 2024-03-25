@@ -61,7 +61,7 @@ export const UnbondMember = ({
 
   // local bond value
   const [bond, setBond] = useState<{ bond: string }>({
-    bond: freeToUnbond.toString(),
+    bond: freeToUnbond.toFixed().toString(),
   });
 
   // bond valid
@@ -72,7 +72,7 @@ export const UnbondMember = ({
 
   // update bond value on task change
   useEffect(() => {
-    setBond({ bond: freeToUnbond.toString() });
+    setBond({ bond: freeToUnbond.toFixed().toString() });
     setBondValid(isValid);
   }, [freeToUnbond.toString(), isValid]);
 
@@ -84,7 +84,9 @@ export const UnbondMember = ({
     }
     // remove decimal errors
     const bondToSubmit = unitToPlanck(!bondValid ? '0' : bond.bond, units);
-    const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
+    const bondAsString = bondToSubmit.isNaN()
+      ? '0'
+      : bondToSubmit.toFixed().toString();
     tx = api.tx.nominationPools.unbond(who, bondAsString);
     return tx;
   };

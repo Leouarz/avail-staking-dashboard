@@ -36,13 +36,13 @@ export const BalanceTest = () => {
         {
           id: '1554u1a67ApEt5xmjbZwjgDNaVckbzB6cjRHWAQ1SpNkNxTd',
         },
-        unitToPlanck('0.1', units).toString()
+        unitToPlanck('0.1', units).toFixed().toString()
       ),
       api.tx.balances.transfer(
         {
           id: '1554u1a67ApEt5xmjbZwjgDNaVckbzB6cjRHWAQ1SpNkNxTd',
         },
-        unitToPlanck('0.05', units).toString()
+        unitToPlanck('0.05', units).toFixed().toString()
       ),
     ];
     const batch = newBatchCall(txs, activeAccount);

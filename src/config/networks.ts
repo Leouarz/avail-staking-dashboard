@@ -13,61 +13,114 @@ import BigNumber from 'bignumber.js';
 export const NetworksWithPagedRewards: NetworkName[] = [];
 export const PagedRewardsStartEra: Record<NetworkName, BigNumber | null> = {
   avail: null,
+  'avail-testnet': null,
+  'avail-goldberg': null,
+};
+
+const colors = {
+  primary: {
+    light: 'rgb(60, 163, 252)',
+    dark: 'rgb(60, 163, 252)',
+  },
+  secondary: {
+    light: '#dedae8',
+    dark: '#dedae8',
+  },
+  stroke: {
+    light: 'rgb(60, 163, 252)',
+    dark: 'rgb(60, 163, 252)',
+  },
+  transparent: {
+    light: 'rgb(60, 163, 252, 0.05)',
+    dark: 'rgb(60, 163, 252, 0.05)',
+  },
+  pending: {
+    light: 'rgb(60, 163, 252, 0.33)',
+    dark: 'rgb(60, 163, 252, 0.33)',
+  },
+};
+
+const brand = {
+  icon: AvailTokenSVG,
+  token: AvailTokenSVG,
+  logo: {
+    svg: AvailLogo,
+    width: '7.2em',
+  },
+  inline: {
+    svg: AvailTokenSVG,
+    size: '1.05em',
+  },
 };
 
 export const NetworkList: Networks = {
-  avail: {
-    name: 'avail',
+  // avail: {
+  //   name: 'avail',
+  //   endpoints: {
+  //     lightClient: '',
+  //     defaultRpcEndpoint: 'Avail RPC',
+  //     rpcEndpoints: {
+  //       'Avail RPC': 'wss://rpc-hex-devnet.avail.tools/ws',
+  //     },
+  //   },
+  //   namespace: 'Avail mainnet',
+  //   colors,
+  //   unit: 'AVAIL',
+  //   units: 18,
+  //   ss58: 42,
+  //   brand,
+  //   api: {
+  //     unit: 'AVAIL',
+  //     priceTicker: 'AVAILUSDT',
+  //   },
+  //   defaultFeeReserve: 0.1,
+  //   maxExposurePageSize: new BigNumber(64),
+  //   subscanPrefix: undefined,
+  // },
+  // 'avail-testnet': {
+  //   name: 'avail-testnet',
+  //   endpoints: {
+  //     lightClient: '',
+  //     defaultRpcEndpoint: 'Avail Testnet RPC',
+  //     rpcEndpoints: {
+  //       'Avail Testnet RPC': 'wss://rpc-hex-devnet.avail.tools/ws',
+  //     },
+  //   },
+  //   namespace: 'Avail testnet',
+  //   colors,
+  //   unit: 'AVAIL',
+  //   units: 18,
+  //   ss58: 42,
+  //   brand,
+  //   api: {
+  //     unit: 'AVAIL',
+  //     priceTicker: 'AVAILUSDT',
+  //   },
+  //   defaultFeeReserve: 0.1,
+  //   maxExposurePageSize: new BigNumber(64),
+  //   subscanPrefix: undefined,
+  // },
+  'avail-goldberg': {
+    name: 'avail-goldberg',
     endpoints: {
       lightClient: '',
-      defaultRpcEndpoint: 'Avail RPC',
+      defaultRpcEndpoint: 'Avail Goldberg RPC',
       rpcEndpoints: {
-        'Avail RPC': 'wss://goldberg.avail.tools/ws',
+        'Avail Goldberg RPC': 'wss://goldberg.avail.tools/ws',
       },
     },
     namespace: 'Avail goldberg testnet',
-    colors: {
-      primary: {
-        light: 'rgb(60, 163, 252)',
-        dark: 'rgb(60, 163, 252)',
-      },
-      secondary: {
-        light: '#dedae8',
-        dark: '#dedae8',
-      },
-      stroke: {
-        light: 'rgb(60, 163, 252)',
-        dark: 'rgb(60, 163, 252)',
-      },
-      transparent: {
-        light: 'rgb(60, 163, 252, 0.05)',
-        dark: 'rgb(60, 163, 252, 0.05)',
-      },
-      pending: {
-        light: 'rgb(60, 163, 252, 0.33)',
-        dark: 'rgb(60, 163, 252, 0.33)',
-      },
-    },
+    colors,
     unit: 'AVL',
     units: 18,
     ss58: 42,
-    brand: {
-      icon: AvailTokenSVG,
-      token: AvailTokenSVG,
-      logo: {
-        svg: AvailLogo,
-        width: '7.2em',
-      },
-      inline: {
-        svg: AvailTokenSVG,
-        size: '1.05em',
-      },
-    },
+    brand,
     api: {
       unit: 'AVL',
       priceTicker: 'AVLUSDT',
     },
     defaultFeeReserve: 0.1,
     maxExposurePageSize: new BigNumber(64),
+    subscanPrefix: 'avail-testnet',
   },
 };

@@ -54,7 +54,7 @@ export const UnbondFeedback = ({
 
   // handler to set bond as a string
   const handleSetBond = (newBond: { bond: BigNumber }) => {
-    setBond({ bond: newBond.bond.toString() });
+    setBond({ bond: newBond.bond.toFixed().toString() });
   };
 
   // current bond value BigNumber
@@ -109,7 +109,7 @@ export const UnbondFeedback = ({
     if (bondBn.isGreaterThan(unbondToMin)) {
       // start the error message stating a min bond is required.
       let err = `${t('minimumBond', {
-        minBondUnit: minBondUnit.toString(),
+        minBondUnit: minBondUnit.toFixed().toString(),
         unit,
       })} `;
       // append the subject to the error message.

@@ -59,7 +59,7 @@ export const Bond = () => {
 
   // local bond value.
   const [bond, setBond] = useState<{ bond: string }>({
-    bond: freeToBond.toString(),
+    bond: freeToBond.toFixed().toString(),
   });
 
   // bond valid.
@@ -70,7 +70,7 @@ export const Bond = () => {
 
   // handler to set bond as a string
   const handleSetBond = (newBond: { bond: BigNumber }) => {
-    setBond({ bond: newBond.bond.toString() });
+    setBond({ bond: newBond.bond.toFixed().toString() });
   };
 
   // bond minus tx fees.
@@ -101,7 +101,7 @@ export const Bond = () => {
       ? '0'
       : bondToSubmit.isNaN()
         ? '0'
-        : bondToSubmit.toString();
+        : bondToSubmit.toFixed().toString();
 
     if (isPooling) {
       tx = api.tx.nominationPools.bondExtra({

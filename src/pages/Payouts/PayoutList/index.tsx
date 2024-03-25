@@ -188,10 +188,9 @@ export const PayoutListInner = ({
                           <h4 className={labelClass}>
                             <>
                               {p.event_id === 'Slashed' ? '-' : '+'}
-                              {planckToUnit(
-                                new BigNumber(p.amount),
-                                units
-                              ).toString()}{' '}
+                              {planckToUnit(new BigNumber(p.amount), units)
+                                .toFixed()
+                                .toString()}{' '}
                               {unit}
                             </>
                           </h4>

@@ -81,7 +81,7 @@ export const Unbond = () => {
 
   // local bond value
   const [bond, setBond] = useState<{ bond: string }>({
-    bond: freeToUnbond.toString(),
+    bond: freeToUnbond.toFixed().toString(),
   });
 
   // bond valid
@@ -89,7 +89,7 @@ export const Unbond = () => {
 
   // handler to set bond as a string
   const handleSetBond = (newBond: { bond: BigNumber }) => {
-    setBond({ bond: newBond.bond.toString() });
+    setBond({ bond: newBond.bond.toFixed().toString() });
   };
 
   // feedback errors to trigger modal resize
@@ -110,7 +110,9 @@ export const Unbond = () => {
     }
 
     const bondToSubmit = unitToPlanck(!bondValid ? '0' : bond.bond, units);
-    const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
+    const bondAsString = bondToSubmit.isNaN()
+      ? '0'
+      : bondToSubmit.toFixed().toString();
 
     // determine tx
     if (isPooling) {

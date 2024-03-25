@@ -93,7 +93,7 @@ export const GenerateNominations = ({
     if (
       !isReady ||
       !validators?.length ||
-      !stakers?.length ||
+      stakers === undefined ||
       validatorsFetched !== 'synced'
     ) {
       return;

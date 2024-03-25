@@ -47,7 +47,7 @@ declare global {
   }
 }
 
-export type NetworkName = 'avail';
+export type NetworkName = 'avail' | 'avail-testnet' | 'avail-goldberg';
 
 export type Networks = Record<string, Network>;
 
@@ -59,6 +59,7 @@ type NetworkColor =
   | 'pending';
 export interface Network {
   name: NetworkName;
+  subscanPrefix?: string;
   endpoints: {
     lightClient: string;
     defaultRpcEndpoint: string;

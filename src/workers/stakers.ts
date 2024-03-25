@@ -59,7 +59,7 @@ const processEraForExposure = (data: ProcessEraForExposureArgs) => {
     if (isValidator) {
       const share = new BigNumber(own).isZero()
         ? '0'
-        : new BigNumber(own).dividedBy(total).toString();
+        : new BigNumber(own).dividedBy(total).toFixed().toString();
 
       exposedValidators[validator] = {
         staked: own,
@@ -85,7 +85,7 @@ const processEraForExposure = (data: ProcessEraForExposureArgs) => {
       const share =
         new BigNumber(inOthers.value).isZero() || total === '0'
           ? '0'
-          : new BigNumber(inOthers.value).dividedBy(total).toString();
+          : new BigNumber(inOthers.value).dividedBy(total).toFixed().toString();
 
       exposedValidators[validator] = {
         staked: inOthers.value,
@@ -162,7 +162,9 @@ const processExposures = (data: ProcessExposuresArgs) => {
           ? planckToUnit(
               new BigNumber(others[lowestRewardIndex]?.value || 0),
               units
-            ).toString()
+            )
+              .toFixed()
+              .toString()
           : '0';
 
       const oversubscribed = others.length > maxExposurePageSize;
@@ -187,11 +189,12 @@ const processExposures = (data: ProcessExposuresArgs) => {
         if (index === -1) {
           nominators.push({
             who: o.who,
-            value: value.toString(),
+            value: value.toFixed().toString(),
           });
         } else {
           nominators[index].value = new BigNumber(nominators[index].value)
             .plus(value)
+            .toFixed()
             .toString();
         }
       }
@@ -201,10 +204,9 @@ const processExposures = (data: ProcessExposuresArgs) => {
       if (own !== undefined) {
         activeAccountOwnStake.push({
           address,
-          value: planckToUnit(
-            new BigNumber(rmCommas(own.value)),
-            units
-          ).toString(),
+          value: planckToUnit(new BigNumber(rmCommas(own.value)), units)
+            .toFixed()
+            .toString(),
         });
       }
     }

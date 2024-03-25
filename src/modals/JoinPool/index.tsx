@@ -58,12 +58,12 @@ export const JoinPool = () => {
 
   // local bond value
   const [bond, setBond] = useState<{ bond: string }>({
-    bond: planckToUnit(totalPossibleBond, units).toString(),
+    bond: planckToUnit(totalPossibleBond, units).toFixed().toString(),
   });
 
   // handler to set bond as a string
   const handleSetBond = (newBond: { bond: BigNumber }) => {
-    setBond({ bond: newBond.bond.toString() });
+    setBond({ bond: newBond.bond.toFixed().toString() });
   };
 
   // Updated claim permission value
@@ -91,7 +91,9 @@ export const JoinPool = () => {
     }
 
     const bondToSubmit = unitToPlanck(!bondValid ? '0' : bond.bond, units);
-    const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
+    const bondAsString = bondToSubmit.isNaN()
+      ? '0'
+      : bondToSubmit.toFixed().toString();
     const txs = [api.tx.nominationPools.join(bondAsString, poolId)];
 
     if (![undefined, 'Permissioned'].includes(claimPermission)) {

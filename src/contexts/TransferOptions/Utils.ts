@@ -33,7 +33,7 @@ export const setLocalFeeReserve = (
       localStorage.getItem('reserve_balances') ?? '{}'
     );
     const networkReserves = newReserves?.[network] ?? {};
-    networkReserves[address] = amount.toString();
+    networkReserves[address] = amount.toFixed().toString();
     newReserves[network] = networkReserves;
     localStorage.setItem('reserve_balances', JSON.stringify(newReserves));
   } catch (e) {

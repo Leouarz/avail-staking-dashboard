@@ -7,9 +7,11 @@ import { Title } from 'library/Modal/Title';
 import { StatusButton } from 'library/StatusButton';
 import { ContentWrapper } from '../Networks/Wrapper';
 import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
+import { useNetwork } from 'contexts/Network';
 
 export const Settings = () => {
   const { plugins, togglePlugin } = usePlugins();
+  const { networkData } = useNetwork();
   const { t } = useTranslation('modals');
 
   // fetch flag to disable fiat
@@ -22,11 +24,13 @@ export const Settings = () => {
         <ContentWrapper>
           <h4>{t('togglePlugins')}</h4>
           <h5>{t('No plugins to enable')}</h5>
-          <StatusButton
-            checked={plugins.includes('subscan')}
-            label="Subscan API"
-            onClick={() => togglePlugin('subscan')}
-          />
+          {networkData.subscanPrefix && (
+            <StatusButton
+              checked={plugins.includes('subscan')}
+              label="Subscan API"
+              onClick={() => togglePlugin('subscan')}
+            />
+          )}
           {/* <StatusButton
             checked={plugins.includes('polkawatch')}
             label="Polkawatch API"

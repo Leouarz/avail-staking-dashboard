@@ -37,12 +37,12 @@ export const Bond = ({ section }: SetupStepProps) => {
   const handleSetBond = (value: { bond: BigNumber }) => {
     // set this form's bond value.
     setBond({
-      bond: value.bond.toString() || '0',
+      bond: value.bond.toFixed().toString() || '0',
     });
     // set nominator progress bond value.
     setActiveAccountSetup('nominator', {
       ...progress,
-      bond: value.bond.toString(),
+      bond: value.bond.toFixed().toString(),
     });
   };
 

@@ -38,12 +38,12 @@ export const Bond = ({ section }: SetupStepProps) => {
   const handleSetBond = (value: { bond: BigNumber }) => {
     // set this form's bond value.
     setBond({
-      bond: value.bond.toString(),
+      bond: value.bond.toFixed().toString(),
     });
     // set pool progress bond value.
     setActiveAccountSetup('pool', {
       ...progress,
-      bond: value.bond.toString(),
+      bond: value.bond.toFixed().toString(),
     });
   };
 

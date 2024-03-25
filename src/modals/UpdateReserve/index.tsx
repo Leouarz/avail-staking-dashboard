@@ -50,7 +50,10 @@ export const UpdateReserve = () => {
     // deduct ED from reserve amount.
     val = val.decimalPlaces(3);
     const actualReserve = BigNumber.max(val.minus(minReserve), 0).toNumber();
-    const actualReservePlanck = unitToPlanck(actualReserve.toString(), units);
+    const actualReservePlanck = unitToPlanck(
+      actualReserve.toFixed().toString(),
+      units
+    );
     setSliderReserve(val.decimalPlaces(3).toNumber());
     setFeeReserveBalance(actualReservePlanck);
   };
@@ -103,7 +106,7 @@ export const UpdateReserve = () => {
                     />
                   </>
                 ) : (
-                  `${minReserve.decimalPlaces(4).toString()} ${unit}`
+                  `${minReserve.decimalPlaces(4).toFixed().toString()} ${unit}`
                 )}
               </h2>
             </CardHeaderWrapper>
@@ -115,9 +118,12 @@ export const UpdateReserve = () => {
                   new BigNumber(sliderReserve)
                     .minus(minReserve)
                     .decimalPlaces(4)
+                    .toFixed()
                     .toString(),
                   0
-                ).toString()}
+                )
+                  .toFixed()
+                  .toString()}
                 &nbsp;
                 {unit}
               </h2>
