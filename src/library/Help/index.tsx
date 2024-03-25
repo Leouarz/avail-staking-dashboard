@@ -1,29 +1,27 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import {
-  ButtonPrimaryInvert,
-  CanvasContainer,
-  ModalContent,
-  CanvasScroll,
-} from '@polkadot-cloud/react';
-import { camelize } from '@polkadot-cloud/utils';
+import { camelize } from '@w3ux/utils';
 import { useAnimation } from 'framer-motion';
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelpConfig } from 'config/help';
-import { DefaultLocale } from 'consts';
+import { DefaultLocale } from 'locale';
 import { useHelp } from 'contexts/Help';
 import type {
   DefinitionWithKeys,
   ExternalItems,
   HelpItem,
 } from 'contexts/Help/types';
-import { useFillVariables } from 'library/Hooks/useFillVariables';
+import { useFillVariables } from 'hooks/useFillVariables';
 import { Definition } from './Items/Definition';
 import { External } from './Items/External';
 import { ActiveDefinition } from './Items/ActiveDefinition';
+import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
+import { CanvasContainer } from 'kits/Overlay/structure/CanvasContainer';
+import { CanvasScroll } from 'kits/Overlay/structure/CanvasScroll';
+import { ModalContent } from 'kits/Overlay/structure/ModalContent';
 
 export const Help = () => {
   const { t, i18n } = useTranslation('help');
@@ -42,19 +40,25 @@ export const Help = () => {
 
   // control canvas fade.
   useEffect(() => {
-    if (status === 'open') onFadeIn();
-    if (status === 'closing') onFadeOut();
+    if (status === 'open') {
+      onFadeIn();
+    }
+    if (status === 'closing') {
+      onFadeOut();
+    }
   }, [status]);
 
   // render early if help not open
-  if (status === 'closed') return <></>;
+  if (status === 'closed') {
+    return null;
+  }
 
   let meta: HelpItem | undefined;
 
   if (definition) {
     // get items for active category
-    meta = Object.values(HelpConfig).find(
-      (c) => c?.definitions?.find((d) => d === definition)
+    meta = Object.values(HelpConfig).find((c) =>
+      c?.definitions?.find((d) => d === definition)
     );
   } else {
     // get all items
@@ -163,8 +167,8 @@ export const Help = () => {
               iconLeft={faTimes}
               onClick={() => closeHelp()}
               style={{
-                color: 'var(--network-color-primary)',
-                border: '1px solid var(--network-color-primary)',
+                color: 'var(--accent-color-primary)',
+                border: '1px solid var(--accent-color-primary)',
               }}
             />
           </div>
@@ -187,7 +191,6 @@ export const Help = () => {
               {activeDefinitions.map((item, index: number) => (
                 <Definition
                   key={`def_${index}`}
-                  onClick={() => {}}
                   title={item.title}
                   description={item.description}
                 />

@@ -1,5 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
+
+import type { BondedPool } from 'contexts/Pools/BondedPools/types';
 
 export type ListFormat = 'row' | 'col';
 
@@ -14,7 +16,7 @@ export interface PoolListProps {
   disableThrottle?: boolean;
   refetchOnListUpdate?: string;
   allowListFormat?: boolean;
-  pools?: any;
+  pools?: BondedPool[];
   defaultFilters?: {
     includes: string[] | null;
     excludes: string[] | null;

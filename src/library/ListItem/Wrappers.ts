@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
@@ -95,8 +95,8 @@ export const Labels = styled.div`
   height: inherit;
 
   button {
-    padding: 0 0.1rem;
     background: var(--shimmer-foreground);
+    padding: 0 0.1rem;
     font-size: 1rem;
     border-radius: 50%;
     width: 1.9rem;
@@ -110,7 +110,7 @@ export const Labels = styled.div`
       opacity: 0.75;
     }
     &.active {
-      color: var(--network-color-primary);
+      color: var(--accent-color-primary);
     }
     &:disabled {
       opacity: var(--opacity-disabled);
@@ -118,8 +118,8 @@ export const Labels = styled.div`
   }
 
   &.canvas button {
-    background: none;
     border: 1px solid var(--border-secondary-color);
+    background: none;
   }
 
   .label {
@@ -127,7 +127,7 @@ export const Labels = styled.div`
     position: relative;
     display: flex;
     align-items: center;
-    margin: 0 0.2rem;
+    justify-content: center;
     font-size: inherit;
 
     @media (min-width: ${SmallFontSizeMaxWidth}px) {
@@ -141,7 +141,7 @@ export const Labels = styled.div`
       margin-right: 0;
 
       button {
-        color: var(--network-color-secondary);
+        color: var(--accent-color-secondary);
         font-family: InterSemiBold, sans-serif;
         font-size: 0.95rem;
         display: flex;
@@ -287,15 +287,6 @@ export const Separator = styled.div`
   width: 100%;
   height: 1px;
   opacity: 0.7;
-`;
-
-export const MenuPosition = styled.div`
-  position: absolute;
-  top: -10px;
-  right: 10px;
-  width: 0;
-  height: 0;
-  opacity: 0;
 `;
 
 export const TooltipTrigger = styled.div`

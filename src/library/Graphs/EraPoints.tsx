@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -14,9 +14,10 @@ import {
 import { Line } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'contexts/Themes';
-import { graphColors } from 'styles/graphs';
+import { graphColors } from 'theme/graphs';
 import { useNetwork } from 'contexts/Network';
 import type { EraPointsProps } from './types';
+import type { AnyJson } from 'types';
 
 ChartJS.register(
   CategoryScale,
@@ -88,7 +89,7 @@ export const EraPoints = ({ items = [], height }: EraPointsProps) => {
         },
         callbacks: {
           title: () => [],
-          label: (context: any) => `${context.parsed.y}`,
+          label: (context: AnyJson) => `${context.parsed.y}`,
         },
         intersect: false,
         interaction: {
@@ -99,11 +100,13 @@ export const EraPoints = ({ items = [], height }: EraPointsProps) => {
   };
 
   const data = {
-    labels: items.map((item: any) => item.era),
+    labels: items.map(({ era }: { era: string }) => era),
     datasets: [
       {
         label: t('points'),
-        data: items.map((item: any) => item.reward_point),
+        data: items.map(
+          ({ reward_point }: { reward_point: string }) => reward_point
+        ),
         borderColor: colors.primary[mode],
         backgroundColor: colors.primary[mode],
         pointStyle: undefined,

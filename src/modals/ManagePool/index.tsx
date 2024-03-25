@@ -1,27 +1,25 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import {
-  ModalFixedTitle,
-  ModalMotionTwoSection,
-  ModalPadding,
-  ModalSection,
-} from '@polkadot-cloud/react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useActivePools } from 'contexts/Pools/ActivePools';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { Title } from 'library/Modal/Title';
 import { useTxMeta } from 'contexts/TxMeta';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useLedgerHardware } from 'contexts/Hardware/Ledger/LedgerHardware';
 import { Forms } from './Forms';
 import { Tasks } from './Tasks';
+import { ModalSection } from 'kits/Overlay/structure/ModalSection';
+import { ModalFixedTitle } from 'kits/Overlay/structure/ModalFixedTitle';
+import { ModalMotionTwoSection } from 'kits/Overlay/structure/ModalMotionTwoSection';
+import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
 
 export const ManagePool = () => {
   const { t } = useTranslation('modals');
   const { notEnoughFunds } = useTxMeta();
+  const { activePool } = useActivePool();
   const { integrityChecked } = useLedgerHardware();
-  const { isOwner, selectedActivePool } = useActivePools();
   const { setModalHeight, modalMaxHeight } = useOverlay().modal;
 
   // modal task
@@ -59,7 +57,7 @@ export const ManagePool = () => {
     task,
     notEnoughFunds,
     calculateHeight,
-    selectedActivePool?.bondedPool?.state,
+    activePool?.bondedPool?.state,
   ]);
 
   useEffect(() => {
@@ -72,10 +70,7 @@ export const ManagePool = () => {
   return (
     <ModalSection type="carousel">
       <ModalFixedTitle ref={headerRef}>
-        <Title
-          title={`${t('managePool')}${!isOwner() ? ` Membership` : ``}`}
-          fixed
-        />
+        <Title title={`${t('managePool')}`} fixed />
       </ModalFixedTitle>
       <ModalMotionTwoSection
         style={{

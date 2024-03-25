@@ -1,20 +1,21 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { extractUrlValue, varToUrlHash } from '@polkadot-cloud/utils';
-import React, { createContext, useContext, useState } from 'react';
+import { extractUrlValue, varToUrlHash } from '@w3ux/utils';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { NetworkList } from 'config/networks';
-import { DefaultNetwork } from 'consts';
 import type { NetworkName } from 'types';
-import type { NetworkState } from 'contexts/Api/types';
-import type { NetworkContextInterface } from './types';
-import { defaultNetworkContext } from './defaults';
+import type { NetworkState, NetworkContextInterface } from './types';
+import { defaultNetwork, defaultNetworkContext } from './defaults';
 
-export const NetworkProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const NetworkContext = createContext<NetworkContextInterface>(
+  defaultNetworkContext
+);
+
+export const useNetwork = () => useContext(NetworkContext);
+
+export const NetworkProvider = ({ children }: { children: ReactNode }) => {
   // Get the initial network and prepare meta tags if necessary.
   const getInitialNetwork = () => {
     const urlNetworkRaw = extractUrlValue('n');
@@ -35,10 +36,17 @@ export const NetworkProvider = ({
     const localNetwork: NetworkName = localStorage.getItem(
       'network'
     ) as NetworkName;
+
     const localNetworkValid = !!Object.values(NetworkList).find(
       (n) => n.name === localNetwork
     );
-    return localNetworkValid ? localNetwork : DefaultNetwork;
+
+    const initialNetwork = localNetworkValid ? localNetwork : defaultNetwork;
+
+    // Commit initial to local storage.
+    localStorage.setItem('network', initialNetwork);
+
+    return initialNetwork;
   };
 
   // handle network switching
@@ -54,6 +62,7 @@ export const NetworkProvider = ({
 
   // Store the initial active network.
   const initialNetwork = getInitialNetwork();
+
   const [network, setNetwork] = useState<NetworkState>({
     name: initialNetwork,
     meta: NetworkList[initialNetwork],
@@ -71,9 +80,3 @@ export const NetworkProvider = ({
     </NetworkContext.Provider>
   );
 };
-
-export const NetworkContext = createContext<NetworkContextInterface>(
-  defaultNetworkContext
-);
-
-export const useNetwork = () => useContext(NetworkContext);

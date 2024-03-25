@@ -1,29 +1,29 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ModalPadding } from '@polkadot-cloud/react';
-import { planckToUnit, unitToPlanck } from '@polkadot-cloud/utils';
+import { planckToUnit, unitToPlanck } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
 import { usePoolMembers } from 'contexts/Pools/PoolMembers';
-import type { ClaimPermission } from 'contexts/Pools/types';
 import { useSetup } from 'contexts/Setup';
 import { defaultPoolProgress } from 'contexts/Setup/defaults';
 import { useTransferOptions } from 'contexts/TransferOptions';
 import { useTxMeta } from 'contexts/TxMeta';
 import { BondFeedback } from 'library/Form/Bond/BondFeedback';
 import { ClaimPermissionInput } from 'library/Form/ClaimPermissionInput';
-import { useBatchCall } from 'library/Hooks/useBatchCall';
-import { useBondGreatestFee } from 'library/Hooks/useBondGreatestFee';
-import { useSignerWarnings } from 'library/Hooks/useSignerWarnings';
-import { useSubmitExtrinsic } from 'library/Hooks/useSubmitExtrinsic';
+import { useBatchCall } from 'hooks/useBatchCall';
+import { useBondGreatestFee } from 'hooks/useBondGreatestFee';
+import { useSignerWarnings } from 'hooks/useSignerWarnings';
+import { useSubmitExtrinsic } from 'hooks/useSubmitExtrinsic';
 import { Close } from 'library/Modal/Close';
 import { SubmitTx } from 'library/SubmitTx';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
+import type { ClaimPermission } from 'contexts/Pools/types';
+import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
 
 export const JoinPool = () => {
   const { t } = useTranslation('modals');
@@ -58,8 +58,13 @@ export const JoinPool = () => {
 
   // local bond value
   const [bond, setBond] = useState<{ bond: string }>({
-    bond: planckToUnit(totalPossibleBond, units).toString(),
+    bond: planckToUnit(totalPossibleBond, units).toFixed().toString(),
   });
+
+  // handler to set bond as a string
+  const handleSetBond = (newBond: { bond: BigNumber }) => {
+    setBond({ bond: newBond.bond.toFixed().toString() });
+  };
 
   // Updated claim permission value
   const [claimPermission, setClaimPermission] = useState<
@@ -86,7 +91,9 @@ export const JoinPool = () => {
     }
 
     const bondToSubmit = unitToPlanck(!bondValid ? '0' : bond.bond, units);
-    const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
+    const bondAsString = bondToSubmit.isNaN()
+      ? '0'
+      : bondToSubmit.toFixed().toString();
     const txs = [api.tx.nominationPools.join(bondAsString, poolId)];
 
     if (![undefined, 'Permissioned'].includes(claimPermission)) {
@@ -111,7 +118,9 @@ export const JoinPool = () => {
     callbackInBlock: async () => {
       // query and add account to poolMembers list
       const member = await queryPoolMember(activeAccount);
-      addToPoolMembers(member);
+      if (member) {
+        addToPoolMembers(member);
+      }
 
       // reset localStorage setup progress
       setActiveAccountSetup('pool', defaultPoolProgress);
@@ -138,12 +147,7 @@ export const JoinPool = () => {
             setFeedbackErrors(errors);
           }}
           defaultBond={null}
-          setters={[
-            {
-              set: setBond,
-              current: bond,
-            },
-          ]}
+          setters={[handleSetBond]}
           parentErrors={warnings}
           txFees={largestTxFee}
         />

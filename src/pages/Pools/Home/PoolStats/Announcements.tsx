@@ -1,17 +1,17 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faBullhorn as faBack } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { planckToUnit, rmCommas } from '@polkadot-cloud/utils';
+import { planckToUnit, rmCommas } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
-import { useActivePools } from 'contexts/Pools/ActivePools';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { Announcement as AnnouncementLoader } from 'library/Loader/Announcement';
 import { useNetwork } from 'contexts/Network';
-import { Item } from './Wrappers';
+import { Item } from 'library/Announcements/Wrappers';
 
 export const Announcements = () => {
   const { t } = useTranslation('pages');
@@ -19,15 +19,15 @@ export const Announcements = () => {
   const {
     networkData: { units, unit },
   } = useNetwork();
-  const { selectedActivePool } = useActivePools();
-  const { rewardAccountBalance } = selectedActivePool || {};
-  const { totalRewardsClaimed } = selectedActivePool?.rewardPool || {};
+  const { activePool } = useActivePool();
+  const { rewardAccountBalance } = activePool || {};
+  const { totalRewardsClaimed } = activePool?.rewardPool || {};
   const { existentialDeposit } = consts;
 
   // calculate the latest reward account balance
   const rewardPoolBalance = BigNumber.max(
     0,
-    new BigNumber(rewardAccountBalance).minus(existentialDeposit)
+    new BigNumber(rewardAccountBalance || 0).minus(existentialDeposit)
   );
   const rewardBalance = planckToUnit(rewardPoolBalance, units);
 

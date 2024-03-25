@@ -1,10 +1,13 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { localStorageOrDefault } from '@polkadot-cloud/utils';
+import { localStorageOrDefault } from '@w3ux/utils';
 import { LedgerApps } from 'config/ledger';
 import type { MaybeString } from 'types';
-import type { LedgerAccount, VaultAccount } from '@polkadot-cloud/react/types';
+import type {
+  LedgerAccount,
+  VaultAccount,
+} from '@w3ux/react-connect-kit/types';
 import type { LedgerAddress } from './Ledger/types';
 
 // Ledger error keyed by type of error.
@@ -17,6 +20,7 @@ const LedgerErrorsByType = {
   deviceBusy: ['Error: Ledger Device is busy', 'InvalidStateError'],
   deviceLocked: ['Error: LockedDeviceError'],
   transactionRejected: ['Error: Transaction rejected'],
+  txVersionNotSupported: ['Error: Txn version not supported'],
   appNotOpen: ['Error: Unknown Status Code: 28161'],
 };
 
@@ -33,16 +37,17 @@ export const getLedgerErrorType = (err: string) => {
       }
       return true;
     });
-    if (found) return false;
+    if (found) {
+      return false;
+    }
     return true;
   });
   return errorType || 'misc';
 };
 
 // Gets ledger app from local storage, fallback to first entry.
-export const getLedgerApp = (network: string) => {
-  return LedgerApps.find((a) => a.network === network) || LedgerApps[0];
-};
+export const getLedgerApp = (network: string) =>
+  LedgerApps.find((a) => a.network === network) || LedgerApps[0];
 
 // Gets saved ledger addresses from local storage.
 export const getLocalLedgerAddresses = (network?: string) => {

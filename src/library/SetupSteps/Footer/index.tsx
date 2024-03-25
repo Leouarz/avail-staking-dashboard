@@ -1,18 +1,23 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonPrimary } from '@polkadot-cloud/react';
 import { useTranslation } from 'react-i18next';
 import { useSetup } from 'contexts/Setup';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import type { FooterProps } from '../types';
 import { Wrapper } from './Wrapper';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
 
 export const Footer = ({ complete, bondFor }: FooterProps) => {
   const { t } = useTranslation('library');
   const { activeAccount } = useActiveAccounts();
-  const { getSetupProgress, setActiveAccountSetupSection } = useSetup();
-  const setup = getSetupProgress(bondFor, activeAccount);
+  const { getPoolSetup, getNominatorSetup, setActiveAccountSetupSection } =
+    useSetup();
+
+  const setup =
+    bondFor === 'nominator'
+      ? getNominatorSetup(activeAccount)
+      : getPoolSetup(activeAccount);
 
   return (
     <Wrapper>

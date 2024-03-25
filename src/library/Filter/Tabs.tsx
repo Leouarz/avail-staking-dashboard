@@ -1,18 +1,19 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useState } from 'react';
 import { useFilters } from 'contexts/Filters';
 import { TabsWrapper, TabWrapper } from './Wrappers';
+import type { FilterTabsProps } from './types';
 
-export const Tabs = ({ config, activeIndex }: any) => {
+export const Tabs = ({ config, activeIndex }: FilterTabsProps) => {
   const { resetFilters, setMultiFilters } = useFilters();
 
   const [active, setActive] = useState<number>(activeIndex);
 
   return (
     <TabsWrapper>
-      {config.map((c: any, i: number) => (
+      {config.map((c, i) => (
         <TabWrapper
           key={`pools_tab_filter_${i}`}
           $active={i === active}

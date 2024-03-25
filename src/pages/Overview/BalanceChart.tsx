@@ -1,28 +1,25 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheck, faCheckDouble } from '@fortawesome/free-solid-svg-icons';
-import { ButtonTertiary, Odometer } from '@polkadot-cloud/react';
-import {
-  greaterThanZero,
-  minDecimalPlaces,
-  planckToUnit,
-} from '@polkadot-cloud/utils';
+import { Odometer } from '@w3ux/react-odometer';
+import { greaterThanZero, minDecimalPlaces, planckToUnit } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useTranslation } from 'react-i18next';
 import { useBalances } from 'contexts/Balances';
 import { usePlugins } from 'contexts/Plugins';
 import { useTransferOptions } from 'contexts/TransferOptions';
-import { useUi } from 'contexts/UI';
 import { BarSegment } from 'library/BarChart/BarSegment';
 import { LegendItem } from 'library/BarChart/LegendItem';
 import { Bar, BarChartWrapper, Legend } from 'library/BarChart/Wrappers';
 import { CardHeaderWrapper } from 'library/Card/Wrappers';
-import { usePrices } from 'library/Hooks/usePrices';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { usePrices } from 'hooks/usePrices';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
+import { useSyncing } from 'hooks/useSyncing';
+import { ButtonTertiary } from 'kits/Buttons/ButtonTertiary';
 
 export const BalanceChart = () => {
   const { t } = useTranslation('pages');
@@ -34,14 +31,14 @@ export const BalanceChart = () => {
     },
   } = useNetwork();
   const prices = usePrices();
-  // const { consts } = useApi();
   const { plugins } = usePlugins();
-  const { isNetworkSyncing } = useUi();
   const { openModal } = useOverlay().modal;
-  const { getBalance, getLocks } = useBalances();
   const { activeAccount } = useActiveAccounts();
+  const { getBalance, getLocks } = useBalances();
+  const { syncing } = useSyncing(['initialization']);
   const { accountHasSigner } = useImportedAccounts();
   const { feeReserve, getTransferOptions } = useTransferOptions();
+
   const balance = getBalance(activeAccount);
   const allTransferOptions = getTransferOptions(activeAccount);
   const { edReserved } = allTransferOptions;
@@ -50,25 +47,26 @@ export const BalanceChart = () => {
     poolBondOpions.totalUnlocked
   );
 
-  // user's total balance
+  // User's total balance.
   const { free, frozen } = balance;
   const totalBalance = planckToUnit(
     free.plus(poolBondOpions.active).plus(unlockingPools),
     units
   );
-  // convert balance to fiat value
+  // Convert balance to fiat value.
   const freeFiat = totalBalance.multipliedBy(
     new BigNumber(prices.lastPrice).decimalPlaces(2)
   );
 
-  // total funds nominating
+  // Total funds nominating.
   const nominating = planckToUnit(
     allTransferOptions.nominate.active
       .plus(allTransferOptions.nominate.totalUnlocking)
       .plus(allTransferOptions.nominate.totalUnlocked),
     units
   );
-  // total funds in pool
+
+  // Total funds in pool.
   const inPool = planckToUnit(
     allTransferOptions.pool.active
       .plus(allTransferOptions.pool.totalUnlocking)
@@ -76,21 +74,21 @@ export const BalanceChart = () => {
     units
   );
 
-  // check account non-staking locks
-  const locks = getLocks(activeAccount);
+  // Check account non-staking locks.
+  const { locks } = getLocks(activeAccount);
   const locksStaking = locks.find(({ id }) => id === 'staking');
   const lockStakingAmount = locksStaking
     ? locksStaking.amount
     : new BigNumber(0);
 
-  // total funds available, including existential deposit, minus staking.
+  // Total funds available, including existential deposit, minus staking.
   const graphAvailable = planckToUnit(
     BigNumber.max(free.minus(lockStakingAmount), 0),
     units
   );
   const notStaking = graphAvailable;
 
-  // graph percentages
+  // Graph percentages.
   const graphTotal = nominating.plus(inPool).plus(graphAvailable);
   const graphNominating = greaterThanZero(nominating)
     ? nominating.dividedBy(graphTotal.multipliedBy(0.01))
@@ -107,7 +105,7 @@ export const BalanceChart = () => {
       )
     : new BigNumber(0);
 
-  // available balance data
+  // Available balance data.
   const fundsLockedPlank = BigNumber.max(frozen.minus(lockStakingAmount), 0);
   const fundsLocked = planckToUnit(fundsLockedPlank, units);
   let fundsReserved = planckToUnit(edReserved.plus(feeReserve), units);
@@ -116,14 +114,13 @@ export const BalanceChart = () => {
     BigNumber.max(
       allTransferOptions.freeBalance
         .minus(fundsReserved)
-        .minus(feeReserve)
         .minus(fundsLockedPlank),
       0
     ),
     units
   );
 
-  // available balance percentages
+  // Available balance percentages.
   const graphLocked = greaterThanZero(fundsLocked)
     ? fundsLocked.dividedBy(graphAvailable.multipliedBy(0.01))
     : new BigNumber(0);
@@ -132,12 +129,12 @@ export const BalanceChart = () => {
     ? fundsFree.dividedBy(graphAvailable.multipliedBy(0.01))
     : new BigNumber(0);
 
-  // get total available balance, including reserve and locks
+  // Total available balance, including reserve and locks
   if (graphAvailable.isLessThan(fundsReserved)) {
     fundsReserved = graphAvailable;
   }
 
-  // formatter for price feed.
+  // Formatter for price feed.
   const usdFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -247,53 +244,51 @@ export const BalanceChart = () => {
               </Bar>
             </div>
           ) : null}
-          {greaterThanZero(fundsReserved) ? (
-            <div
-              style={{
-                flex: 0,
-                minWidth: '12.5rem',
-                maxWidth: '12.5rem',
-                flexBasis: '50%',
-              }}
-            >
-              <Legend className="end">
-                <LegendItem
-                  label=""
-                  button={
-                    <ButtonTertiary
-                      text={t('overview.reserveBalance')}
-                      onClick={() =>
-                        openModal({ key: 'UpdateReserve', size: 'sm' })
-                      }
-                      iconRight={
-                        isNetworkSyncing
-                          ? undefined
-                          : !feeReserve.isZero() && !edReserved.isZero()
-                            ? faCheckDouble
-                            : feeReserve.isZero() && edReserved.isZero()
-                              ? undefined
-                              : faCheck
-                      }
-                      iconTransform="shrink-1"
-                      disabled={
-                        !activeAccount ||
-                        isNetworkSyncing ||
-                        !accountHasSigner(activeAccount)
-                      }
-                    />
-                  }
-                />
-              </Legend>
-              <Bar>
-                <BarSegment
-                  dataClass="d4"
-                  widthPercent={100}
-                  flexGrow={1}
-                  label={`${fundsReserved.decimalPlaces(3).toFormat()} ${unit}`}
-                />
-              </Bar>
-            </div>
-          ) : null}
+          <div
+            style={{
+              flex: 0,
+              minWidth: '12.5rem',
+              maxWidth: '12.5rem',
+              flexBasis: '50%',
+            }}
+          >
+            <Legend className="end">
+              <LegendItem
+                label=""
+                button={
+                  <ButtonTertiary
+                    text={t('overview.reserveBalance')}
+                    onClick={() =>
+                      openModal({ key: 'UpdateReserve', size: 'sm' })
+                    }
+                    iconRight={
+                      syncing
+                        ? undefined
+                        : !feeReserve.isZero() && !edReserved.isZero()
+                          ? faCheckDouble
+                          : feeReserve.isZero() && edReserved.isZero()
+                            ? undefined
+                            : faCheck
+                    }
+                    iconTransform="shrink-1"
+                    disabled={
+                      !activeAccount ||
+                      syncing ||
+                      !accountHasSigner(activeAccount)
+                    }
+                  />
+                }
+              />
+            </Legend>
+            <Bar>
+              <BarSegment
+                dataClass="d4"
+                widthPercent={100}
+                flexGrow={1}
+                label={`${fundsReserved.decimalPlaces(3).toFormat()} ${unit}`}
+              />
+            </Bar>
+          </div>
         </section>
       </BarChartWrapper>
     </>

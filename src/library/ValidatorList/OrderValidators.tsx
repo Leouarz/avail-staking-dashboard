@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheckCircle, faCircle } from '@fortawesome/free-regular-svg-icons';
@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Title } from 'library/Prompt/Title';
 import { FilterListButton, FilterListWrapper } from 'library/Prompt/Wrappers';
 import { useFilters } from 'contexts/Filters';
-import { useValidatorFilters } from '../Hooks/useValidatorFilters';
+import { useValidatorFilters } from '../../hooks/useValidatorFilters';
 
 export const OrderValidators = () => {
   const { t } = useTranslation('library');
@@ -20,7 +20,7 @@ export const OrderValidators = () => {
     <FilterListWrapper>
       <Title title={t('orderValidators')} />
       <div className="body">
-        {Object.entries(ordersToLabels).map(([o, l]: any, i: number) => (
+        {Object.entries(ordersToLabels).map(([o, l], i: number) => (
           <FilterListButton
             $active={order === o || false}
             key={`validator_filter_${i}`}

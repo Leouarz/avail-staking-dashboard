@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import BigNumber from 'bignumber.js';
@@ -14,13 +14,10 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
-import { usePoolMemberships } from 'contexts/Pools/PoolMemberships';
 import { useStaking } from 'contexts/Staking';
-import { useSubscan } from 'contexts/Plugins/Subscan';
 import { useTheme } from 'contexts/Themes';
-import { useUi } from 'contexts/UI';
-import { graphColors } from 'styles/graphs';
-import type { AnySubscan } from 'types';
+import { graphColors } from 'theme/graphs';
+import type { AnyJson, AnySubscan } from 'types';
 import { useNetwork } from 'contexts/Network';
 import type { PayoutLineProps } from './types';
 import {
@@ -28,6 +25,9 @@ import {
   combineRewards,
   formatRewardsForGraphs,
 } from './Utils';
+import { useBalances } from 'contexts/Balances';
+import { useActiveAccounts } from 'contexts/ActiveAccounts';
+import { useSyncing } from 'hooks/useSyncing';
 
 ChartJS.register(
   CategoryScale,
@@ -44,22 +44,22 @@ export const PayoutLine = ({
   average,
   height,
   background,
+  data: { payouts, poolClaims },
 }: PayoutLineProps) => {
   const { t } = useTranslation('library');
   const { mode } = useTheme();
-  const { isSyncing } = useUi();
   const { inSetup } = useStaking();
-  const { payouts, poolClaims } = useSubscan();
-  const { unit, units, colors } = useNetwork().networkData;
-  const { membership: poolMembership } = usePoolMemberships();
+  const { syncing } = useSyncing(['balances']);
+  const { getPoolMembership } = useBalances();
+  const { activeAccount } = useActiveAccounts();
 
-  const notStaking = !isSyncing && inSetup() && !poolMembership;
-  const poolingOnly = !isSyncing && inSetup() && poolMembership !== null;
+  const { unit, units, colors } = useNetwork().networkData;
+  const poolMembership = getPoolMembership(activeAccount);
+  const notStaking = !syncing && inSetup() && !poolMembership;
+  const inPoolOnly = !syncing && inSetup() && !!poolMembership;
 
   // remove slashes from payouts (graph does not support negative values).
-  const payoutsNoSlash = payouts.filter(
-    (p: AnySubscan) => p.event_id !== 'Slashed'
-  );
+  const payoutsNoSlash = payouts?.filter((p) => p.event_id !== 'Slashed') || [];
 
   // define the most recent date that we will show on the graph.
   const fromDate = new Date();
@@ -90,7 +90,7 @@ export const PayoutLine = ({
   // determine color for payouts
   const color = notStaking
     ? colors.primary[mode]
-    : !poolingOnly
+    : !inPoolOnly
       ? colors.primary[mode]
       : colors.secondary[mode];
 
@@ -136,7 +136,7 @@ export const PayoutLine = ({
         },
         callbacks: {
           title: () => [],
-          label: (context: any) =>
+          label: (context: AnyJson) =>
             ` ${new BigNumber(context.parsed.y)
               .decimalPlaces(units)
               .toFormat()} ${unit}`,
@@ -156,10 +156,11 @@ export const PayoutLine = ({
         label: t('payout'),
         data: combinedPayouts.map((item: AnySubscan) => item?.amount ?? 0),
         borderColor: color,
-        backgroundColor: color,
         pointStyle: undefined,
         pointRadius: 0,
         borderWidth: 2.3,
+        tension: 0.25,
+        fill: false,
       },
     ],
   };

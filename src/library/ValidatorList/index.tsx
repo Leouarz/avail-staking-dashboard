@@ -1,18 +1,16 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faBars, faGripVertical } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isNotZero } from '@polkadot-cloud/utils';
+import { isNotZero } from '@w3ux/utils';
 import { motion } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListItemsPerBatch, ListItemsPerPage } from 'consts';
 import { useApi } from 'contexts/Api';
 import { useFilters } from 'contexts/Filters';
-import { useNetworkMetrics } from 'contexts/NetworkMetrics';
 import { useTheme } from 'contexts/Themes';
-import { useUi } from 'contexts/UI';
 import {
   FilterHeaderWrapper,
   List,
@@ -23,39 +21,44 @@ import { Pagination } from 'library/List/Pagination';
 import { SearchInput } from 'library/List/SearchInput';
 import { Selectable } from 'library/List/Selectable';
 import { ValidatorItem } from 'library/ValidatorList/ValidatorItem';
-import type { Validator } from 'contexts/Validators/types';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import type { Validator, ValidatorListEntry } from 'contexts/Validators/types';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
-import { useNominationStatus } from 'library/Hooks/useNominationStatus';
+import { useNominationStatus } from 'hooks/useNominationStatus';
 import { useBondedPools } from 'contexts/Pools/BondedPools';
-import { useValidatorFilters } from '../Hooks/useValidatorFilters';
+import { useValidatorFilters } from '../../hooks/useValidatorFilters';
 import { ListProvider, useList } from '../List/context';
 import type { ValidatorListProps } from './types';
 import { FilterHeaders } from './Filters/FilterHeaders';
 import { FilterBadges } from './Filters/FilterBadges';
 import type { NominationStatus } from './ValidatorItem/types';
+import { useSyncing } from 'hooks/useSyncing';
+import { listItemsPerBatch, listItemsPerPage } from 'library/List/defaults';
 
 export const ValidatorListInner = ({
+  // Default list values.
   nominator: initialNominator,
   validators: initialValidators,
+  // Validator list config options.
+  bondFor,
   allowMoreCols,
   allowFilters,
   toggleFavorites,
   pagination,
   format,
   selectable,
-  bondFor,
   onSelected,
   actions = [],
   showMenu = true,
   displayFor = 'default',
   allowSearch = false,
   allowListFormat = true,
-  alwaysRefetchValidators = false,
   defaultOrder = undefined,
   defaultFilters = undefined,
+  // Throttling and re-fetching.
+  alwaysRefetchValidators = false,
   disableThrottle = false,
 }: ValidatorListProps) => {
   const { t } = useTranslation('library');
@@ -74,15 +77,14 @@ export const ValidatorListInner = ({
     clearSearchTerm,
   } = useFilters();
   const { mode } = useTheme();
-  const { isReady } = useApi();
-  const { isSyncing } = useUi();
   const listProvider = useList();
-  const { activeEra } = useNetworkMetrics();
+  const { syncing } = useSyncing('*');
+  const { isReady, activeEra } = useApi();
   const { activeAccount } = useActiveAccounts();
   const { setModalResize } = useOverlay().modal;
   const { injectValidatorListData } = useValidators();
-  const { getNomineesStatus } = useNominationStatus();
   const { getPoolNominationStatus } = useBondedPools();
+  const { getNominationSetStatus } = useNominationStatus();
   const { applyFilter, applyOrder, applySearch } = useValidatorFilters();
 
   const { selected, listFormat, setListFormat } = listProvider;
@@ -101,7 +103,7 @@ export const ValidatorListInner = ({
 
   // Get nomination status relative to supplied nominator, if `format` is `nomination`.
   const processNominationStatus = () => {
-    if (format === 'nomination')
+    if (format === 'nomination') {
       if (bondFor === 'pool') {
         nominationStatus.current = Object.fromEntries(
           initialValidators.map(({ address }) => [
@@ -111,7 +113,10 @@ export const ValidatorListInner = ({
         );
       } else {
         // get all active account's nominations.
-        const nominationStatuses = getNomineesStatus(nominator, 'nominator');
+        const nominationStatuses = getNominationSetStatus(
+          nominator,
+          'nominator'
+        );
 
         // find the nominator status within the returned nominations.
         nominationStatus.current = Object.fromEntries(
@@ -121,6 +126,7 @@ export const ValidatorListInner = ({
           ])
         );
       }
+    }
   };
 
   // Injects status into supplied initial validators.
@@ -142,18 +148,20 @@ export const ValidatorListInner = ({
   const [page, setPage] = useState<number>(1);
 
   // Default list of validators.
-  const [validatorsDefault, setValidatorsDefault] = useState(
+  const [validatorsDefault, setValidatorsDefault] = useState<
+    ValidatorListEntry[]
+  >(prepareInitialValidators());
+
+  // Manipulated list (custom ordering, filtering) of validators.
+  const [validators, setValidators] = useState<ValidatorListEntry[]>(
     prepareInitialValidators()
   );
 
-  // Manipulated list (custom ordering, filtering) of validators.
-  const [validators, setValidators] = useState(prepareInitialValidators());
-
   // Store whether the validator list has been fetched initially.
-  const [fetched, setFetched] = useState(false);
+  const [fetched, setFetched] = useState<boolean>(false);
 
   // Store whether the search bar is being used.
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
 
   // Current render iteration.
   const [renderIteration, setRenderIterationState] = useState<number>(1);
@@ -166,29 +174,15 @@ export const ValidatorListInner = ({
   };
 
   // Pagination.
-  const totalPages = Math.ceil(validators.length / ListItemsPerPage);
-  const pageEnd = page * ListItemsPerPage - 1;
-  const pageStart = pageEnd - (ListItemsPerPage - 1);
+  const totalPages = Math.ceil(validators.length / listItemsPerPage);
+  const pageEnd = page * listItemsPerPage - 1;
+  const pageStart = pageEnd - (listItemsPerPage - 1);
 
   // Render batch.
   const batchEnd = Math.min(
-    renderIteration * ListItemsPerBatch - 1,
-    ListItemsPerPage
+    renderIteration * listItemsPerBatch - 1,
+    listItemsPerPage
   );
-
-  // Reset list when validator list changes.
-  useEffect(() => {
-    if (alwaysRefetchValidators) {
-      if (
-        JSON.stringify(initialValidators.map((v) => v.address)) !==
-        JSON.stringify(validatorsDefault.map((v) => v.address))
-      ) {
-        setFetched(false);
-      }
-    } else {
-      setFetched(false);
-    }
-  }, [initialValidators, nominator]);
 
   // handle filter / order update
   const handleValidatorsFilterUpdate = (
@@ -211,14 +205,16 @@ export const ValidatorListInner = ({
   // get throttled subset or entire list
   const listValidators = disableThrottle
     ? validators
-    : validators.slice(pageStart).slice(0, ListItemsPerPage);
+    : validators.slice(pageStart).slice(0, listItemsPerPage);
 
   // if in modal, handle resize
   const maybeHandleModalResize = () => {
-    if (displayFor === 'modal') setModalResize();
+    if (displayFor === 'modal') {
+      setModalResize();
+    }
   };
 
-  const handleSearchChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleSearchChange = (e: FormEvent<HTMLInputElement>) => {
     const newValue = e.currentTarget.value;
 
     let filteredValidators = Object.assign(validatorsDefault);
@@ -241,7 +237,15 @@ export const ValidatorListInner = ({
     setSearchTerm('validators', newValue);
   };
 
-  // Set default filters.
+  // Handle validator list bootstrapping.
+  const setupValidatorList = () => {
+    setValidatorsDefault(prepareInitialValidators());
+    setValidators(prepareInitialValidators());
+    setFetched(true);
+  };
+
+  // Set default filters. Should re-render if era stakers re-syncs as era points effect the
+  // performance order.
   useEffect(() => {
     if (allowFilters) {
       if (defaultFilters?.includes?.length) {
@@ -273,19 +277,28 @@ export const ValidatorListInner = ({
         clearSearchTerm('validators');
       }
     };
-  }, []);
+  }, [syncing]);
 
-  // Handle validator list bootstrapping.
-  const setupValidatorList = () => {
-    setValidatorsDefault(prepareInitialValidators());
-    setValidators(prepareInitialValidators());
-    setFetched(true);
-  };
+  // Reset list when validator list changes.
+  useEffect(() => {
+    if (alwaysRefetchValidators) {
+      if (
+        JSON.stringify(initialValidators.map((v) => v.address)) !==
+        JSON.stringify(validatorsDefault.map((v) => v.address))
+      ) {
+        setFetched(false);
+      }
+    } else {
+      setFetched(false);
+    }
+  }, [initialValidators, nominator]);
 
   // Configure validator list when network is ready to fetch.
   useEffect(() => {
-    if (isReady && isNotZero(activeEra.index) && !fetched) setupValidatorList();
-  }, [isReady, activeEra.index, fetched]);
+    if (isReady && isNotZero(activeEra.index)) {
+      setupValidatorList();
+    }
+  }, [isReady, activeEra.index, syncing, fetched]);
 
   // Control render throttle.
   useEffect(() => {
@@ -298,13 +311,17 @@ export const ValidatorListInner = ({
 
   // Trigger `onSelected` when selection changes.
   useEffect(() => {
-    if (onSelected) onSelected(listProvider);
+    if (onSelected) {
+      onSelected(listProvider);
+    }
   }, [selected]);
 
   // List ui changes / validator changes trigger re-render of list.
   useEffect(() => {
-    if (allowFilters && fetched) handleValidatorsFilterUpdate();
-  }, [order, isSyncing, includes, excludes]);
+    if (allowFilters && fetched) {
+      handleValidatorsFilterUpdate();
+    }
+  }, [order, syncing, includes, excludes]);
 
   // Handle modal resize on list format change.
   useEffect(() => {

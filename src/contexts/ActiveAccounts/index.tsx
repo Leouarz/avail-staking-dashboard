@@ -1,16 +1,18 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import type { MaybeAddress } from 'types';
-import { setStateWithRef } from '@polkadot-cloud/utils';
+import { setStateWithRef } from '@w3ux/utils';
 import { useNetwork } from 'contexts/Network';
 import type { ActiveAccountsContextInterface, ActiveProxy } from './types';
 import { defaultActiveAccountsContext } from './defaults';
 
 export const ActiveAccountsContext =
   createContext<ActiveAccountsContextInterface>(defaultActiveAccountsContext);
+
+export const useActiveAccounts = () => useContext(ActiveAccountsContext);
 
 export const ActiveAccountsProvider = ({
   children,
@@ -29,7 +31,7 @@ export const ActiveAccountsProvider = ({
 
   // Setter for the active proxy account.
   const setActiveProxy = (newActiveProxy: ActiveProxy, updateLocal = true) => {
-    if (updateLocal)
+    if (updateLocal) {
       if (newActiveProxy) {
         localStorage.setItem(
           `${network}_active_proxy`,
@@ -38,18 +40,22 @@ export const ActiveAccountsProvider = ({
       } else {
         localStorage.removeItem(`${network}_active_proxy`);
       }
+    }
     setStateWithRef(newActiveProxy, setActiveProxyState, activeProxyRef);
   };
 
   // Setter for the active account.
   const setActiveAccount = (
     newActiveAccount: MaybeAddress,
-    updateLocalStorage: boolean = true
+    updateLocalStorage = true
   ) => {
-    if (updateLocalStorage)
-      if (newActiveAccount === null)
+    if (updateLocalStorage) {
+      if (newActiveAccount === null) {
         localStorage.removeItem(`${network}_active_account`);
-      else localStorage.setItem(`${network}_active_account`, newActiveAccount);
+      } else {
+        localStorage.setItem(`${network}_active_account`, newActiveAccount);
+      }
+    }
 
     setStateWithRef(newActiveAccount, setActiveAccountState, activeAccountRef);
   };
@@ -58,14 +64,18 @@ export const ActiveAccountsProvider = ({
   const getActiveAccount = () => activeAccountRef.current;
 
   // Disconnect from the active account on network change, but don't remove local record.
-  useEffect(() => setActiveAccount(null, false), [network]);
+  useEffect(() => {
+    setActiveAccount(null, false);
+    setActiveProxy(null, false);
+  }, [network]);
 
   return (
     <ActiveAccountsContext.Provider
       value={{
         activeAccount: activeAccountRef.current,
-        activeProxy: activeProxyRef.current?.address ?? null,
-        activeProxyType: activeProxyRef.current?.proxyType ?? null,
+        activeProxy: activeProxy?.address || null,
+        activeProxyType: activeProxy?.proxyType || null,
+        activeProxyRef: activeProxyRef.current || null,
         setActiveAccount,
         getActiveAccount,
         setActiveProxy,
@@ -75,5 +85,3 @@ export const ActiveAccountsProvider = ({
     </ActiveAccountsContext.Provider>
   );
 };
-
-export const useActiveAccounts = () => useContext(ActiveAccountsContext);

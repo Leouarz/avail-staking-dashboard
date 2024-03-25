@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ export const SliderWrapper = styled.div`
     }
     &.neutral,
     .neutral {
-      color: var(--network-color-primary);
+      color: var(--accent-color-primary);
       opacity: 0.8;
     }
     &.danger,
@@ -85,7 +85,7 @@ export const SliderWrapper = styled.div`
       }
 
       .rc-slider-handle-dragging {
-        box-shadow: 0 0 0 5px var(--network-color-transparent) !important;
+        box-shadow: 0 0 0 5px var(--accent-color-transparent) !important;
       }
     }
   }
@@ -114,5 +114,52 @@ export const SliderWrapper = styled.div`
     flex-flow: column wrap;
     align-items: flex-end;
     margin-top: 2.5rem;
+  }
+`;
+
+export const ButtonRowWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0.5rem 0 1.25rem 0;
+
+  > section {
+    width: 50%;
+    flex-grow: 0;
+
+    &:first-child {
+      padding-right: 0.25rem;
+    }
+    &:last-child {
+      padding-left: 0.25rem;
+    }
+
+    > .inner {
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+
+      > .icon {
+        margin-right: 0.75rem;
+      }
+
+      > div > h3 {
+        display: flex;
+        align-items: center;
+
+        button {
+          color: var(--text-color-primary);
+          margin-left: 0.75rem;
+        }
+      }
+    }
+
+    @media (max-width: 800px) {
+      border-bottom: 1px solid var(--border-primary-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      padding: 0;
+      width: 100%;
+    }
   }
 `;

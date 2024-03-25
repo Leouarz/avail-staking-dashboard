@@ -1,6 +1,6 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function */
 
 import BigNumber from 'bignumber.js';
 import type { TransferOptions, TransferOptionsContextInterface } from './types';
@@ -9,6 +9,7 @@ export const defaultTransferOptionsContext: TransferOptionsContextInterface = {
   getTransferOptions: (a) => defaultTransferOptions,
   setFeeReserveBalance: (r) => {},
   feeReserve: new BigNumber(0),
+  getFeeReserve: (address) => new BigNumber(0),
 };
 
 export const defaultTransferOptions: TransferOptions = {

@@ -1,27 +1,28 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { extractUrlValue } from '@polkadot-cloud/utils';
-import React, { useState } from 'react';
+import { extractUrlValue } from '@w3ux/utils';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 export interface ValidatorsTabsContextInterface {
   setActiveTab: (t: number) => void;
   activeTab: number;
 }
 
-export const ValidatorsTabsContext: React.Context<ValidatorsTabsContextInterface> =
-  React.createContext({
+export const ValidatorsTabsContext =
+  createContext<ValidatorsTabsContextInterface>({
     // eslint-disable-next-line
     setActiveTab: (t: number) => {},
     activeTab: 0,
   });
 
-export const useValidatorsTabs = () => React.useContext(ValidatorsTabsContext);
+export const useValidatorsTabs = () => useContext(ValidatorsTabsContext);
 
 export const ValidatorsTabsProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const tabFromUrl = extractUrlValue('t');
   const initialActiveTab = [0, 1].includes(Number(tabFromUrl))

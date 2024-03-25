@@ -1,9 +1,9 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { SideMenuStickyThreshold, SmallFontSizeMaxWidth } from 'consts';
+import { PageWidthMediumThreshold, SmallFontSizeMaxWidth } from 'consts';
 
 export const TipsWrapper = styled.div`
   width: 100%;
@@ -13,7 +13,7 @@ export const TipsWrapper = styled.div`
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 
-  @media (max-width: ${SideMenuStickyThreshold}px) {
+  @media (max-width: ${PageWidthMediumThreshold}px) {
     padding: 0.5rem 1rem;
   }
 `;
@@ -66,9 +66,9 @@ export const ItemInnerWrapper = styled.div`
 
         &.active {
           h4:hover {
-            color: var(--network-color-primary);
+            color: var(--accent-color-primary);
             .more {
-              color: var(--network-color-primary);
+              color: var(--accent-color-primary);
               opacity: 1;
             }
           }
@@ -85,7 +85,7 @@ export const ItemInnerWrapper = styled.div`
           > h4 {
             color: var(--text-color-secondary);
             transition: color var(--transition-duration);
-            font-family: InterSemiBold, sans-serif;
+            font-family: Inter, sans-serif;
             text-align: left;
             font-size: 1.05rem;
             text-overflow: ellipsis;
@@ -132,7 +132,7 @@ export const PageToggleWrapper = styled.div`
     }
     &:hover {
       opacity: 1;
-      color: var(--network-color-primary);
+      color: var(--accent-color-primary);
     }
     &:disabled {
       color: var(--text-color-secondary);

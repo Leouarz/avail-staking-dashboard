@@ -1,12 +1,12 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
-import { useUnstaking } from 'library/Hooks/useUnstaking';
-import { ButtonMonoInvert } from '@polkadot-cloud/react';
+import { useUnstaking } from 'hooks/useUnstaking';
 import { SelectableWrapper } from '.';
 import { useList } from './context';
 import type { SelectableProps } from './types';
+import { ButtonMonoInvert } from 'kits/Buttons/ButtonMonoInvert';
 
 export const Selectable = ({
   actionsAll,
@@ -40,7 +40,7 @@ export const Selectable = ({
       ) : null}
       {selected.length > 0 ? (
         <>
-          {actionsSelected.map((a: any, i: number) => (
+          {actionsSelected.map((a, i: number) => (
             <ButtonType
               key={`a_selected_${i}`}
               text={a.title}
@@ -53,7 +53,7 @@ export const Selectable = ({
           ))}
         </>
       ) : null}
-      {actionsAll.map((a: any, i: number) => (
+      {actionsAll.map((a, i: number) => (
         <ButtonType
           text={a.title}
           key={`a_all_${i}`}

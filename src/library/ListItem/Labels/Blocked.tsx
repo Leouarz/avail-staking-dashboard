@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faUserSlash } from '@fortawesome/free-solid-svg-icons';
@@ -16,23 +16,19 @@ export const Blocked = ({ prefs }: BlockedProps) => {
   const tooltipText = t('blockingNominations');
 
   return (
-    <>
-      {blocked && (
-        <>
-          <div className="label">
-            <TooltipTrigger
-              className="tooltip-trigger-element"
-              data-tooltip-text={tooltipText}
-              onMouseMove={() => setTooltipTextAndOpen(tooltipText)}
-            />
-            <FontAwesomeIcon
-              icon={faUserSlash}
-              color="#d2545d"
-              transform="shrink-1"
-            />
-          </div>
-        </>
-      )}
-    </>
+    blocked && (
+      <div className="label">
+        <TooltipTrigger
+          className="tooltip-trigger-element"
+          data-tooltip-text={tooltipText}
+          onMouseMove={() => setTooltipTextAndOpen(tooltipText)}
+        />
+        <FontAwesomeIcon
+          icon={faUserSlash}
+          color="#d2545d"
+          transform="shrink-1"
+        />
+      </div>
+    )
   );
 };

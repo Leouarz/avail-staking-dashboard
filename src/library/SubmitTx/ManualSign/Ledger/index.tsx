@@ -1,7 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonHelp, useEffectIgnoreInitial } from '@polkadot-cloud/react';
+import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import type { LedgerResponse } from 'contexts/Hardware/Ledger/types';
 import { useHelp } from 'contexts/Help';
 import { useTxMeta } from 'contexts/TxMeta';
 import { EstimatedTxFee } from 'library/EstimatedTxFee';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +18,7 @@ import { useNetwork } from 'contexts/Network';
 import { getLedgerApp } from 'contexts/Hardware/Utils';
 import type { SubmitProps } from '../../types';
 import { Submit } from './Submit';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
 
 export const Ledger = ({
   uid,
@@ -52,7 +53,9 @@ export const Ledger = ({
 
   // Handle new Ledger status report.
   const handleLedgerStatusResponse = (response: LedgerResponse) => {
-    if (!response) return;
+    if (!response) {
+      return;
+    }
     const { ack, statusCode, body } = response;
 
     if (statusCode === 'SignedPayload') {
@@ -102,11 +105,12 @@ export const Ledger = ({
   }, [transportResponse]);
 
   // Tidy up context state when this component is no longer mounted.
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       handleUnmount();
-    };
-  }, []);
+    },
+    []
+  );
 
   return (
     <>
@@ -132,33 +136,24 @@ export const Ledger = ({
       <div className="inner msg">
         <div>
           {valid ? (
-            <>
-              <p className="prompt">
-                {!valid ? (
-                  '...'
-                ) : (
-                  <>
-                    <FontAwesomeIcon
-                      icon={faCircleExclamation}
-                      className="icon"
-                    />
-                    {feedback?.message
-                      ? feedback.message
-                      : !integrityChecked
-                        ? t('ledgerConnectAndConfirm')
-                        : `${t('deviceVerified')}. ${t('submitTransaction')}`}
-                  </>
-                )}
-                {feedback?.helpKey && (
-                  <ButtonHelp
-                    marginLeft
-                    onClick={() => {
-                      if (feedback?.helpKey) openHelp(feedback.helpKey);
-                    }}
-                  />
-                )}
-              </p>
-            </>
+            <p className="prompt">
+              <FontAwesomeIcon icon={faCircleExclamation} className="icon" />
+              {feedback?.message
+                ? feedback.message
+                : !integrityChecked
+                  ? t('ledgerConnectAndConfirm')
+                  : `${t('deviceVerified')}. ${t('submitTransaction')}`}
+              {feedback?.helpKey && (
+                <ButtonHelp
+                  marginLeft
+                  onClick={() => {
+                    if (feedback?.helpKey) {
+                      openHelp(feedback.helpKey);
+                    }
+                  }}
+                />
+              )}
+            </p>
           ) : (
             <p className="prompt">...</p>
           )}

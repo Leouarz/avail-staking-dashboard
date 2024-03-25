@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -6,7 +6,6 @@ import {
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ButtonPrimary, ButtonSecondary } from '@polkadot-cloud/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePrompt } from 'contexts/Prompt';
@@ -16,16 +15,18 @@ import { QrDisplayPayload } from 'library/QRCode/DisplayPayload';
 import { QrScanSignature } from 'library/QRCode/ScanSignature';
 import type { SignerPromptProps } from 'library/SubmitTx/types';
 import type { AnyJson } from 'types';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
+import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
 
 export const SignPrompt = ({ submitAddress }: SignerPromptProps) => {
   const { t } = useTranslation('library');
   const { getTxPayload, setTxSignature } = useTxMeta();
   const payload = getTxPayload();
   const payloadU8a = payload?.toU8a();
-  const { setStatus: setPromptStatus } = usePrompt();
+  const { closePrompt } = usePrompt();
 
   // Whether user is on sign or submit stage.
-  const [stage, setStage] = useState(1);
+  const [stage, setStage] = useState<number>(1);
 
   return (
     <QRViewerWrapper>
@@ -57,7 +58,7 @@ export const SignPrompt = ({ submitAddress }: SignerPromptProps) => {
           <QrScanSignature
             size={279}
             onScan={({ signature }: AnyJson) => {
-              setPromptStatus(0);
+              closePrompt();
               setTxSignature(signature);
             }}
           />
@@ -89,7 +90,7 @@ export const SignPrompt = ({ submitAddress }: SignerPromptProps) => {
             text={t('cancel')}
             lg
             marginLeft
-            onClick={() => setPromptStatus(0)}
+            onClick={() => closePrompt()}
           />
         </div>
       </div>

@@ -1,9 +1,8 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faSquarePen } from '@fortawesome/free-solid-svg-icons';
-import { ButtonSubmit } from '@polkadot-cloud/react';
-import React from 'react';
+import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePrompt } from 'contexts/Prompt';
 import { useTxMeta } from 'contexts/TxMeta';
@@ -11,6 +10,7 @@ import { EstimatedTxFee } from 'library/EstimatedTxFee';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import type { SubmitProps } from '../../types';
 import { SignPrompt } from './SignPrompt';
+import { ButtonSubmit } from 'kits/Buttons/ButtonSubmit';
 
 export const Vault = ({
   onSubmit,
@@ -20,7 +20,7 @@ export const Vault = ({
   buttons,
   submitAddress,
   displayFor,
-}: SubmitProps & { buttons?: React.ReactNode[] }) => {
+}: SubmitProps & { buttons?: ReactNode[] }) => {
   const { t } = useTranslation('library');
   const { accountHasSigner } = useImportedAccounts();
   const { txFeesValid, getTxSignature } = useTxMeta();

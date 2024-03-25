@@ -1,30 +1,36 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
-import { ButtonHelp, ButtonPrimary, PageRow } from '@polkadot-cloud/react';
+import { PageRow } from 'kits/Structure/PageRow';
 import { useTranslation } from 'react-i18next';
 import { useHelp } from 'contexts/Help';
-import { useActivePools } from 'contexts/Pools/ActivePools';
-import { useUi } from 'contexts/UI';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { CardHeaderWrapper, CardWrapper } from 'library/Card/Wrappers';
 import { Nominations } from 'library/Nominations';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
+import { useSyncing } from 'hooks/useSyncing';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
 
 export const ManagePool = () => {
   const { t } = useTranslation();
-  const { isSyncing } = useUi();
-  const { poolNominated } = useValidators();
+  const { syncing } = useSyncing(['active-pools']);
   const { openCanvas } = useOverlay().canvas;
+  const { formatWithPrefs } = useValidators();
   const { activeAccount } = useActiveAccounts();
-  const { isOwner, isNominator, poolNominations, selectedActivePool } =
-    useActivePools();
+  const { isOwner, isNominator, activePoolNominations, activePool } =
+    useActivePool();
 
-  const isNominating = !!poolNominations?.targets?.length;
-  const nominator = selectedActivePool?.addresses?.stash ?? null;
-  const { state } = selectedActivePool?.bondedPool || {};
+  const poolNominated = activePoolNominations
+    ? formatWithPrefs(activePoolNominations.targets)
+    : [];
+
+  const isNominating = !!activePoolNominations?.targets?.length;
+  const nominator = activePool?.addresses?.stash ?? null;
+  const { state } = activePool?.bondedPool || {};
   const { openHelp } = useHelp();
 
   const canNominate = isOwner() || isNominator();
@@ -32,7 +38,7 @@ export const ManagePool = () => {
   return (
     <PageRow>
       <CardWrapper>
-        {isSyncing ? (
+        {syncing ? (
           <Nominations bondFor="pool" nominator={activeAccount} />
         ) : canNominate && !isNominating && state !== 'Destroying' ? (
           <>

@@ -1,12 +1,9 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import {
-  ShowAccountsButtonWidthThreshold,
-  SideMenuStickyThreshold,
-} from 'consts';
+import { PageWidthSmallThreshold, PageWidthMediumThreshold } from 'consts';
 
 export const Wrapper = styled.div`
   position: fixed;
@@ -23,13 +20,13 @@ export const Wrapper = styled.div`
   height: 4rem;
   z-index: 6;
 
-  @media (max-width: ${SideMenuStickyThreshold}px) {
+  @media (max-width: ${PageWidthMediumThreshold}px) {
     width: 100%;
   }
 
   .menu {
     display: none;
-    @media (max-width: ${SideMenuStickyThreshold}px) {
+    @media (max-width: ${PageWidthMediumThreshold}px) {
       color: var(--text-color-secondary);
       display: flex;
       flex-flow: row wrap;
@@ -40,7 +37,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ConnectedAccount = styled(motion.div)`
-  background: var(--network-color-primary);
+  background: var(--accent-color-primary);
   border-radius: 1.5rem;
   display: flex;
   transition: transform var(--transition-duration);
@@ -83,8 +80,8 @@ export const Item = styled.button`
   }
 
   .label {
-    color: var(--network-color-primary);
-    border: 0.125rem solid var(--network-color-primary);
+    color: var(--accent-color-primary);
+    border: 0.125rem solid var(--accent-color-primary);
     border-radius: 0.8rem;
     font-size: 0.85rem;
     margin-right: 0.6rem;
@@ -101,7 +98,7 @@ export const Item = styled.button`
   }
 
   &.connect {
-    background: var(--network-color-primary);
+    background: var(--accent-color-primary);
     > span {
       color: white;
     }
@@ -133,7 +130,7 @@ export const ItemInactive = styled(motion.div)`
 
 export const LargeScreensOnly = styled.div`
   display: flex;
-  @media (max-width: ${ShowAccountsButtonWidthThreshold}px) {
+  @media (max-width: ${PageWidthSmallThreshold}px) {
     display: none;
   }
 `;

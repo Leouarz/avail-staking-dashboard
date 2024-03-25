@@ -1,17 +1,18 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonMono, ButtonMonoInvert } from '@polkadot-cloud/react';
 import { useTranslation } from 'react-i18next';
 import { getLocalLedgerAddresses } from 'contexts/Hardware/Utils';
 import type { LedgerAddress } from 'contexts/Hardware/Ledger/types';
 import { usePrompt } from 'contexts/Prompt';
 import { ConfirmWrapper } from 'library/Import/Wrappers';
 import type { AnyJson } from 'types';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
 import { useOtherAccounts } from 'contexts/Connect/OtherAccounts';
-import type { LedgerAccount } from '@polkadot-cloud/react/types';
-import { useLedgerAccounts } from 'contexts/Hardware/Ledger/LedgerAccounts';
+import type { LedgerAccount } from '@w3ux/react-connect-kit/types';
+import { ButtonMono } from 'kits/Buttons/ButtonMono';
+import { ButtonMonoInvert } from 'kits/Buttons/ButtonMonoInvert';
+import { useOverlay } from 'kits/Overlay/Provider';
+import { useLedgerAccounts } from '@w3ux/react-connect-kit';
 
 export const Reset = ({ removeLedgerAddress }: AnyJson) => {
   const { t } = useTranslation('modals');
@@ -23,7 +24,7 @@ export const Reset = ({ removeLedgerAddress }: AnyJson) => {
   const removeAccounts = () => {
     // Remove imported Ledger accounts.
     ledgerAccounts.forEach((account: LedgerAccount) => {
-      removeLedgerAccount(account.address, false);
+      removeLedgerAccount(account.address);
     });
     forgetOtherAccounts(ledgerAccounts);
 

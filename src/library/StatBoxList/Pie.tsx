@@ -1,19 +1,22 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonHelp, Chart, Odometer } from '@polkadot-cloud/react';
+import { Odometer } from '@w3ux/react-odometer';
 import { useEffect, useState } from 'react';
 import { useHelp } from 'contexts/Help';
 import BigNumber from 'bignumber.js';
 import { StatBox } from './Item';
 import type { PieProps } from './types';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { SimplePie } from 'library/SimplePie';
+import type { AnyJson } from 'types';
 
 export const Pie = ({ label, stat, graph, tooltip, helpKey }: PieProps) => {
   const help = helpKey !== undefined;
   const showTotal = !!stat?.total;
   const { openHelp } = useHelp();
 
-  const [values, setValues] = useState<any>({
+  const [values, setValues] = useState<AnyJson>({
     value: Number(stat?.value || 0),
     total: Number(stat?.total || 0),
   });
@@ -29,11 +32,11 @@ export const Pie = ({ label, stat, graph, tooltip, helpKey }: PieProps) => {
     <StatBox>
       <div className="content chart">
         <div className="chart">
-          <Chart
+          <SimplePie
             items={[
               {
                 value: graph?.value1,
-                color: 'var(--network-color-primary)',
+                color: 'var(--accent-color-primary)',
               },
               {
                 value: graph?.value2,
@@ -53,13 +56,13 @@ export const Pie = ({ label, stat, graph, tooltip, helpKey }: PieProps) => {
         <div className="labels">
           <h3>
             <Odometer value={new BigNumber(values.value).toFormat()} />
-            {stat?.unit && <>{stat?.unit}</>}
+            {stat?.unit && stat.unit}
 
             {showTotal ? (
               <span className="total">
                 /&nbsp;
                 <Odometer value={new BigNumber(values.total).toFormat()} />
-                {stat?.unit ? <>{stat?.unit}unit</> : null}
+                {stat?.unit || null}
               </span>
             ) : null}
           </h3>

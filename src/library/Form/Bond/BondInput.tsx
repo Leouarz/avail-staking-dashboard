@@ -1,14 +1,15 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonSubmitInvert } from '@polkadot-cloud/react';
 import BigNumber from 'bignumber.js';
-import React, { useEffect, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { InputWrapper } from '../Wrappers';
 import type { BondInputProps } from '../types';
+import { ButtonSubmitInvert } from 'kits/Buttons/ButtonSubmitInvert';
 
 export const BondInput = ({
   setters = [],
@@ -40,20 +41,22 @@ export const BondInput = ({
   }, [value]);
 
   // handle change for bonding.
-  const handleChangeBond = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeBond = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (new BigNumber(val).isNaN() && val !== '') {
       return;
     }
     setLocalBond(val);
-    updateParentState(val);
+    updateParentState(new BigNumber(val));
   };
 
   // apply bond to parent setters.
-  const updateParentState = (val: string) => {
-    for (const s of setters) {
-      s.set({
-        ...s.current,
+  const updateParentState = (val: BigNumber) => {
+    if (new BigNumber(val).isNaN()) {
+      return;
+    }
+    for (const setter of setters) {
+      setter({
         bond: val,
       });
     }
@@ -90,8 +93,8 @@ export const BondInput = ({
             text={t('max')}
             disabled={disabled || syncing || freeToBond.isZero()}
             onClick={() => {
-              setLocalBond(freeToBond.toString());
-              updateParentState(freeToBond.toString());
+              setLocalBond(freeToBond.toFixed().toString());
+              updateParentState(freeToBond);
             }}
           />
         </section>

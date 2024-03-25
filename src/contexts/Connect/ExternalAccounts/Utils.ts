@@ -1,8 +1,8 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import type { ExternalAccount } from '@polkadot-cloud/react/types';
-import { localStorageOrDefault } from '@polkadot-cloud/utils';
+import type { ExternalAccount } from '@w3ux/react-connect-kit/types';
+import { localStorageOrDefault } from '@w3ux/utils';
 import type { NetworkName } from 'types';
 
 // Check whether an external account exists in local storage.
@@ -21,10 +21,11 @@ export const getLocalExternalAccounts = (network?: NetworkName) => {
     [],
     true
   ) as ExternalAccount[];
-  if (network)
+  if (network) {
     localAccounts = localAccounts.filter(
       (l) => l.network === network && l.addedBy !== 'system'
     );
+  }
   return localAccounts;
 };
 
@@ -53,7 +54,9 @@ export const removeLocalExternalAccounts = (
   network: NetworkName,
   accounts: ExternalAccount[]
 ) => {
-  if (!accounts.length) return;
+  if (!accounts.length) {
+    return;
+  }
 
   const updatedAccounts = getLocalExternalAccounts(network).filter(
     (a) =>

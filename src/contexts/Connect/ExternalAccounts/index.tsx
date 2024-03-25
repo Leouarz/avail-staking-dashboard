@@ -1,14 +1,14 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useContext, type ReactNode, createContext } from 'react';
 import Keyring from '@polkadot/keyring';
 import { useNetwork } from 'contexts/Network';
-import { ellipsisFn } from '@polkadot-cloud/utils';
+import { ellipsisFn } from '@w3ux/utils';
 import type {
   ExternalAccount,
   ExternalAccountAddedBy,
-} from '@polkadot-cloud/react/types';
+} from '@w3ux/react-connect-kit/types';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import type {
   AddExternalAccountResult,
@@ -26,6 +26,8 @@ export const ExternalAccountsContext =
   createContext<ExternalAccountsContextInterface>(
     defaultExternalAccountsContext
   );
+
+export const useExternalAccounts = () => useContext(ExternalAccountsContext);
 
 export const ExternalAccountsProvider = ({
   children,
@@ -61,12 +63,14 @@ export const ExternalAccountsProvider = ({
     const toSystem =
       existsLocal && addedBy === 'system' && existsLocal.addedBy !== 'system';
 
-    let isImported: boolean = true;
+    let isImported = true;
     let importType: ExternalAccountImportType = 'new';
 
     if (!existsLocal) {
       // Only add `user` accounts to localStorage.
-      if (addedBy === 'user') addLocalExternalAccount(newEntry);
+      if (addedBy === 'user') {
+        addLocalExternalAccount(newEntry);
+      }
     } else if (toSystem) {
       // If account is being added by `system`, but is already imported, update it to be a system
       // account. `system` accounts are not persisted to local storage.
@@ -74,7 +78,9 @@ export const ExternalAccountsProvider = ({
       // update the entry to a system account.
       newEntry = { ...newEntry, addedBy: 'system' };
       importType = 'replace';
-    } else isImported = false;
+    } else {
+      isImported = false;
+    }
 
     return isImported
       ? {
@@ -86,15 +92,18 @@ export const ExternalAccountsProvider = ({
 
   // Get any external accounts and remove from localStorage.
   const forgetExternalAccounts = (forget: ExternalAccount[]) => {
-    if (!forget.length) return;
+    if (!forget.length) {
+      return;
+    }
     removeLocalExternalAccounts(
       network,
       forget.filter((i) => 'network' in i) as ExternalAccount[]
     );
 
     // If the currently active account is being forgotten, disconnect.
-    if (forget.find((a) => a.address === activeAccount) !== undefined)
+    if (forget.find((a) => a.address === activeAccount) !== undefined) {
       setActiveAccount(null);
+    }
   };
 
   return (
@@ -105,5 +114,3 @@ export const ExternalAccountsProvider = ({
     </ExternalAccountsContext.Provider>
   );
 };
-
-export const useExternalAccounts = () => useContext(ExternalAccountsContext);

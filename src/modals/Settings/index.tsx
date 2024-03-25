@@ -1,15 +1,17 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ModalPadding } from '@polkadot-cloud/react';
 import { useTranslation } from 'react-i18next';
 import { usePlugins } from 'contexts/Plugins';
 import { Title } from 'library/Modal/Title';
 import { StatusButton } from 'library/StatusButton';
 import { ContentWrapper } from '../Networks/Wrapper';
+import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
+import { useNetwork } from 'contexts/Network';
 
 export const Settings = () => {
   const { plugins, togglePlugin } = usePlugins();
+  const { networkData } = useNetwork();
   const { t } = useTranslation('modals');
 
   // fetch flag to disable fiat
@@ -22,12 +24,14 @@ export const Settings = () => {
         <ContentWrapper>
           <h4>{t('togglePlugins')}</h4>
           <h5>{t('No plugins to enable')}</h5>
+          {networkData.subscanPrefix && (
+            <StatusButton
+              checked={plugins.includes('subscan')}
+              label="Subscan API"
+              onClick={() => togglePlugin('subscan')}
+            />
+          )}
           {/* <StatusButton
-            checked={plugins.includes('subscan')}
-            label="Subscan API"
-            onClick={() => togglePlugin('subscan')}
-          />
-          <StatusButton
             checked={plugins.includes('polkawatch')}
             label="Polkawatch API"
             onClick={() => togglePlugin('polkawatch')}

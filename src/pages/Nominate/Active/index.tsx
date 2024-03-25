@@ -1,44 +1,45 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
-import {
-  ButtonHelp,
-  ButtonPrimary,
-  PageRow,
-  PageTitle,
-  RowSection,
-} from '@polkadot-cloud/react';
 import { useTranslation } from 'react-i18next';
 import { useHelp } from 'contexts/Help';
 import { useStaking } from 'contexts/Staking';
-import { useUi } from 'contexts/UI';
 import { CardHeaderWrapper, CardWrapper } from 'library/Card/Wrappers';
-import { useUnstaking } from 'library/Hooks/useUnstaking';
+import { useUnstaking } from 'hooks/useUnstaking';
 import { StatBoxList } from 'library/StatBoxList';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { Nominations } from 'library/Nominations';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
 import { ListStatusHeader } from 'library/List';
-import { ControllerNotStash } from './ControllerNotStash';
 import { ManageBond } from './ManageBond';
 import { ActiveNominatorsStat } from './Stats/ActiveNominators';
 import { MinimumActiveStakeStat } from './Stats/MinimumActiveStake';
 import { MinimumNominatorBondStat } from './Stats/MinimumNominatorBond';
 import { Status } from './Status';
 import { UnstakePrompts } from './UnstakePrompts';
+import { useSyncing } from 'hooks/useSyncing';
+import { useBalances } from 'contexts/Balances';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
+import { PageTitle } from 'kits/Structure/PageTitle';
+import { PageRow } from 'kits/Structure/PageRow';
+import { RowSection } from 'kits/Structure/RowSection';
+import { WithdrawPrompt } from 'library/WithdrawPrompt';
 
 export const Active = () => {
   const { t } = useTranslation();
-  const { isSyncing } = useUi();
   const { openHelp } = useHelp();
   const { inSetup } = useStaking();
-  const { nominated } = useValidators();
-  const { isFastUnstaking } = useUnstaking();
+  const { syncing } = useSyncing('*');
+  const { getNominations } = useBalances();
   const { openCanvas } = useOverlay().canvas;
+  const { isFastUnstaking } = useUnstaking();
+  const { formatWithPrefs } = useValidators();
   const { activeAccount } = useActiveAccounts();
 
+  const nominated = formatWithPrefs(getNominations(activeAccount));
   const ROW_HEIGHT = 220;
 
   return (
@@ -49,7 +50,9 @@ export const Active = () => {
         <MinimumNominatorBondStat />
         <MinimumActiveStakeStat />
       </StatBoxList>
-      <ControllerNotStash />
+
+      <WithdrawPrompt bondFor="nominator" />
+
       <UnstakePrompts />
       <PageRow>
         <RowSection hLast>
@@ -63,7 +66,7 @@ export const Active = () => {
       </PageRow>
       <PageRow>
         <CardWrapper>
-          {nominated?.length || inSetup() || isSyncing ? (
+          {nominated?.length || inSetup() || syncing ? (
             <Nominations bondFor="nominator" nominator={activeAccount} />
           ) : (
             <>
@@ -80,7 +83,7 @@ export const Active = () => {
                     iconLeft={faChevronCircleRight}
                     iconTransform="grow-1"
                     text={t('nominate.nominate', { ns: 'pages' })}
-                    disabled={inSetup() || isSyncing || isFastUnstaking}
+                    disabled={inSetup() || syncing || isFastUnstaking}
                     onClick={() =>
                       openCanvas({
                         key: 'ManageNominations',

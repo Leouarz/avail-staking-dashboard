@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { usePrompt } from 'contexts/Prompt';
@@ -8,7 +8,7 @@ export const Prompt = () => {
   const { closePrompt, size, status, Prompt: PromptInner } = usePrompt();
 
   if (status === 0) {
-    return <></>;
+    return null;
   }
 
   return (

@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -15,10 +15,10 @@ export interface HelpItem {
 export type ExternalItems = ExternalItem[];
 export type ExternalItem = [string, string, string];
 
-export type DefinitionWithKeys = {
+export interface DefinitionWithKeys {
   title: string;
   description: string[];
-};
+}
 
 export interface ExternalWithKeys {
   title: string;
@@ -46,4 +46,4 @@ export interface HelpContextProps {
   children: ReactNode;
 }
 
-export type HelpConfig = Record<string, string | any>;
+export type HelpConfig = Record<string, string | string[]>;

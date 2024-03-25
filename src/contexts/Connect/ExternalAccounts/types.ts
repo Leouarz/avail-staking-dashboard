@@ -1,20 +1,20 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type {
   ExternalAccount,
   ExternalAccountAddedBy,
-} from '@polkadot-cloud/react/types';
+} from '@w3ux/react-connect-kit/types';
 
 export interface ExternalAccountsContextInterface {
   addExternalAccount: (
-    a: string,
+    address: string,
     addedBy: ExternalAccountAddedBy
   ) => AddExternalAccountResult | null;
-  forgetExternalAccounts: (a: ExternalAccount[]) => void;
+  forgetExternalAccounts: (accounts: ExternalAccount[]) => void;
 }
 
 export interface AddExternalAccountResult {

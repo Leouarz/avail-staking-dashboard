@@ -1,17 +1,15 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { PageRow, PageTitle, RowSection } from '@polkadot-cloud/react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { PageTitleTabProps } from '@polkadot-cloud/react/types';
-import { useActivePools } from 'contexts/Pools/ActivePools';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { useBondedPools } from 'contexts/Pools/BondedPools';
 import { CardWrapper } from 'library/Card/Wrappers';
 import { PoolList } from 'library/PoolList/Default';
 import { StatBoxList } from 'library/StatBoxList';
-import { usePoolsConfig } from 'contexts/Pools/PoolsConfig';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useFavoritePools } from 'contexts/Pools/FavoritePools';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { PoolListProvider } from 'library/PoolList/context';
 import { Roles } from '../Roles';
@@ -19,28 +17,41 @@ import { ClosurePrompts } from './ClosurePrompts';
 import { PoolFavorites } from './Favorites';
 import { ManageBond } from './ManageBond';
 import { ManagePool } from './ManagePool';
-import { Members } from './Members';
 import { PoolStats } from './PoolStats';
 import { ActivePoolsStat } from './Stats/ActivePools';
 import { MinCreateBondStat } from './Stats/MinCreateBond';
 import { MinJoinBondStat } from './Stats/MinJoinBond';
 import { Status } from './Status';
 import { PoolsTabsProvider, usePoolsTabs } from './context';
+import { useApi } from 'contexts/Api';
+import { useActivePools } from 'hooks/useActivePools';
+import { useBalances } from 'contexts/Balances';
+import { PageTitle } from 'kits/Structure/PageTitle';
+import type { PageTitleTabProps } from 'kits/Structure/PageTitleTabs/types';
+import { PageRow } from 'kits/Structure/PageRow';
+import { RowSection } from 'kits/Structure/RowSection';
+import { WithdrawPrompt } from 'library/WithdrawPrompt';
 
 export const HomeInner = () => {
   const { t } = useTranslation('pages');
+  const { favorites } = useFavoritePools();
   const { openModal } = useOverlay().modal;
+  const { bondedPools } = useBondedPools();
+  const { getPoolMembership } = useBalances();
   const { activeAccount } = useActiveAccounts();
-  const {
-    favorites,
-    stats: { counterForBondedPools },
-  } = usePoolsConfig();
   const { activeTab, setActiveTab } = usePoolsTabs();
-  const { bondedPools, getAccountPools } = useBondedPools();
-  const { getPoolRoles, selectedActivePool, selectedPoolMemberCount } =
-    useActivePools();
-  const accountPools = getAccountPools(activeAccount);
-  const totalAccountPools = Object.entries(accountPools).length;
+  const { getPoolRoles, activePool } = useActivePool();
+  const { counterForBondedPools } = useApi().poolsConfig;
+
+  const membership = getPoolMembership(activeAccount);
+  const { state } = activePool?.bondedPool || {};
+
+  const { activePools } = useActivePools({
+    poolIds: '*',
+  });
+
+  const activePoolsNoMembership = { ...activePools };
+  delete activePoolsNoMembership[membership?.poolId || -1];
 
   let tabs: PageTitleTabProps[] = [
     {
@@ -50,36 +61,27 @@ export const HomeInner = () => {
     },
   ];
 
-  if (selectedActivePool) {
-    tabs = tabs.concat({
-      title: t('pools.members'),
-      active: activeTab === 1,
-      onClick: () => setActiveTab(1),
-      badge: String(selectedPoolMemberCount),
-    });
-  }
-
   tabs = tabs.concat(
     {
       title: t('pools.allPools'),
-      active: activeTab === 2,
-      onClick: () => setActiveTab(2),
+      active: activeTab === 1,
+      onClick: () => setActiveTab(1),
       badge: String(counterForBondedPools.toString()),
     },
     {
       title: t('pools.favorites'),
-      active: activeTab === 3,
-      onClick: () => setActiveTab(3),
+      active: activeTab === 2,
+      onClick: () => setActiveTab(2),
       badge: String(favorites.length),
     }
   );
 
   // Back to tab 0 if not in a pool & on members tab.
   useEffect(() => {
-    if (!selectedActivePool && [1].includes(activeTab)) {
+    if (!activePool) {
       setActiveTab(0);
     }
-  }, [selectedActivePool]);
+  }, [activePool]);
 
   const ROW_HEIGHT = 220;
 
@@ -89,13 +91,13 @@ export const HomeInner = () => {
         title={t('pools.pools')}
         tabs={tabs}
         button={
-          totalAccountPools
+          Object.keys(activePoolsNoMembership).length > 0
             ? {
                 title: t('pools.allRoles'),
                 onClick: () =>
                   openModal({
                     key: 'AccountPoolRoles',
-                    options: { who: activeAccount },
+                    options: { who: activeAccount, activePools },
                   }),
               }
             : undefined
@@ -109,7 +111,11 @@ export const HomeInner = () => {
             <MinCreateBondStat />
           </StatBoxList>
 
-          <ClosurePrompts />
+          {state === 'Destroying' ? (
+            <ClosurePrompts />
+          ) : (
+            <WithdrawPrompt bondFor="pool" />
+          )}
 
           <PageRow>
             <RowSection hLast>
@@ -121,15 +127,12 @@ export const HomeInner = () => {
               </CardWrapper>
             </RowSection>
           </PageRow>
-          {selectedActivePool !== null && (
+          {activePool !== null && (
             <>
               <ManagePool />
               <PageRow>
                 <CardWrapper>
-                  <Roles
-                    batchKey="pool_roles_manage"
-                    defaultRoles={getPoolRoles()}
-                  />
+                  <Roles defaultRoles={getPoolRoles()} />
                 </CardWrapper>
               </PageRow>
               <PageRow>
@@ -139,32 +142,25 @@ export const HomeInner = () => {
           )}
         </>
       )}
-      {activeTab === 1 && <Members />}
-      {activeTab === 2 && (
-        <>
-          <PageRow>
-            <CardWrapper>
-              <PoolListProvider>
-                <PoolList
-                  pools={bondedPools}
-                  defaultFilters={{
-                    includes: ['active'],
-                    excludes: ['locked', 'destroying'],
-                  }}
-                  allowMoreCols
-                  allowSearch
-                  pagination
-                />
-              </PoolListProvider>
-            </CardWrapper>
-          </PageRow>
-        </>
+      {activeTab === 1 && (
+        <PageRow>
+          <CardWrapper>
+            <PoolListProvider>
+              <PoolList
+                pools={bondedPools}
+                defaultFilters={{
+                  includes: ['active'],
+                  excludes: ['locked', 'destroying'],
+                }}
+                allowMoreCols
+                allowSearch
+                pagination
+              />
+            </PoolListProvider>
+          </CardWrapper>
+        </PageRow>
       )}
-      {activeTab === 3 && (
-        <>
-          <PoolFavorites />
-        </>
-      )}
+      {activeTab === 2 && <PoolFavorites />}
     </>
   );
 };

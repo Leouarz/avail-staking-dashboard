@@ -1,15 +1,15 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
-import React from 'react';
+import type { ReactNode } from 'react';
 
 export const MotionContainer = ({
   children,
   staggerChildren = 0.015,
 }: {
   staggerChildren?: number;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => (
   <motion.div
     initial="hidden"

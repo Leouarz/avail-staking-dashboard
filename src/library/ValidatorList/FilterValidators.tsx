@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheckCircle, faCircle } from '@fortawesome/free-regular-svg-icons';
@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Title } from 'library/Prompt/Title';
 import { FilterListButton, FilterListWrapper } from 'library/Prompt/Wrappers';
 import { useFilters } from 'contexts/Filters';
-import { useValidatorFilters } from '../Hooks/useValidatorFilters';
+import { useValidatorFilters } from '../../hooks/useValidatorFilters';
 
 export const FilterValidators = () => {
   const { t } = useTranslation('library');
@@ -22,7 +22,7 @@ export const FilterValidators = () => {
       <Title title={t('filterValidators')} />
       <div className="body">
         <h4>{t('include')}:</h4>
-        {Object.entries(includesToLabels).map(([f, l]: any, i) => (
+        {Object.entries(includesToLabels).map(([f, l], i) => (
           <FilterListButton
             $active={includes?.includes(f) ?? false}
             key={`validator_include_${i}`}
@@ -40,7 +40,7 @@ export const FilterValidators = () => {
         ))}
 
         <h4>{t('exclude')}:</h4>
-        {Object.entries(excludesToLabels).map(([f, l]: any, i) => (
+        {Object.entries(excludesToLabels).map(([f, l], i) => (
           <FilterListButton
             $active={excludes?.includes(f) ?? false}
             key={`validator_exclude_${i}`}

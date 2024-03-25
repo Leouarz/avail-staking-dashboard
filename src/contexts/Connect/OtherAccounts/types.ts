@@ -1,19 +1,21 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import type { ImportedAccount } from '@polkadot-cloud/react/types';
+import type { ImportedAccount } from '@w3ux/react-connect-kit/types';
 import type { MaybeAddress, NetworkName } from 'types';
 import type { ExternalAccountImportType } from '../ExternalAccounts/types';
 
 export interface OtherAccountsContextInterface {
-  addOtherAccounts: (a: ImportedAccount[]) => void;
+  addOtherAccounts: (accounts: ImportedAccount[]) => void;
   addOrReplaceOtherAccount: (
-    a: ImportedAccount,
+    account: ImportedAccount,
     type: ExternalAccountImportType
   ) => void;
-  renameOtherAccount: (a: MaybeAddress, n: string) => void;
-  importLocalOtherAccounts: (g: (n: NetworkName) => ImportedAccount[]) => void;
-  forgetOtherAccounts: (a: ImportedAccount[]) => void;
+  renameOtherAccount: (address: MaybeAddress, newName: string) => void;
+  importLocalOtherAccounts: (
+    g: (network: NetworkName) => ImportedAccount[]
+  ) => void;
+  forgetOtherAccounts: (accounts: ImportedAccount[]) => void;
   accountsInitialised: boolean;
   otherAccounts: ImportedAccount[];
 }

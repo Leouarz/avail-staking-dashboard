@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -10,11 +10,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Suspense, lazy, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { ItemWrapper } from './Wrappers';
 import { useCommunitySections } from './context';
 import type { ItemProps } from './types';
+import type { ValidatorSupportedChains } from '@w3ux/validator-assets';
 
 export const Item = ({ item, actionable }: ItemProps) => {
   const { t } = useTranslation('pages');
@@ -25,12 +26,13 @@ export const Item = ({ item, actionable }: ItemProps) => {
     bio,
     name,
     email,
-    twitter,
+    x,
     website,
-    thumbnail,
+    icon,
     validators: entityAllValidators,
   } = item;
-  const validatorCount = entityAllValidators[network]?.length ?? 0;
+  const validatorCount =
+    entityAllValidators[network as ValidatorSupportedChains]?.length ?? 0;
 
   const { setActiveSection, setActiveItem, setScrollPos } =
     useCommunitySections();
@@ -55,7 +57,7 @@ export const Item = ({ item, actionable }: ItemProps) => {
   };
 
   const Thumbnail = useMemo(
-    () => lazy(() => import(`../../config/validators/${thumbnail}.tsx`)),
+    () => lazy(() => import(`../../config/validators/${icon}.tsx`)),
     []
   );
 
@@ -128,16 +130,16 @@ export const Item = ({ item, actionable }: ItemProps) => {
                 />
               </button>
             )}
-            {twitter !== undefined && (
+            {x !== undefined && (
               <button
                 type="button"
                 className="active"
                 onClick={() => {
-                  window.open(`https://twitter.com/${twitter}`, '_blank');
+                  window.open(`https://twitter.com/${x}`, '_blank');
                 }}
               >
                 <FontAwesomeIcon icon={faTwitter} className="icon-left" />
-                <h4>{twitter}</h4>
+                <h4>{x}</h4>
                 <FontAwesomeIcon
                   icon={faExternalLink}
                   className="icon-right"

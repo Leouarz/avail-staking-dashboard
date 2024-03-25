@@ -1,7 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { planckToUnit, rmCommas } from '@polkadot-cloud/utils';
+import { planckToUnit, rmCommas } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import type {
   ActiveAccountStaker,
@@ -10,9 +10,9 @@ import type {
 } from 'contexts/Staking/types';
 import type { AnyJson } from 'types';
 import type { LocalValidatorExposure } from 'contexts/Payouts/types';
-import type { DataInitialiseExposures } from './types';
+import type { ProcessExposuresArgs, ProcessEraForExposureArgs } from './types';
 
-// eslint-disable-next-line no-restricted-globals
+// eslint-disable-next-line no-restricted-globals, @typescript-eslint/no-explicit-any
 export const ctx: Worker = self as any;
 
 // handle incoming message and route to correct handler.
@@ -22,10 +22,10 @@ ctx.addEventListener('message', (event: AnyJson) => {
   let message: AnyJson = {};
   switch (task) {
     case 'processExposures':
-      message = processExposures(data as DataInitialiseExposures);
+      message = processExposures(data as ProcessExposuresArgs);
       break;
     case 'processEraForExposure':
-      message = processEraForExposure(data);
+      message = processEraForExposure(data as ProcessEraForExposureArgs);
       break;
     default:
   }
@@ -33,7 +33,7 @@ ctx.addEventListener('message', (event: AnyJson) => {
 });
 
 // Process era exposures and return if an account was exposed, along with the validator they backed.
-const processEraForExposure = (data: AnyJson) => {
+const processEraForExposure = (data: ProcessEraForExposureArgs) => {
   const {
     era,
     maxExposurePageSize,
@@ -49,17 +49,17 @@ const processEraForExposure = (data: AnyJson) => {
   const exposedValidators: Record<string, LocalValidatorExposure> = {};
 
   // Check exposed as validator or nominator.
-  exposures.every(({ keys, val }: any) => {
+  exposures.every(({ keys, val }) => {
     const validator = keys[1];
     const others = val?.others ?? [];
-    const own = val?.own || 0;
-    const total = val?.total || 0;
+    const own = val?.own || '0';
+    const total = val?.total || '0';
     const isValidator = validator === who;
 
     if (isValidator) {
       const share = new BigNumber(own).isZero()
         ? '0'
-        : new BigNumber(own).dividedBy(total).toString();
+        : new BigNumber(own).dividedBy(total).toFixed().toString();
 
       exposedValidators[validator] = {
         staked: own,
@@ -71,19 +71,21 @@ const processEraForExposure = (data: AnyJson) => {
       };
 
       exposed = true;
-      if (exitOnExposed) return false;
+      if (exitOnExposed) {
+        return false;
+      }
     }
 
-    const inOthers = others.find((o: ExposureOther) => o.who === who);
+    const inOthers = others.find((o) => o.who === who);
 
     if (inOthers) {
-      const index = others.findIndex((o: ExposureOther) => o.who === who);
+      const index = others.findIndex((o) => o.who === who);
       const exposedPage = Math.floor(index / Number(maxExposurePageSize));
 
       const share =
-        new BigNumber(inOthers.value).isZero() || total === 0
+        new BigNumber(inOthers.value).isZero() || total === '0'
           ? '0'
-          : new BigNumber(inOthers.value).dividedBy(total).toString();
+          : new BigNumber(inOthers.value).dividedBy(total).toFixed().toString();
 
       exposedValidators[validator] = {
         staked: inOthers.value,
@@ -93,7 +95,9 @@ const processEraForExposure = (data: AnyJson) => {
         exposedPage,
       };
       exposed = true;
-      if (exitOnExposed) return false;
+      if (exitOnExposed) {
+        return false;
+      }
     }
 
     return true;
@@ -114,7 +118,7 @@ const processEraForExposure = (data: AnyJson) => {
 // process exposures.
 //
 // abstracts active nominators erasStakers.
-const processExposures = (data: DataInitialiseExposures) => {
+const processExposures = (data: ProcessExposuresArgs) => {
   const {
     task,
     networkName,
@@ -158,7 +162,9 @@ const processExposures = (data: DataInitialiseExposures) => {
           ? planckToUnit(
               new BigNumber(others[lowestRewardIndex]?.value || 0),
               units
-            ).toString()
+            )
+              .toFixed()
+              .toString()
           : '0';
 
       const oversubscribed = others.length > maxExposurePageSize;
@@ -183,11 +189,12 @@ const processExposures = (data: DataInitialiseExposures) => {
         if (index === -1) {
           nominators.push({
             who: o.who,
-            value: value.toString(),
+            value: value.toFixed().toString(),
           });
         } else {
           nominators[index].value = new BigNumber(nominators[index].value)
             .plus(value)
+            .toFixed()
             .toString();
         }
       }
@@ -197,10 +204,9 @@ const processExposures = (data: DataInitialiseExposures) => {
       if (own !== undefined) {
         activeAccountOwnStake.push({
           address,
-          value: planckToUnit(
-            new BigNumber(rmCommas(own.value)),
-            units
-          ).toString(),
+          value: planckToUnit(new BigNumber(rmCommas(own.value)), units)
+            .toFixed()
+            .toString(),
         });
       }
     }

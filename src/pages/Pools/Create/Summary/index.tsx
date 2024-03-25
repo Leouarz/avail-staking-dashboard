@@ -1,18 +1,17 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { unitToPlanck } from '@polkadot-cloud/utils';
+import { unitToPlanck } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useTranslation } from 'react-i18next';
 import { useBondedPools } from 'contexts/Pools/BondedPools';
 import { usePoolMembers } from 'contexts/Pools/PoolMembers';
-import { usePoolsConfig } from 'contexts/Pools/PoolsConfig';
 import { useSetup } from 'contexts/Setup';
 import { Warning } from 'library/Form/Warning';
-import { useBatchCall } from 'library/Hooks/useBatchCall';
-import { useSubmitExtrinsic } from 'library/Hooks/useSubmitExtrinsic';
+import { useBatchCall } from 'hooks/useBatchCall';
+import { useSubmitExtrinsic } from 'hooks/useSubmitExtrinsic';
 import { Header } from 'library/SetupSteps/Header';
 import { MotionContainer } from 'library/SetupSteps/MotionContainer';
 import type { SetupStepProps } from 'library/SetupSteps/types';
@@ -25,22 +24,22 @@ import { SummaryWrapper } from './Wrapper';
 
 export const Summary = ({ section }: SetupStepProps) => {
   const { t } = useTranslation('pages');
-  const { api } = useApi();
+  const {
+    api,
+    poolsConfig: { lastPoolId },
+  } = useApi();
   const {
     networkData: { units, unit },
   } = useNetwork();
-  const { stats } = usePoolsConfig();
   const { newBatchCall } = useBatchCall();
   const { accountHasSigner } = useImportedAccounts();
-  const { getSetupProgress, removeSetupProgress } = useSetup();
+  const { getPoolSetup, removeSetupProgress } = useSetup();
   const { queryPoolMember, addToPoolMembers } = usePoolMembers();
   const { queryBondedPool, addToBondedPools } = useBondedPools();
   const { activeAccount, activeProxy } = useActiveAccounts();
 
-  const { lastPoolId } = stats;
   const poolId = lastPoolId.plus(1);
-
-  const setup = getSetupProgress('pool', activeAccount);
+  const setup = getPoolSetup(activeAccount);
   const { progress } = setup;
 
   const { metadata, bond, roles, nominations } = progress;
@@ -50,10 +49,14 @@ export const Summary = ({ section }: SetupStepProps) => {
       return null;
     }
 
-    const targetsToSubmit = nominations.map((item: any) => item.address);
+    const targetsToSubmit = nominations.map(
+      ({ address }: { address: string }) => address
+    );
 
     const bondToSubmit = unitToPlanck(bond, units);
-    const bondAsString = bondToSubmit.isNaN() ? '0' : bondToSubmit.toString();
+    const bondAsString = bondToSubmit.isNaN()
+      ? '0'
+      : bondToSubmit.toFixed().toString();
 
     const txs = [
       api.tx.nominationPools.create(
@@ -72,7 +75,6 @@ export const Summary = ({ section }: SetupStepProps) => {
     tx: getTxs(),
     from: activeAccount,
     shouldSubmit: true,
-    callbackSubmit: () => {},
     callbackInBlock: async () => {
       // query and add created pool to bondedPools list
       const pool = await queryBondedPool(poolId.toNumber());
@@ -80,7 +82,9 @@ export const Summary = ({ section }: SetupStepProps) => {
 
       // query and add account to poolMembers list
       const member = await queryPoolMember(activeAccount);
-      addToPoolMembers(member);
+      if (member) {
+        addToPoolMembers(member);
+      }
 
       // reset localStorage setup progress
       removeSetupProgress('pool', activeAccount);

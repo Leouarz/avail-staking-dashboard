@@ -1,13 +1,13 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import React, { useState, useEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
+import { useState, useEffect, useRef, useContext, createContext } from 'react';
 import { useStaking } from 'contexts/Staking';
 import { useApi } from 'contexts/Api';
 import type { AnyApi, AnyJson, Sync } from 'types';
-import { useNetworkMetrics } from 'contexts/NetworkMetrics';
 import Worker from 'workers/stakers?worker';
-import { rmCommas, setStateWithRef } from '@polkadot-cloud/utils';
+import { rmCommas, setStateWithRef } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
@@ -27,16 +27,17 @@ import {
 
 const worker = new Worker();
 
-export const PayoutsProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const PayoutsContext = createContext<PayoutsContextInterface>(
+  defaultPayoutsContext
+);
+
+export const usePayouts = () => useContext(PayoutsContext);
+
+export const PayoutsProvider = ({ children }: { children: ReactNode }) => {
   const { network } = useNetwork();
-  const { api, consts } = useApi();
   const { activeAccount } = useActiveAccounts();
   const { isNominating, fetchEraStakers } = useStaking();
-  const { activeEra, isPagedRewardsActive } = useNetworkMetrics();
+  const { api, consts, activeEra, isPagedRewardsActive } = useApi();
   const { maxExposurePageSize } = consts;
 
   // Store active accont's payout state.
@@ -66,8 +67,9 @@ export const PayoutsProvider = ({
     endEra: BigNumber
   ) => {
     // If there are more exposures to process, check next era.
-    if (new BigNumber(era).isGreaterThan(endEra))
+    if (new BigNumber(era).isGreaterThan(endEra)) {
       checkEra(new BigNumber(era).minus(1));
+    }
     // If all exposures have been processed, check for pending payouts.
     else if (new BigNumber(era).isEqualTo(endEra)) {
       await getUnclaimedPayouts();
@@ -78,7 +80,9 @@ export const PayoutsProvider = ({
   // Fetch exposure data for an era, and pass the data to the worker to determine the validator the
   // active account was backing in that era.
   const checkEra = async (era: BigNumber) => {
-    if (!activeAccount) return;
+    if (!activeAccount) {
+      return;
+    }
 
     // Bypass worker if local exposure data is available.
     if (hasLocalEraExposure(network, era.toString(), activeAccount)) {
@@ -103,11 +107,15 @@ export const PayoutsProvider = ({
       // ensure correct task received.
       const { data } = message;
       const { task } = data;
-      if (task !== 'processEraForExposure') return;
+      if (task !== 'processEraForExposure') {
+        return;
+      }
 
       // Exit early if network or account conditions have changed.
       const { networkName, who } = data;
-      if (networkName !== network || who !== activeAccount) return;
+      if (networkName !== network || who !== activeAccount) {
+        return;
+      }
       const { era, exposedValidators } = data;
       const { endEra } = getErasInterval();
 
@@ -127,7 +135,9 @@ export const PayoutsProvider = ({
 
   // Start pending payout process once exposure data is fetched.
   const getUnclaimedPayouts = async () => {
-    if (!api || !activeAccount) return;
+    if (!api || !activeAccount) {
+      return;
+    }
 
     // Accumulate eras to check, and determine all validator ledgers to fetch from exposures.
     const erasValidators = [];
@@ -154,13 +164,15 @@ export const PayoutsProvider = ({
     // Helper function to check which eras a validator was exposed in.
     const validatorExposedEras = (validator: string) => {
       const exposedEras: string[] = [];
-      for (const era of erasToCheck)
+      for (const era of erasToCheck) {
         if (
           Object.values(
             Object.keys(getLocalEraExposure(network, era, activeAccount))
           )?.[0] === validator
-        )
+        ) {
           exposedEras.push(era);
+        }
+      }
       return exposedEras;
     };
 
@@ -170,7 +182,9 @@ export const PayoutsProvider = ({
     const validatorControllers: Record<string, string> = {};
     for (let i = 0; i < bondedResults.length; i++) {
       const ctlr = bondedResults[i].unwrapOr(null);
-      if (ctlr) validatorControllers[uniqueValidators[i]] = ctlr;
+      if (ctlr) {
+        validatorControllers[uniqueValidators[i]] = ctlr;
+      }
     }
 
     // Unclaimed rewards by validator. Record<validator, eras[]>.
@@ -214,8 +228,8 @@ export const PayoutsProvider = ({
         Object.values(validatorControllers)
       );
 
-      // Fetch ledgers to determine which eras have not yet been claimed per validator. Only includes
-      // eras that are in `erasToCheck`.
+      // Fetch ledgers to determine which eras have not yet been claimed per validator. Only
+      // includes eras that are in `erasToCheck`.
       for (const ledgerResult of ledgerResults) {
         const ledger = ledgerResult.unwrapOr(null)?.toHuman();
         if (ledger) {
@@ -247,15 +261,19 @@ export const PayoutsProvider = ({
     erasToCheck.forEach((era) => {
       const eraValidators: string[] = [];
       Object.entries(unclaimedRewards).forEach(([validator, eras]) => {
-        if (eras.includes(era)) eraValidators.push(validator);
+        if (eras.includes(era)) {
+          eraValidators.push(validator);
+        }
       });
-      if (eraValidators.length > 0) unclaimedByEra[era] = eraValidators;
+      if (eraValidators.length > 0) {
+        unclaimedByEra[era] = eraValidators;
+      }
     });
 
     // Accumulate calls needed to fetch data to calculate rewards.
     const calls: AnyApi[] = [];
     Object.entries(unclaimedByEra).forEach(([era, validators]) => {
-      if (validators.length > 0)
+      if (validators.length > 0) {
         calls.push(
           Promise.all([
             api.query.staking.erasValidatorReward<AnyApi>(era),
@@ -265,6 +283,7 @@ export const PayoutsProvider = ({
             ),
           ])
         );
+      }
     });
 
     // Iterate calls and determine unclaimed payouts.
@@ -322,7 +341,7 @@ export const PayoutsProvider = ({
         if (!unclaimedPayout.isZero()) {
           unclaimed[era] = {
             ...unclaimed[era],
-            [validator]: [exposedPage, unclaimedPayout.toString()],
+            [validator]: [exposedPage, unclaimedPayout.toFixed().toString()],
           };
           j++;
         }
@@ -348,7 +367,9 @@ export const PayoutsProvider = ({
 
   // Removes a payout from `unclaimedPayouts` based on an era and validator record.
   const removeEraPayout = (era: string, validator: string) => {
-    if (!unclaimedPayouts) return;
+    if (!unclaimedPayouts) {
+      return;
+    }
     const newUnclaimedPayouts = { ...unclaimedPayouts };
     delete newUnclaimedPayouts[era][validator];
     setUnclaimedPayouts(newUnclaimedPayouts);
@@ -388,9 +409,3 @@ export const PayoutsProvider = ({
     </PayoutsContext.Provider>
   );
 };
-
-export const PayoutsContext = React.createContext<PayoutsContextInterface>(
-  defaultPayoutsContext
-);
-
-export const usePayouts = () => React.useContext(PayoutsContext);

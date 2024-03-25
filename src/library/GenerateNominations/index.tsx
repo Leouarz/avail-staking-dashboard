@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -13,23 +13,25 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
-import { useUnstaking } from 'library/Hooks/useUnstaking';
+import { useUnstaking } from 'hooks/useUnstaking';
 import { SelectableWrapper } from 'library/List';
 import { SelectItems } from 'library/SelectItems';
 import { SelectItem } from 'library/SelectItems/Item';
 import { ValidatorList } from 'library/ValidatorList';
-import { Wrapper } from 'pages/Overview/NetworkSats/Wrappers';
+import { Wrapper } from './Wrapper';
 import { useStaking } from 'contexts/Staking';
 import { useFavoriteValidators } from 'contexts/Validators/FavoriteValidators';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import type { Validator } from 'contexts/Validators/types';
-import { ButtonMonoInvert, ButtonPrimaryInvert } from '@polkadot-cloud/react';
 import { Subheading } from 'pages/Nominate/Wrappers';
 import { FavoritesPrompt } from 'canvas/ManageNominations/Prompts/FavoritesPrompt';
 import { usePrompt } from 'contexts/Prompt';
 import { useFetchMehods } from './useFetchMethods';
 import type { AddNominationsType, GenerateNominationsProps } from './types';
+import type { AnyJson, AnyFunction } from 'types';
+import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
+import { ButtonMonoInvert } from 'kits/Buttons/ButtonMonoInvert';
 
 export const GenerateNominations = ({
   setters = [],
@@ -75,11 +77,14 @@ export const GenerateNominations = ({
   // Update nominations on account switch, or if `defaultNominations` change.
   useEffect(() => {
     if (
-      nominations !== defaultNominations.nominations &&
+      JSON.stringify(nominations) !==
+        JSON.stringify(defaultNominations.nominations) &&
       defaultNominationsCount > 0
     ) {
-      setNominations([...(defaultNominations?.nominations || [])]);
-      if (defaultNominationsCount) setMethod('manual');
+      setNominations([...(defaultNominations.nominations || [])]);
+      if (defaultNominationsCount) {
+        setMethod('manual');
+      }
     }
   }, [activeAccount, defaultNominations]);
 
@@ -87,13 +92,16 @@ export const GenerateNominations = ({
   useEffect(() => {
     if (
       !isReady ||
-      !validators.length ||
-      !stakers.length ||
+      !validators?.length ||
+      stakers === undefined ||
       validatorsFetched !== 'synced'
-    )
+    ) {
       return;
+    }
 
-    if (fetching) fetchNominationsForMethod();
+    if (fetching) {
+      fetchNominationsForMethod();
+    }
   });
 
   // reset fixed height on window size change
@@ -140,7 +148,7 @@ export const GenerateNominations = ({
   };
 
   // callback function for adding nominations.
-  const cbAddNominations = ({ setSelectActive }: any) => {
+  const cbAddNominations = ({ setSelectActive }: AnyFunction) => {
     setSelectActive(false);
 
     const updateList = (newNominations: Validator[]) => {
@@ -166,9 +174,16 @@ export const GenerateNominations = ({
     selected,
     resetSelected,
     setSelectActive,
-  }: any) => {
+  }: {
+    selected: AnyJson;
+    resetSelected: AnyFunction;
+    setSelectActive: AnyFunction;
+  }) => {
     const newNominations = [...nominations].filter(
-      (n: any) => !selected.map((_s: any) => _s.address).includes(n.address)
+      (n) =>
+        !selected
+          .map(({ address }: { address: string }) => address)
+          .includes(n.address)
     );
     setNominations([...newNominations]);
     updateSetters([...newNominations]);
@@ -177,10 +192,10 @@ export const GenerateNominations = ({
   };
 
   const disabledMaxNominations = () =>
-    maxNominations.isLessThanOrEqualTo(nominations.length);
+    maxNominations.isLessThanOrEqualTo(nominations?.length);
   const disabledAddFavorites = () =>
     !favoritesList?.length ||
-    maxNominations.isLessThanOrEqualTo(nominations.length);
+    maxNominations.isLessThanOrEqualTo(nominations?.length);
 
   // accumulate generation methods
   const methods = [
@@ -291,7 +306,7 @@ export const GenerateNominations = ({
               text={t('reGenerate')}
               onClick={() => {
                 // set a temporary height to prevent height snapping on re-renders.
-                setHeight(heightRef?.current?.clientHeight || null);
+                setHeight(heightRef.current?.clientHeight || null);
                 setTimeout(() => setHeight(null), 200);
                 setFetching(true);
               }}
@@ -316,7 +331,7 @@ export const GenerateNominations = ({
                 </h4>
               </Subheading>
               <SelectItems layout="three-col">
-                {methods.map((m: any, n: number) => (
+                {methods.map((m, n: number) => (
                   <SelectItem
                     key={`gen_method_${n}`}
                     title={m.title}
@@ -336,11 +351,10 @@ export const GenerateNominations = ({
           )}
         </div>
 
-        {fetching ? (
-          <></>
-        ) : (
-          <>
-            {isReady && method !== null && (
+        {fetching
+          ? null
+          : isReady &&
+            method !== null && (
               <div
                 ref={heightRef}
                 style={{
@@ -358,8 +372,6 @@ export const GenerateNominations = ({
                 />
               </div>
             )}
-          </>
-        )}
       </Wrapper>
     </>
   );

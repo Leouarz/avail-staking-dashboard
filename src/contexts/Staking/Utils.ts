@@ -1,8 +1,8 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { AnyApi, NetworkName } from 'types';
-import { rmCommas } from '@polkadot-cloud/utils';
+import { rmCommas } from '@w3ux/utils';
 import type { Exposure, LocalExposure, LocalExposuresData } from './types';
 
 // Get local `erasStakers` entries for an era.
@@ -15,11 +15,13 @@ export const getLocalEraExposures = (
   const current = data ? (JSON.parse(data) as LocalExposuresData) : null;
   const currentEra = current?.era;
 
-  if (currentEra && currentEra !== activeEra)
+  if (currentEra && currentEra !== activeEra) {
     localStorage.removeItem(`${network}_exposures`);
+  }
 
-  if (currentEra === era && current?.exposures)
+  if (currentEra === era && current?.exposures) {
     return maxifyExposures(current.exposures) as Exposure[];
+  }
 
   return null;
 };

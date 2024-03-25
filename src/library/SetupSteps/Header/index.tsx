@@ -1,13 +1,14 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ButtonHelp, ButtonSecondary } from '@polkadot-cloud/react';
 import { useTranslation } from 'react-i18next';
-import { useHelp } from 'contexts/Help';
 import { useSetup } from 'contexts/Setup';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import type { HeaderProps } from '../types';
 import { Wrapper } from './Wrapper';
+import { useHelp } from 'contexts/Help';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
 
 export const Header = ({
   title,
@@ -17,10 +18,15 @@ export const Header = ({
   bondFor,
 }: HeaderProps) => {
   const { t } = useTranslation('library');
-  const { activeAccount } = useActiveAccounts();
-  const { getSetupProgress, setActiveAccountSetupSection } = useSetup();
-  const setup = getSetupProgress(bondFor, activeAccount);
   const { openHelp } = useHelp();
+  const { activeAccount } = useActiveAccounts();
+  const { getPoolSetup, getNominatorSetup, setActiveAccountSetupSection } =
+    useSetup();
+
+  const setup =
+    bondFor === 'nominator'
+      ? getNominatorSetup(activeAccount)
+      : getPoolSetup(activeAccount);
 
   return (
     <Wrapper>

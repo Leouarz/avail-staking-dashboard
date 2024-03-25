@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
@@ -21,7 +21,7 @@ export const Status = () => {
           {t('connecting')}...
         </motion.p>
       )}
-      {apiStatus === 'connected' && (
+      {['connected', 'ready'].includes(apiStatus) && (
         <motion.p animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }}>
           {t('connectedToNetwork')}
         </motion.p>

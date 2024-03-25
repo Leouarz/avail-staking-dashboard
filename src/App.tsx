@@ -1,34 +1,22 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import React from 'react';
+import type { FC } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { DefaultNetwork } from 'consts';
 import { ThemesProvider } from 'contexts/Themes';
 import { i18next } from 'locale';
 import { Providers } from 'Providers';
 import { NetworkProvider } from 'contexts/Network';
 import { ActiveAccountsProvider } from 'contexts/ActiveAccounts';
-import BigNumber from 'bignumber.js';
 
-export const App: React.FC = () => {
-  BigNumber.config({ EXPONENTIAL_AT: 30 });
-  let network = localStorage.getItem('network');
-
-  if (network === null) {
-    network = DefaultNetwork;
-    localStorage.setItem('network', network);
-  }
-
-  return (
-    <I18nextProvider i18n={i18next}>
-      <ThemesProvider>
-        <NetworkProvider>
-          <ActiveAccountsProvider>
-            <Providers />
-          </ActiveAccountsProvider>
-        </NetworkProvider>
-      </ThemesProvider>
-    </I18nextProvider>
-  );
-};
+export const App: FC = () => (
+  <I18nextProvider i18n={i18next}>
+    <ThemesProvider>
+      <NetworkProvider>
+        <ActiveAccountsProvider>
+          <Providers />
+        </ActiveAccountsProvider>
+      </NetworkProvider>
+    </ThemesProvider>
+  </I18nextProvider>
+);

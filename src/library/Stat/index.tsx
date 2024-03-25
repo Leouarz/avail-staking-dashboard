@@ -1,22 +1,21 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  ButtonHelp,
-  ButtonPrimary,
-  ButtonSecondary,
-  Polkicon,
-  Odometer,
-} from '@polkadot-cloud/react';
-import { applyWidthAsPadding, minDecimalPlaces } from '@polkadot-cloud/utils';
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import { Polkicon } from '@w3ux/react-polkicon';
+import { applyWidthAsPadding, minDecimalPlaces } from '@w3ux/utils';
+import { Fragment, useEffect, useLayoutEffect, useRef } from 'react';
 import { useHelp } from 'contexts/Help';
-import { useNotifications } from 'contexts/Notifications';
 import { useNetwork } from 'contexts/Network';
 import { Wrapper } from './Wrapper';
 import type { StatAddress, StatProps } from './types';
+import { NotificationsController } from 'controllers/NotificationsController';
+import type { AnyJson } from 'types';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
+import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { Odometer } from '@w3ux/react-odometer';
 
 export const Stat = ({
   label,
@@ -32,7 +31,6 @@ export const Stat = ({
     brand: { token: Token },
   } = useNetwork().networkData;
   const { openHelp } = useHelp();
-  const { addNotification } = useNotifications();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const subjectRef = useRef<HTMLDivElement>(null);
@@ -94,7 +92,7 @@ export const Stat = ({
             type="button"
             className="btn"
             onClick={() => {
-              addNotification(copy.notification);
+              NotificationsController.emit(copy.notification);
               navigator.clipboard.writeText(copy.content);
             }}
           >
@@ -121,8 +119,8 @@ export const Stat = ({
           {display}
           {buttons ? (
             <span ref={subjectRef}>
-              {buttons.map((btn: any, index: number) => (
-                <React.Fragment key={`stat_${index}`}>
+              {buttons.map((btn: AnyJson, index: number) => (
+                <Fragment key={`stat_${index}`}>
                   <Button
                     key={`btn_${index}_${Math.random()}`}
                     text={btn.title}
@@ -133,7 +131,7 @@ export const Stat = ({
                     onClick={() => btn.onClick()}
                   />
                   &nbsp;&nbsp;
-                </React.Fragment>
+                </Fragment>
               ))}
             </span>
           ) : null}

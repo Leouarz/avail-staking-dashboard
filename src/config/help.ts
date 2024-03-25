@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { HelpItems } from 'contexts/Help/types';
@@ -16,8 +16,7 @@ export const HelpConfig: HelpItems = [
       'Your Balance',
       'Reserve Balance',
       'Locked Balance',
-      'Historical Rewards Rate',
-      'Adjusted Rewards Rate',
+      'Average Reward Rate',
       'Inflation',
       'Ideal Staked',
       'Supply Staked',

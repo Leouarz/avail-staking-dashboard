@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import BigNumber from 'bignumber.js';
@@ -14,10 +14,10 @@ import {
   normaliseEraPoints,
   prefillEraPoints,
 } from 'library/ValidatorList/ValidatorItem/Utils';
-import type { AnyJson } from '@polkadot-cloud/react/types';
 import { usePoolPerformance } from 'contexts/Pools/PoolPerformance';
 import { useTranslation } from 'react-i18next';
 import type { RewardProps, RewardsGraphProps } from './types';
+import type { AnyJson } from 'types';
 
 export const Rewards = ({ address, displayFor = 'default' }: RewardProps) => {
   const { t } = useTranslation('library');
@@ -109,57 +109,51 @@ export const RewardsGraph = ({ points = [], syncing }: RewardsGraphProps) => {
     >
       {!syncing &&
         [{ y1: vbHeight * 0.5, y2: vbHeight * 0.5 }].map(
-          ({ y1, y2 }, index) => {
-            return (
-              <line
-                key={`grid_coord_${index}`}
-                strokeWidth="3.75"
-                stroke="var(--grid-color-primary)"
-                x1={0}
-                y1={y1}
-                x2={vbWidth}
-                y2={y2}
-                opacity={0.5}
-              />
-            );
-          }
+          ({ y1, y2 }, index) => (
+            <line
+              key={`grid_coord_${index}`}
+              strokeWidth="3.75"
+              stroke="var(--grid-color-primary)"
+              x1={0}
+              y1={y1}
+              x2={vbWidth}
+              y2={y2}
+              opacity={0.5}
+            />
+          )
         )}
 
       {!syncing &&
-        barCoords.map(({ x1, y1, x2, y2 }, index) => {
-          return (
-            <line
-              key={`line_coord_${index}`}
-              strokeWidth={5}
-              opacity={1}
-              stroke="var(--network-color-tertiary)"
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-            />
-          );
-        })}
+        barCoords.map(({ x1, y1, x2, y2 }, index) => (
+          <line
+            key={`line_coord_${index}`}
+            strokeWidth={5}
+            opacity={1}
+            stroke="var(--accent-color-tertiary)"
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+          />
+        ))}
 
       {!syncing &&
-        lineCoords.map(({ x1, y1, x2, y2, zero }, index) => {
-          return (
-            <line
-              key={`line_coord_${index}`}
-              strokeWidth={5}
-              opacity={zero ? 0.5 : 1}
-              stroke={
-                zero
-                  ? 'var(--text-color-tertiary)'
-                  : 'var(--network-color-secondary)'
-              }
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-            />
-          );
-        })}
+        lineCoords.map(({ x1, y1, x2, y2, zero }, index) => (
+          <line
+            key={`line_coord_${index}`}
+            strokeWidth={5}
+            opacity={zero ? 0.5 : 1}
+            stroke={
+              zero
+                ? 'var(--text-color-tertiary)'
+                : 'var(--accent-color-secondary)'
+            }
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+          />
+        ))}
     </svg>
   );
 };

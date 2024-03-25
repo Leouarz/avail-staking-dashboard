@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { isString, u8aConcat, u8aToU8a } from '@polkadot/util';
@@ -68,10 +68,10 @@ export const createImgSize = (
     };
   }
 
-  const height = isString(size) ? size : `${size}px`;
+  const width = isString(size) ? size : `${size}px`;
 
   return {
-    height,
-    width: height,
+    width,
+    height: 'auto',
   };
 };

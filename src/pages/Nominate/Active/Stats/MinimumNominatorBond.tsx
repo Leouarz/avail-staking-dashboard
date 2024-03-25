@@ -1,17 +1,16 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { planckToUnit } from '@polkadot-cloud/utils';
+import { planckToUnit } from '@w3ux/utils';
 import { useTranslation } from 'react-i18next';
-import { useStaking } from 'contexts/Staking';
 import { Number } from 'library/StatBoxList/Number';
 import { useNetwork } from 'contexts/Network';
+import { useApi } from 'contexts/Api';
 
 export const MinimumNominatorBondStat = () => {
   const { t } = useTranslation('pages');
-  const { staking } = useStaking();
   const { unit, units } = useNetwork().networkData;
-  const { minNominatorBond } = staking;
+  const { minNominatorBond } = useApi().stakingMetrics;
 
   const params = {
     label: t('nominate.minimumToNominate'),

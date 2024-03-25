@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -7,18 +7,12 @@ import {
   faGlobe,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMenu } from 'contexts/Menu';
 import { CopyAddress } from 'library/ListItem/Labels/CopyAddress';
 import { ParaValidator } from 'library/ListItem/Labels/ParaValidator';
-import {
-  Labels,
-  MenuPosition,
-  Separator,
-  Wrapper,
-} from 'library/ListItem/Wrappers';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { Labels, Separator, Wrapper } from 'library/ListItem/Wrappers';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { usePlugins } from 'contexts/Plugins';
 import type { AnyJson } from 'types';
 import { Quartile } from 'library/ListItem/Labels/Quartile';
@@ -34,6 +28,7 @@ import { Select } from '../../ListItem/Labels/Select';
 import { getIdentityDisplay } from './Utils';
 import type { ValidatorItemProps } from './types';
 import { Pulse } from './Pulse';
+import { MenuList } from 'library/Menu/List';
 
 export const Default = ({
   validator,
@@ -43,9 +38,9 @@ export const Default = ({
 }: ValidatorItemProps) => {
   const { t } = useTranslation('library');
   const { selectActive } = useList();
+  const { openMenu, open } = useMenu();
   const { pluginEnabled } = usePlugins();
   const { openModal } = useOverlay().modal;
-  const { setMenuPosition, setMenuItems, open } = useMenu();
   const { validatorIdentities, validatorSupers } = useValidators();
 
   const { address, prefs, validatorStatus, totalStake } = validator;
@@ -56,8 +51,7 @@ export const Default = ({
     validatorSupers[address]
   );
 
-  // configure floating menu
-  const posRef = useRef(null);
+  // Configure menu.
   const menuItems: AnyJson[] = [];
   menuItems.push({
     icon: <FontAwesomeIcon icon={faChartLine} transform="shrink-3" />,
@@ -91,17 +85,16 @@ export const Default = ({
     });
   }
 
-  const toggleMenu = () => {
+  // Handler for opening menu.
+  const toggleMenu = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (!open) {
-      setMenuItems(menuItems);
-      setMenuPosition(posRef);
+      openMenu(ev, <MenuList items={menuItems} />);
     }
   };
 
   return (
     <Wrapper>
       <div className={`inner ${displayFor}`}>
-        <MenuPosition ref={posRef} />
         <div className="row top">
           {selectActive && <Select item={validator} />}
           <Identity address={address} />
@@ -113,7 +106,7 @@ export const Default = ({
               {/* restrict opening modal within a canvas */}
               {displayFor === 'default' && showMenu && (
                 <div className="label">
-                  <button type="button" onClick={() => toggleMenu()}>
+                  <button type="button" onClick={(ev) => toggleMenu(ev)}>
                     <FontAwesomeIcon icon={faBars} transform="shrink-2" />
                   </button>
                 </div>

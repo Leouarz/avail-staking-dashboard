@@ -1,12 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import {
-  ButtonHelp,
-  ButtonPrimary,
-  ButtonPrimaryInvert,
-} from '@polkadot-cloud/react';
-import { useOverlay } from '@polkadot-cloud/react/hooks';
+import { useOverlay } from 'kits/Overlay/Provider';
 import { GenerateNominations } from 'library/GenerateNominations';
 import { useEffect, useState } from 'react';
 import { Subheading } from 'pages/Nominate/Wrappers';
@@ -15,11 +10,10 @@ import { useApi } from 'contexts/Api';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { usePrompt } from 'contexts/Prompt';
 import { useHelp } from 'contexts/Help';
-import { useNotifications } from 'contexts/Notifications';
-import { useSubmitExtrinsic } from 'library/Hooks/useSubmitExtrinsic';
+import { useSubmitExtrinsic } from 'hooks/useSubmitExtrinsic';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useBonded } from 'contexts/Bonded';
-import { useActivePools } from 'contexts/Pools/ActivePools';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { SubmitTx } from 'library/SubmitTx';
 import type {
   NominationSelection,
@@ -27,7 +21,11 @@ import type {
 } from 'library/GenerateNominations/types';
 import { useBondedPools } from 'contexts/Pools/BondedPools';
 import { RevertPrompt } from './Prompts/RevertPrompt';
-import { CanvasSubmitTxFooter, ManageNominationsWrapper } from './Wrappers';
+import { CanvasSubmitTxFooter, CanvasFullScreenWrapper } from '../Wrappers';
+import { NotificationsController } from 'controllers/NotificationsController';
+import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
+import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
+import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
 
 export const ManageNominations = () => {
   const { t } = useTranslation('library');
@@ -38,14 +36,14 @@ export const ManageNominations = () => {
   } = useOverlay().canvas;
   const { openHelp } = useHelp();
   const { consts, api } = useApi();
+  const { activePool } = useActivePool();
   const { getBondedAccount } = useBonded();
   const { activeAccount } = useActiveAccounts();
-  const { addNotification } = useNotifications();
-  const { selectedActivePool } = useActivePools();
-  const { openPromptWith, closePrompt } = usePrompt();
   const { updatePoolNominations } = useBondedPools();
-  const controller = getBondedAccount(activeAccount);
+  const { openPromptWith, closePrompt } = usePrompt();
+
   const { maxNominations } = consts;
+  const controller = getBondedAccount(activeAccount);
   const bondFor = options?.bondFor || 'nominator';
   const isPool = bondFor === 'pool';
   const signingAccount = isPool ? activeAccount : controller;
@@ -77,7 +75,7 @@ export const ManageNominations = () => {
       nominations: defaultNominations.nominations,
       reset: defaultNominations.reset + 1,
     });
-    addNotification({
+    NotificationsController.emit({
       title: t('nominationsReverted'),
       subtitle: t('revertedToActiveSelection'),
     });
@@ -85,16 +83,12 @@ export const ManageNominations = () => {
   };
 
   // Check if default nominations match new ones.
-  const nominationsMatch = () => {
-    return (
-      newNominations.nominations.every((n) =>
-        defaultNominations.nominations.find((d) => d.address === n.address)
-      ) &&
-      newNominations.nominations.length > 0 &&
-      newNominations.nominations.length ===
-        defaultNominations.nominations.length
-    );
-  };
+  const nominationsMatch = () =>
+    newNominations.nominations.every((n) =>
+      defaultNominations.nominations.find((d) => d.address === n.address)
+    ) &&
+    newNominations.nominations.length > 0 &&
+    newNominations.nominations.length === defaultNominations.nominations.length;
 
   // Tx to submit.
   const getTx = () => {
@@ -113,10 +107,9 @@ export const ManageNominations = () => {
     );
 
     if (isPool) {
-      tx = api.tx.nominationPools.nominate(
-        selectedActivePool?.id || 0,
-        targetsToSubmit
-      );
+      if (activePool) {
+        tx = api.tx.nominationPools.nominate(activePool.id, targetsToSubmit);
+      }
     } else {
       tx = api.tx.staking.nominate(targetsToSubmit);
     }
@@ -131,13 +124,12 @@ export const ManageNominations = () => {
       setCanvasStatus('closing');
     },
     callbackInBlock: () => {
-      if (isPool) {
-        // Upate bonded pool targets if updating pool nominations.
-        if (selectedActivePool?.id)
-          updatePoolNominations(
-            selectedActivePool.id,
-            newNominations.nominations.map((n) => n.address)
-          );
+      if (isPool && activePool) {
+        // Update bonded pool targets if updating pool nominations.
+        updatePoolNominations(
+          activePool.id,
+          newNominations.nominations.map((n) => n.address)
+        );
       }
     },
   });
@@ -155,7 +147,7 @@ export const ManageNominations = () => {
 
   return (
     <>
-      <ManageNominationsWrapper>
+      <CanvasFullScreenWrapper>
         <div className="head">
           <ButtonPrimaryInvert
             text={t('revertChanges', { ns: 'modals' })}
@@ -204,7 +196,7 @@ export const ManageNominations = () => {
           ]}
           nominations={defaultNominations}
         />
-      </ManageNominationsWrapper>
+      </CanvasFullScreenWrapper>
       <CanvasSubmitTxFooter>
         <SubmitTx
           noMargin

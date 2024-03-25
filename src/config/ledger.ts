@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { LedgerApp } from 'contexts/Hardware/Ledger/types';
@@ -6,7 +6,7 @@ import type { LedgerApp } from 'contexts/Hardware/Ledger/types';
 
 // {
 //   network: 'avail',
-//   appName: 'Avail Goldberg',
+//   appName: 'Avail',
 //   Icon: AvailSVG,
 // },
 

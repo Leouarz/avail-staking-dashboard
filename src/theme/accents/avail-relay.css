@@ -1,0 +1,22 @@
+/* Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+SPDX-License-Identifier: GPL-3.0-only */
+
+.theme-avail-relay {
+  --accent-color-primary-light: rgb(60 163 252);
+  --accent-color-primary-dark: rgb(60 163 252);
+
+  --accent-color-secondary-light: rgb(252 149 60);
+  --accent-color-secondary-dark: rgb(252 149 60);
+
+  --accent-color-tertiary-light: #dedae8;
+  --accent-color-tertiary-dark: #dedae8;
+
+  --accent-color-stroke-light: rgb(60 163 252);
+  --accent-color-stroke-dark: rgb(60 163 252);
+
+  --accent-color-transparent-light: rgb(60 163 252 / 5%);
+  --accent-color-transparent-dark: rgb(60 163 252 / 5%);
+
+  --accent-color-pending-light: rgb(60 163 252 / 50%);
+  --accent-color-pending-dark: rgb(60 163 252 / 50%);
+}

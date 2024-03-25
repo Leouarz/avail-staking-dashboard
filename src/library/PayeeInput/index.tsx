@@ -1,13 +1,14 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isValidAddress, remToUnit } from '@polkadot-cloud/utils';
-import React, { useEffect, useRef, useState } from 'react';
+import { isValidAddress, remToUnit } from '@w3ux/utils';
+import type { ChangeEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBonded } from 'contexts/Bonded';
-import { Polkicon } from '@polkadot-cloud/react';
+import { Polkicon } from '@w3ux/react-polkicon';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import { useNetwork } from 'contexts/Network';
@@ -50,7 +51,7 @@ export const PayeeInput = ({
   };
 
   // Handle change of account value. Updates setup progress if the account is a valid value.
-  const handleChangeAccount = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeAccount = (e: ChangeEvent<HTMLInputElement>) => {
     const newAddress = e.target.value;
     const formatted = formatAccountSs58(newAddress, ss58) || newAddress || null;
     const isValid = isValidAddress(formatted || '');
@@ -95,61 +96,55 @@ export const PayeeInput = ({
     payee.destination === 'None' ? t('noPayoutAddress') : t('payoutAddress');
 
   return (
-    <>
-      <Wrapper $activeInput={inputActive}>
-        <div className="inner">
-          <h4>{t('payoutAccount')}:</h4>
-          <div className="account">
-            {showEmpty ? (
-              <div className="emptyIcon" />
-            ) : (
-              <Polkicon
-                address={accountDisplay || ''}
-                size={remToUnit('2.5rem')}
-              />
-            )}
-            <div className="input" ref={showingRef}>
-              <input
-                type="text"
-                placeholder={placeholderDisplay}
-                disabled={payee.destination !== 'Account'}
-                value={accountDisplay || ''}
-                onFocus={() => setInputActive(true)}
-                onBlur={() => setInputActive(false)}
-                onChange={handleChangeAccount}
-              />
-              <div ref={hiddenRef} className="hidden">
-                {payee.destination === 'Account'
-                  ? activeAccount
-                  : accountDisplay}
-              </div>
+    <Wrapper $activeInput={inputActive}>
+      <div className="inner">
+        <h4>{t('payoutAccount')}:</h4>
+        <div className="account">
+          {showEmpty ? (
+            <div className="emptyIcon" />
+          ) : (
+            <Polkicon
+              address={accountDisplay || ''}
+              size={remToUnit('2.5rem')}
+            />
+          )}
+          <div className="input" ref={showingRef}>
+            <input
+              type="text"
+              placeholder={placeholderDisplay}
+              disabled={payee.destination !== 'Account'}
+              value={accountDisplay || ''}
+              onFocus={() => setInputActive(true)}
+              onBlur={() => setInputActive(false)}
+              onChange={handleChangeAccount}
+            />
+            <div ref={hiddenRef} className="hidden">
+              {payee.destination === 'Account' ? activeAccount : accountDisplay}
             </div>
           </div>
         </div>
-        <div className="label">
-          <h5>
-            {payee.destination === 'Account' ? (
-              <>
-                {account === '' ? (
-                  t('insertPayoutAddress')
-                ) : !valid ? (
-                  t('notValidAddress')
-                ) : (
-                  <>
-                    <FontAwesomeIcon icon={faCheck} />
-                    {t('validAddress')}
-                  </>
-                )}
-              </>
-            ) : payee.destination === 'None' ? null : (
+      </div>
+      <div className="label">
+        <h5>
+          {payee.destination === 'Account' ? (
+            account === '' ? (
+              t('insertPayoutAddress')
+            ) : !valid ? (
+              t('notValidAddress')
+            ) : (
               <>
                 <FontAwesomeIcon icon={faCheck} />
-                {accountMeta?.name || ''}
+                {t('validAddress')}
               </>
-            )}
-          </h5>
-        </div>
-      </Wrapper>
-    </>
+            )
+          ) : payee.destination === 'None' ? null : (
+            <>
+              <FontAwesomeIcon icon={faCheck} />
+              {accountMeta?.name || ''}
+            </>
+          )}
+        </h5>
+      </div>
+    </Wrapper>
   );
 };

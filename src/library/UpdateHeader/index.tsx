@@ -1,9 +1,9 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { usePayeeConfig } from 'library/Hooks/usePayeeConfig';
+import { usePayeeConfig } from 'hooks/usePayeeConfig';
 import { Wrapper } from './Wrapper';
 
 interface UpdateHeaderProps {

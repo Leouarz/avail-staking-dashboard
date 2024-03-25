@@ -1,16 +1,10 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { ellipsisFn, setStateWithRef } from '@polkadot-cloud/utils';
+import { ellipsisFn, setStateWithRef } from '@w3ux/utils';
 import type { ReactNode } from 'react';
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import type { VaultAccount } from '@polkadot-cloud/react/types';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import type { VaultAccount } from '@w3ux/react-connect-kit/types';
 import { useNetwork } from 'contexts/Network';
 import { getLocalVaultAccounts, isLocalNetworkAddress } from '../Utils';
 import type { VaultAccountsContextInterface } from './types';
@@ -40,7 +34,11 @@ export const VaultAccountsProvider = ({
     );
 
   // Adds a vault account to state and local storage.
-  const addVaultAccount = (address: string, index: number) => {
+  const addVaultAccount = (
+    address: string,
+    index: number,
+    callback?: () => void
+  ) => {
     let newVaultAccounts = getLocalVaultAccounts();
 
     if (
@@ -66,12 +64,18 @@ export const VaultAccountsProvider = ({
         seVaultAccountsState,
         vaultAccountsRef
       );
+
+      // Handle optional callback function.
+      if (typeof callback === 'function') {
+        callback();
+      }
+
       return account;
     }
     return null;
   };
 
-  const removeVaultAccount = (address: string) => {
+  const removeVaultAccount = (address: string, callback?: () => void) => {
     let newVaultAccounts = getLocalVaultAccounts();
 
     newVaultAccounts = newVaultAccounts.filter((a) => {
@@ -97,6 +101,11 @@ export const VaultAccountsProvider = ({
       seVaultAccountsState,
       vaultAccountsRef
     );
+
+    // Handle optional callback function.
+    if (typeof callback === 'function') {
+      callback();
+    }
   };
 
   const getVaultAccount = (address: string) => {

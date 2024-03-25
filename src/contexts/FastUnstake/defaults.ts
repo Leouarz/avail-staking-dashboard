@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -9,7 +9,7 @@ export const defaultMeta: MetaInterface = {
 };
 
 export const defaultFastUnstakeContext: FastUnstakeContextInterface = {
-  getLocalkey: (a) => '',
+  getLocalkey: (address) => '',
   checking: false,
   meta: defaultMeta,
   isExposed: null,

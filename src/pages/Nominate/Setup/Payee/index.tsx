@@ -1,12 +1,12 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetup } from 'contexts/Setup';
-import type { PayeeConfig, PayeeOptions } from 'contexts/Setup/types';
+import type { PayeeOptions } from 'contexts/Setup/types';
 import { Spacer } from 'library/Form/Wrappers';
-import { usePayeeConfig } from 'library/Hooks/usePayeeConfig';
+import { usePayeeConfig } from 'hooks/usePayeeConfig';
 import { PayeeInput } from 'library/PayeeInput';
 import { SelectItems } from 'library/SelectItems';
 import { SelectItem } from 'library/SelectItems/Item';
@@ -17,24 +17,20 @@ import type { SetupStepProps } from 'library/SetupSteps/types';
 import type { MaybeAddress } from 'types';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { Subheading } from 'pages/Nominate/Wrappers';
+import { defaultPayee } from 'controllers/BalancesController/defaults';
 
 export const Payee = ({ section }: SetupStepProps) => {
   const { t } = useTranslation('pages');
   const { getPayeeItems } = usePayeeConfig();
   const { activeAccount } = useActiveAccounts();
-  const { getSetupProgress, setActiveAccountSetup } = useSetup();
+  const { getNominatorSetup, setActiveAccountSetup } = useSetup();
 
-  const setup = getSetupProgress('nominator', activeAccount);
+  const setup = getNominatorSetup(activeAccount);
   const { progress } = setup;
   const { payee } = progress;
 
   // Store the current user-inputted custom payout account.
   const [account, setAccount] = useState<MaybeAddress>(payee.account);
-
-  const DefaultPayeeConfig: PayeeConfig = {
-    destination: 'Staked',
-    account: null,
-  };
 
   // determine whether this section is completed.
   const isComplete = () =>
@@ -64,7 +60,7 @@ export const Payee = ({ section }: SetupStepProps) => {
     if (!payee || (!payee.destination && !payee.account)) {
       setActiveAccountSetup('nominator', {
         ...progress,
-        payee: DefaultPayeeConfig,
+        payee: defaultPayee,
       });
     }
   }, [activeAccount]);

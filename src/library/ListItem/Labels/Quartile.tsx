@@ -1,4 +1,4 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
@@ -18,7 +18,9 @@ export const Quartile = ({ address }: { address: string }) => {
     ns: 'library',
   })}`;
 
-  if (erasRewardPointsFetched !== 'synced') return null;
+  if (erasRewardPointsFetched !== 'synced') {
+    return null;
+  }
 
   return (
     <div

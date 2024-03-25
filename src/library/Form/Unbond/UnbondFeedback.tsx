@@ -1,13 +1,11 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { isNotZero, planckToUnit, unitToPlanck } from '@polkadot-cloud/utils';
+import { isNotZero, planckToUnit, unitToPlanck } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useActivePools } from 'contexts/Pools/ActivePools';
-import { usePoolsConfig } from 'contexts/Pools/PoolsConfig';
-import { useStaking } from 'contexts/Staking';
+import { useActivePool } from 'contexts/Pools/ActivePool';
 import { useTransferOptions } from 'contexts/TransferOptions';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
@@ -15,12 +13,13 @@ import { Warning } from '../Warning';
 import { Spacer } from '../Wrappers';
 import type { UnbondFeedbackProps } from '../types';
 import { UnbondInput } from './UnbondInput';
+import { useApi } from 'contexts/Api';
 
 export const UnbondFeedback = ({
   bondFor,
   inSetup = false,
   setters = [],
-  listenIsValid = () => {},
+  listenIsValid,
   defaultBond,
   setLocalResize,
   parentErrors = [],
@@ -30,15 +29,14 @@ export const UnbondFeedback = ({
   const {
     networkData: { units, unit },
   } = useNetwork();
+  const { isDepositor } = useActivePool();
   const { activeAccount } = useActiveAccounts();
-  const { staking } = useStaking();
   const { getTransferOptions } = useTransferOptions();
-  const { isDepositor } = useActivePools();
-  const { stats } = usePoolsConfig();
-  const { minJoinBond, minCreateBond } = stats;
-  const { minNominatorBond } = staking;
+  const {
+    poolsConfig: { minJoinBond, minCreateBond },
+    stakingMetrics: { minNominatorBond },
+  } = useApi();
   const allTransferOptions = getTransferOptions(activeAccount);
-
   const defaultValue = defaultBond ? String(defaultBond) : '';
 
   // get bond options for either nominating or pooling.
@@ -54,31 +52,16 @@ export const UnbondFeedback = ({
     bond: defaultValue,
   });
 
+  // handler to set bond as a string
+  const handleSetBond = (newBond: { bond: BigNumber }) => {
+    setBond({ bond: newBond.bond.toFixed().toString() });
+  };
+
   // current bond value BigNumber
   const bondBn = unitToPlanck(String(bond.bond), units);
 
-  // update bond on account change
-  useEffect(() => {
-    setBond({
-      bond: defaultValue,
-    });
-  }, [activeAccount]);
-
-  // handle errors on input change
-  useEffect(() => {
-    handleErrors();
-  }, [bond, txFees]);
-
-  // if resize is present, handle on error change
-  useEffect(() => {
-    if (setLocalResize) setLocalResize();
-  }, [errors]);
-
   // add this component's setBond to setters
-  setters.push({
-    set: setBond,
-    current: bond,
-  });
+  setters.push(handleSetBond);
 
   // bond amount to minimum threshold
   const minBondBn =
@@ -120,13 +103,13 @@ export const UnbondFeedback = ({
     }
 
     if (decimals > units) {
-      newErrors.push(`${t('bondAmountDecimals', { unit })}`);
+      newErrors.push(`${t('bondAmountDecimals', { units })}`);
     }
 
     if (bondBn.isGreaterThan(unbondToMin)) {
       // start the error message stating a min bond is required.
       let err = `${t('minimumBond', {
-        minBondUnit: minBondUnit.toString(),
+        minBondUnit: minBondUnit.toFixed().toString(),
         unit,
       })} `;
       // append the subject to the error message.
@@ -140,9 +123,28 @@ export const UnbondFeedback = ({
       newErrors.push(err);
     }
 
-    listenIsValid(!newErrors.length && bond.bond !== '', newErrors);
+    if (listenIsValid && typeof listenIsValid === 'function') {
+      listenIsValid(!newErrors.length && bond.bond !== '', newErrors);
+    }
     setErrors(newErrors);
   };
+
+  // update bond on account change
+  useEffect(() => {
+    setBond({ bond: defaultValue });
+  }, [activeAccount]);
+
+  // handle errors on input change
+  useEffect(() => {
+    handleErrors();
+  }, [bond, txFees]);
+
+  // if resize is present, handle on error change
+  useEffect(() => {
+    if (setLocalResize) {
+      setLocalResize();
+    }
+  }, [errors]);
 
   return (
     <>

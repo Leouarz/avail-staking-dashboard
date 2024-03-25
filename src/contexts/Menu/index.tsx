@@ -1,92 +1,101 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import type { RefObject } from 'react';
-import React, { useState } from 'react';
+import type { ReactNode, RefObject } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { defaultMenuContext } from './defaults';
-import type { MenuContextInterface } from './types';
+import type { MenuContextInterface, MenuMouseEvent } from './types';
 
-export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
-  const [open, setOpen] = useState(0);
-  const [show, setShow] = useState(0);
-  const [items, setItems] = useState<React.ReactNode[]>([]);
+export const MenuContext =
+  createContext<MenuContextInterface>(defaultMenuContext);
 
+export const useMenu = () => useContext(MenuContext);
+
+export const MenuProvider = ({ children }: { children: ReactNode }) => {
+  // Whether the menu is currently open. This initiates menu state but does not reflect whether the
+  // menu is being displayed.
+  const [open, setOpen] = useState<boolean>(false);
+
+  // Whether the menu is currently showing.
+  const [show, setShow] = useState<boolean>(false);
+
+  // The components to be displayed in the menu.
+  const [inner, setInner] = useState<ReactNode>(null);
+
+  // The menu position coordinates.
   const [position, setPosition] = useState<[number, number]>([0, 0]);
 
-  const openMenu = () => {
-    if (open) return;
-    setOpen(1);
-  };
+  // Padding from the window edge.
+  const DocumentPadding = 20;
 
-  const closeMenu = () => {
-    setShow(0);
-    setTimeout(() => {
-      setOpen(0);
-    }, 100);
-  };
-
-  const setMenuPosition = (ref: RefObject<HTMLDivElement>) => {
-    if (open || !ref?.current) return;
+  // Sets the menu position and opens it. Only succeeds if the menu has been instantiated and is not
+  // currently open.
+  const openMenu = (ev: MenuMouseEvent, newInner?: ReactNode) => {
+    if (open) {
+      return;
+    }
     const bodyRect = document.body.getBoundingClientRect();
-    const elemRect = ref.current.getBoundingClientRect();
+    const x = ev.clientX - bodyRect.left;
+    const y = ev.clientY - bodyRect.top;
 
-    const x = elemRect.left - bodyRect.left;
-    const y = elemRect.top - bodyRect.top;
+    if (newInner) {
+      setInner(newInner);
+    }
 
     setPosition([x, y]);
-    openMenu();
+    setOpen(true);
   };
 
-  const checkMenuPosition = (ref: RefObject<HTMLDivElement>) => {
-    if (!ref?.current) return;
+  // Hides the menu and closes.
+  const closeMenu = () => {
+    setShow(false);
+    setOpen(false);
+  };
 
+  // Sets the inner JSX of the menu.
+  const setMenuInner = (newInner: ReactNode) => {
+    setInner(newInner);
+  };
+
+  // Adjusts menu position and shows the menu.
+  const checkMenuPosition = (ref: RefObject<HTMLDivElement>) => {
+    if (!ref?.current) {
+      return;
+    }
+
+    // Adjust menu position if it is leaking out of the window, otherwise keep it at the current
+    // position.
     const bodyRect = document.body.getBoundingClientRect();
     const menuRect = ref.current.getBoundingClientRect();
+    const hiddenRight = menuRect.right > bodyRect.right;
+    const hiddenBottom = menuRect.bottom > bodyRect.bottom;
 
-    let x = menuRect.left - bodyRect.left;
-    let y = menuRect.top - bodyRect.top;
-    const right = menuRect.right;
-    const bottom = menuRect.bottom;
+    const x = hiddenRight
+      ? window.innerWidth - menuRect.width - DocumentPadding
+      : position[0];
 
-    // small offset from menu start
-    y -= 10;
+    const y = hiddenBottom
+      ? window.innerHeight - menuRect.height - DocumentPadding
+      : position[1];
 
-    const documentPadding = 20;
-
-    if (right > bodyRect.right) {
-      x = bodyRect.right - ref.current.offsetWidth - documentPadding;
-    }
-    if (bottom > bodyRect.bottom) {
-      y = bodyRect.bottom - ref.current.offsetHeight - documentPadding;
-    }
     setPosition([x, y]);
-    setShow(1);
-  };
-
-  const setMenuItems = (_items: React.ReactNode[]) => {
-    setItems(_items);
+    setShow(true);
   };
 
   return (
     <MenuContext.Provider
       value={{
-        openMenu,
-        closeMenu,
-        setMenuPosition,
-        checkMenuPosition,
-        setMenuItems,
         open,
         show,
+        inner,
         position,
-        items,
+        closeMenu,
+        openMenu,
+        setMenuInner,
+        checkMenuPosition,
       }}
     >
       {children}
     </MenuContext.Provider>
   );
 };
-
-export const MenuContext =
-  React.createContext<MenuContextInterface>(defaultMenuContext);
-
-export const useMenu = () => React.useContext(MenuContext);

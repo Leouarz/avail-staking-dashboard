@@ -1,7 +1,7 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { PageRow } from '@polkadot-cloud/react';
+import { PageRow } from 'kits/Structure/PageRow';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'contexts/Api';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
@@ -49,7 +49,7 @@ export const AllValidators = () => {
                     excludes: [
                       'all_commission',
                       'blocked_nominations',
-                      'missing_identity',
+                      // 'missing_identity',
                     ],
                   }}
                   defaultOrder="rank"

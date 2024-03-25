@@ -1,8 +1,8 @@
-// Copyright 2023 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
-import { useDotLottieButton } from 'library/Hooks/useDotLottieButton';
+import { useDotLottieButton } from 'hooks/useDotLottieButton';
 import { ItemInnerWrapper, ItemWrapper, ItemsWrapper } from './Wrappers';
 
 export const Syncing = () => {
