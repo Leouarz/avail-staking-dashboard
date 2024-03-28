@@ -30,6 +30,7 @@ import {
   types as availTypes,
   rpc as availRpc,
 } from 'avail-js-sdk';
+import { availGoldbergTypes } from './avail-goldberg-types';
 
 export class Api {
   // ------------------------------------------------------
@@ -124,13 +125,22 @@ export class Api {
       // Tell UI api is connecting.
       this.dispatchEvent(this.ensureEventStatus('connecting'));
 
+      // Inject avail specific types
+      const endpoint =
+        NetworkList[this.network].endpoints.rpcEndpoints[this.#rpcEndpoint];
+      const customTypes = endpoint.includes('goldberg')
+        ? availGoldbergTypes
+        : {
+            types: availTypes,
+            rpc: availRpc,
+            signedExtensions: availSignedExtensions,
+          };
+
       // Initialise api.
       this.#api = new ApiPromise({
         provider: this.#provider,
         noInitWarn: true,
-        types: availTypes,
-        rpc: availRpc,
-        signedExtensions: availSignedExtensions,
+        ...customTypes,
       });
 
       // Initialise api events.
