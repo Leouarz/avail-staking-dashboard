@@ -13,7 +13,7 @@ import BigNumber from 'bignumber.js';
 export const NetworksWithPagedRewards: NetworkName[] = [];
 export const PagedRewardsStartEra: Record<NetworkName, BigNumber | null> = {
   avail: null,
-  'avail-testnet': null,
+  'avail-turing': null,
   'avail-goldberg': null,
 };
 
@@ -77,29 +77,29 @@ export const NetworkList: Networks = {
   //   maxExposurePageSize: new BigNumber(64),
   //   subscanPrefix: undefined,
   // },
-  // 'avail-testnet': {
-  //   name: 'avail-testnet',
-  //   endpoints: {
-  //     lightClient: '',
-  //     defaultRpcEndpoint: 'Avail Testnet RPC',
-  //     rpcEndpoints: {
-  //       'Avail Testnet RPC': 'wss://rpc-hex-devnet.avail.tools/ws',
-  //     },
-  //   },
-  //   namespace: 'Avail testnet',
-  //   colors,
-  //   unit: 'AVAIL',
-  //   units: 18,
-  //   ss58: 42,
-  //   brand,
-  //   api: {
-  //     unit: 'AVAIL',
-  //     priceTicker: 'AVAILUSDT',
-  //   },
-  //   defaultFeeReserve: 0.1,
-  //   maxExposurePageSize: new BigNumber(64),
-  //   subscanPrefix: undefined,
-  // },
+  'avail-turing': {
+    name: 'avail-turing',
+    endpoints: {
+      lightClient: '',
+      defaultRpcEndpoint: 'Avail Turing RPC',
+      rpcEndpoints: {
+        'Avail Turing RPC': 'wss://turing-rpc.avail.so',
+      },
+    },
+    namespace: 'Avail turing',
+    colors,
+    unit: 'AVAIL',
+    units: 18,
+    ss58: 42,
+    brand,
+    api: {
+      unit: 'AVAIL',
+      priceTicker: 'AVAILUSDT',
+    },
+    defaultFeeReserve: 0.1,
+    maxExposurePageSize: new BigNumber(64),
+    subscanPrefix: undefined,
+  },
   'avail-goldberg': {
     name: 'avail-goldberg',
     endpoints: {

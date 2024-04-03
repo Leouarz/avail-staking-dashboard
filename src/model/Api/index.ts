@@ -29,8 +29,9 @@ import {
   signedExtensions as availSignedExtensions,
   types as availTypes,
   rpc as availRpc,
+  goldbergRpc,
+  goldbergTypes,
 } from 'avail-js-sdk';
-import { availGoldbergTypes } from './avail-goldberg-types';
 
 export class Api {
   // ------------------------------------------------------
@@ -129,7 +130,10 @@ export class Api {
       const endpoint =
         NetworkList[this.network].endpoints.rpcEndpoints[this.#rpcEndpoint];
       const customTypes = endpoint.includes('goldberg')
-        ? availGoldbergTypes
+        ? {
+            types: goldbergTypes,
+            rpc: goldbergRpc,
+          }
         : {
             types: availTypes,
             rpc: availRpc,
