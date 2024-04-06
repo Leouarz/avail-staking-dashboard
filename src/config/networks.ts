@@ -106,7 +106,7 @@ export const NetworkList: Networks = {
       lightClient: '',
       defaultRpcEndpoint: 'Avail Goldberg RPC',
       rpcEndpoints: {
-        'Avail Goldberg RPC': 'wss://goldberg.avail.tools/ws',
+        'Avail Goldberg RPC': 'wss://rpc-testnet.avail.tools/ws',
       },
     },
     namespace: 'Avail goldberg testnet',
