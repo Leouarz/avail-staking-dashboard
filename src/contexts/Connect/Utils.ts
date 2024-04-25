@@ -3,6 +3,7 @@
 
 import Keyring from '@polkadot/keyring';
 import { localStorageOrDefault } from '@w3ux/utils';
+import type { ActiveProxy } from 'contexts/ActiveAccounts/types';
 import type { NetworkName } from 'types';
 
 // Gets local `activeAccount` for a network.
@@ -16,18 +17,20 @@ export const getActiveAccountLocal = (network: NetworkName, ss58: number) => {
   return account;
 };
 
-// Formats an address with the supplied ss58 prefix.
-export const formatAccountSs58 = (address: string, ss58: number) => {
-  try {
-    const keyring = new Keyring();
-    keyring.setSS58Format(ss58);
-    const formatted = keyring.addFromAddress(address).address;
-    if (formatted !== address) {
-      return formatted;
-    }
+// Gets local `activeProxy` for a network.
+export const getActiveProxyLocal = (network: NetworkName, ss58: number) => {
+  const keyring = new Keyring();
+  keyring.setSS58Format(ss58);
+  const localActiveProxy = localStorageOrDefault(
+    `${network}_active_proxy`,
+    null
+  ) as ActiveProxy | null;
 
-    return null;
-  } catch (e) {
-    return null;
+  if (localActiveProxy !== null && localActiveProxy?.address) {
+    localActiveProxy.address = keyring.addFromAddress(
+      localActiveProxy.address
+    ).address;
   }
+
+  return localActiveProxy;
 };

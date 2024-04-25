@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
-import { getLocalLedgerAddresses } from 'contexts/Hardware/Utils';
-import type { LedgerAddress } from 'contexts/Hardware/Ledger/types';
+import { getLocalLedgerAddresses } from 'contexts/LedgerHardware/Utils';
+import type { LedgerAddress } from 'contexts/LedgerHardware/types';
 import { usePrompt } from 'contexts/Prompt';
 import { ConfirmWrapper } from 'library/Import/Wrappers';
 import type { AnyJson } from 'types';
@@ -13,10 +13,12 @@ import { ButtonMono } from 'kits/Buttons/ButtonMono';
 import { ButtonMonoInvert } from 'kits/Buttons/ButtonMonoInvert';
 import { useOverlay } from 'kits/Overlay/Provider';
 import { useLedgerAccounts } from '@w3ux/react-connect-kit';
+import { useNetwork } from 'contexts/Network';
 
 export const Reset = ({ removeLedgerAddress }: AnyJson) => {
   const { t } = useTranslation('modals');
   const { setStatus } = usePrompt();
+  const { network } = useNetwork();
   const { replaceModal } = useOverlay().modal;
   const { forgetOtherAccounts } = useOtherAccounts();
   const { removeLedgerAccount, ledgerAccounts } = useLedgerAccounts();
@@ -24,7 +26,7 @@ export const Reset = ({ removeLedgerAddress }: AnyJson) => {
   const removeAccounts = () => {
     // Remove imported Ledger accounts.
     ledgerAccounts.forEach((account: LedgerAccount) => {
-      removeLedgerAccount(account.address);
+      removeLedgerAccount(network, account.address);
     });
     forgetOtherAccounts(ledgerAccounts);
 

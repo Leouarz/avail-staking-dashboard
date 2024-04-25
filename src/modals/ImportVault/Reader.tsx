@@ -1,28 +1,30 @@
 // Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import { isValidAddress } from '@w3ux/utils';
+import { isValidAddress, formatAccountSs58 } from '@w3ux/utils';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useVaultAccounts } from 'contexts/Hardware/Vault/VaultAccounts';
 import { usePrompt } from 'contexts/Prompt';
 import { QRViewerWrapper } from 'library/Import/Wrappers';
 import { QrScanSignature } from 'library/QRCode/ScanSignature';
 import { useNetwork } from 'contexts/Network';
-import { formatAccountSs58 } from 'contexts/Connect/Utils';
 import { useOtherAccounts } from 'contexts/Connect/OtherAccounts';
 import type { AnyJson } from 'types';
 import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
+import { useVaultAccounts } from '@w3ux/react-connect-kit';
 
 export const Reader = () => {
   const { t } = useTranslation('modals');
   const {
+    network,
     networkData: { ss58 },
   } = useNetwork();
-  const { addOtherAccounts } = useOtherAccounts();
   const { closePrompt } = usePrompt();
-  const { addVaultAccount, vaultAccountExists, vaultAccounts } =
+  const { addOtherAccounts } = useOtherAccounts();
+  const { addVaultAccount, vaultAccountExists, getVaultAccounts } =
     useVaultAccounts();
+
+  const vaultAccounts = getVaultAccounts(network);
 
   // Store data from QR Code scanner.
   const [qrData, setQrData] = useState<AnyJson>(undefined);
@@ -36,7 +38,7 @@ export const Reader = () => {
 
   const valid =
     isValidAddress(qrData) &&
-    !vaultAccountExists(qrData) &&
+    !vaultAccountExists(network, qrData) &&
     !formatAccountSs58(qrData, ss58);
 
   // Reset QR data on open.
@@ -47,7 +49,7 @@ export const Reader = () => {
   useEffect(() => {
     // Add account and close overlay if valid.
     if (valid) {
-      const account = addVaultAccount(qrData, vaultAccounts.length);
+      const account = addVaultAccount(network, qrData, vaultAccounts.length);
       if (account) {
         addOtherAccounts([account]);
       }
@@ -61,7 +63,7 @@ export const Reader = () => {
         : isValidAddress(qrData)
           ? formatAccountSs58(qrData, ss58)
             ? `${t('differentNetworkAddress')}`
-            : vaultAccountExists(qrData)
+            : vaultAccountExists(network, qrData)
               ? `${t('accountAlreadyImported')}`
               : `${t('addressReceived')}`
           : `${t('invalidAddress')}`

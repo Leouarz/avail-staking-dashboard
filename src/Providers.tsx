@@ -7,11 +7,11 @@ import {
   ExtensionsProvider,
   ExtensionAccountsProvider,
   LedgerAccountsProvider,
+  VaultAccountsProvider,
 } from '@w3ux/react-connect-kit';
 import { FastUnstakeProvider } from 'contexts/FastUnstake';
 import { FiltersProvider } from 'contexts/Filters';
-import { LedgerHardwareProvider } from 'contexts/Hardware/Ledger/LedgerHardware';
-import { VaultAccountsProvider } from 'contexts/Hardware/Vault/VaultAccounts';
+import { LedgerHardwareProvider } from 'contexts/LedgerHardware';
 import { HelpProvider } from 'contexts/Help';
 import { MenuProvider } from 'contexts/Menu';
 import { MigrateProvider } from 'contexts/Migrate';
@@ -44,26 +44,27 @@ import type { Provider } from 'hooks/withProviders';
 import { withProviders } from 'hooks/withProviders';
 import { CommunityProvider } from 'contexts/Community';
 import { OverlayProvider } from 'kits/Overlay/Provider';
+import { JoinPoolsProvider } from 'contexts/Pools/JoinPools';
 
 export const Providers = () => {
-  const {
-    network,
-    networkData: { ss58 },
-  } = useNetwork();
+  const { network } = useNetwork();
   const { activeAccount, setActiveAccount } = useActiveAccounts();
 
   // !! Provider order matters.
   const providers: Provider[] = [
     UIProvider,
     [APIProvider, { network }],
-    VaultAccountsProvider,
     LedgerHardwareProvider,
-    ExtensionsProvider,
+    [
+      ExtensionsProvider,
+      { options: { chainSafeSnapEnabled: false, polkagateSnapEnabled: false } },
+    ],
     [
       ExtensionAccountsProvider,
-      { dappName: DappName, network, ss58, activeAccount, setActiveAccount },
+      { dappName: DappName, network, activeAccount, setActiveAccount },
     ],
-    [LedgerAccountsProvider, { network }],
+    VaultAccountsProvider,
+    LedgerAccountsProvider,
     ExternalAccountsProvider,
     OtherAccountsProvider,
     ImportedAccountsProvider,
@@ -83,6 +84,7 @@ export const Providers = () => {
     FastUnstakeProvider,
     PayoutsProvider,
     PoolPerformanceProvider,
+    JoinPoolsProvider,
     SetupProvider,
     MenuProvider,
     TooltipProvider,

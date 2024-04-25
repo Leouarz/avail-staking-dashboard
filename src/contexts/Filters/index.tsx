@@ -4,7 +4,11 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext, useState } from 'react';
 import type { AnyFunction, AnyJson } from 'types';
-import { defaultFiltersInterface } from './defaults';
+import {
+  defaultExcludes,
+  defaultFiltersInterface,
+  defaultIncludes,
+} from './defaults';
 import type {
   FilterItem,
   FilterItems,
@@ -24,10 +28,10 @@ export const useFilters = () => useContext(FiltersContext);
 
 export const FiltersProvider = ({ children }: { children: ReactNode }) => {
   // groups along with their includes
-  const [includes, setIncludes] = useState<FilterItems>([]);
+  const [includes, setIncludes] = useState<FilterItems>(defaultIncludes);
 
   // groups along with their excludes.
-  const [excludes, setExcludes] = useState<FilterItems>([]);
+  const [excludes, setExcludes] = useState<FilterItems>(defaultExcludes);
 
   // groups along with their order.
   const [orders, setOrders] = useState<FilterOrders>([]);
@@ -130,9 +134,14 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
     if (o === 'default') {
       newOrders = [...orders].filter((order) => order.key !== g);
     } else if (orders.length) {
+      // Attempt to replace the order record if it exists.
       newOrders = [...orders].map((order) =>
         order.key !== g ? order : { ...order, order: o }
       );
+      // If order for this key does not exist, add it.
+      if (newOrders.find(({ key }) => key === g) === undefined) {
+        newOrders.push({ key: g, order: o });
+      }
     } else {
       newOrders = [{ key: g, order: o }];
     }
@@ -147,9 +156,15 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
   const setSearchTerm = (g: string, t: string) => {
     let newSearchTerms = [];
     if (orders.length) {
+      // Attempt to replace the search term if it exists.
       newSearchTerms = [...searchTerms].map((term) =>
         term.key !== g ? term : { ...term, searchTerm: t }
       );
+
+      // If search term for this key does not exist, add it.
+      if (newSearchTerms.find(({ key }) => key === g) === undefined) {
+        newSearchTerms.push({ key: g, searchTerm: t });
+      }
     } else {
       newSearchTerms = [{ key: g, searchTerm: t }];
     }
