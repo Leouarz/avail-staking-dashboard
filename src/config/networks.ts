@@ -83,7 +83,7 @@ export const NetworkList: Networks = {
       lightClient: '',
       defaultRpcEndpoint: 'Avail Turing RPC',
       rpcEndpoints: {
-        'Avail Turing RPC': 'wss://turing-rpc.avail.so',
+        'Avail Turing RPC': 'wss://turing-rpc.avail.so/ws',
       },
     },
     namespace: 'Avail turing',
