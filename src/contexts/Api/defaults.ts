@@ -19,7 +19,7 @@ export const defaultChainState: APIChainState = {
   version: {
     specVersion: 0,
   },
-  ss58Prefix: 0,
+  ss58Prefix: 42,
 };
 
 export const defaultConsts: APIConstants = {

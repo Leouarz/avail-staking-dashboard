@@ -38,4 +38,4 @@ export const TipsThresholdMedium = 1200;
  * Misc Values
  */
 export const MaxPayoutDays = 60;
-export const MaxEraRewardPointsEras = 10;
+export const MaxEraRewardPointsEras = 5;

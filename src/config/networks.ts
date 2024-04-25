@@ -10,10 +10,13 @@ import BigNumber from 'bignumber.js';
 // DEPRECATION: Paged Rewards
 //
 // Temporary until paged rewards migration has completed on all networks.
-export const NetworksWithPagedRewards: NetworkName[] = [];
+export const NetworksWithPagedRewards: NetworkName[] = [
+  'avail',
+  'avail-turing',
+];
 export const PagedRewardsStartEra: Record<NetworkName, BigNumber | null> = {
-  avail: null,
-  'avail-turing': null,
+  avail: new BigNumber(0),
+  'avail-turing': new BigNumber(0),
   'avail-goldberg': null,
 };
 

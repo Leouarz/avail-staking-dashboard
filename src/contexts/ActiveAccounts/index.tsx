@@ -8,6 +8,7 @@ import { setStateWithRef } from '@w3ux/utils';
 import { useNetwork } from 'contexts/Network';
 import type { ActiveAccountsContextInterface, ActiveProxy } from './types';
 import { defaultActiveAccountsContext } from './defaults';
+import Keyring from '@polkadot/keyring';
 
 export const ActiveAccountsContext =
   createContext<ActiveAccountsContextInterface>(defaultActiveAccountsContext);
@@ -19,7 +20,7 @@ export const ActiveAccountsProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const { network } = useNetwork();
+  const { network, networkData } = useNetwork();
 
   // Store the currently active account.
   const [activeAccount, setActiveAccountState] = useState<MaybeAddress>(null);
@@ -46,9 +47,14 @@ export const ActiveAccountsProvider = ({
 
   // Setter for the active account.
   const setActiveAccount = (
-    newActiveAccount: MaybeAddress,
+    newActiveAccountUnformatted: MaybeAddress,
     updateLocalStorage = true
   ) => {
+    const keyring = new Keyring();
+    keyring.setSS58Format(networkData.ss58);
+    const newActiveAccount: MaybeAddress = newActiveAccountUnformatted
+      ? keyring.addFromAddress(newActiveAccountUnformatted).address
+      : null;
     if (updateLocalStorage) {
       if (newActiveAccount === null) {
         localStorage.removeItem(`${network}_active_account`);

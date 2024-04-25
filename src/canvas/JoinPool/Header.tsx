@@ -50,6 +50,7 @@ export const Header = ({
             text={t('chooseAnotherPool', { ns: 'library' })}
             iconLeft={faArrowsRotate}
             onClick={() => handleChooseNewPool()}
+            disabled={filteredBondedPools.length < 2}
             lg
           />
         )}
