@@ -245,15 +245,15 @@ export class SubscanController {
 
   // Remove unclaimed payouts and dispatch update event.
   static removeUnclaimedPayouts = (address: string, eraPayouts: string[]) => {
-    console.log("removeUnclaimedPayouts", address, eraPayouts)
+    console.log('removeUnclaimedPayouts', address, eraPayouts);
     const newUnclaimedPayouts = (this.payoutData[address]?.unclaimedPayouts ||
       []) as SubscanPayout[];
 
-    console.log({ newUnclaimedPayouts })
+    console.log({ newUnclaimedPayouts });
     eraPayouts.forEach(([era]) => {
       newUnclaimedPayouts.filter((u) => String(u.era) !== era);
     });
-    console.log({ newUnclaimedPayouts, test: this.payoutData[address] })
+    console.log({ newUnclaimedPayouts, test: this.payoutData[address] });
     this.payoutData[address].unclaimedPayouts = newUnclaimedPayouts;
 
     document.dispatchEvent(
