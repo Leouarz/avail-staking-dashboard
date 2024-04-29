@@ -14,7 +14,7 @@ Avail Staking Dashboard supports URL variables that can be used to direct users 
 
 The currently supported URL variables are as follows:
 
-- **n**: Controls the default network to connect to upon visiting the dashboard. Supported values are `avail`, `avail-turing`, `avail-goldberg`.
+- **n**: Controls the default network to connect to upon visiting the dashboard. Supported values are `avail`, `avail-turing`.
 - **l**: Controls the default to use upon visiting the dashboard. Supported values are `en` and `cn`.
 - **a**: Controls the account to connect to upon visiting the dashboard. Ignored if the account is not present in the initial imported accounts.
 

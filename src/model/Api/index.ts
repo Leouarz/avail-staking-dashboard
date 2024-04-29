@@ -29,8 +29,6 @@ import {
   signedExtensions as availSignedExtensions,
   types as availTypes,
   rpc as availRpc,
-  goldbergRpc,
-  goldbergTypes,
 } from 'avail-js-sdk';
 
 export class Api {
@@ -128,20 +126,11 @@ export class Api {
       this.dispatchEvent(this.ensureEventStatus('connecting'));
 
       // Inject avail specific types
-      const endpoint =
-        NetworkList[this.network].endpoints.rpcEndpoints[this.#rpcEndpoint];
-      const customTypes =
-        endpoint.includes('goldberg') ||
-        endpoint === 'wss://rpc-testnet.avail.tools/ws'
-          ? {
-              types: goldbergTypes,
-              rpc: goldbergRpc,
-            }
-          : {
-              types: availTypes,
-              rpc: availRpc,
-              signedExtensions: availSignedExtensions,
-            };
+      const customTypes = {
+        types: availTypes,
+        rpc: availRpc,
+        signedExtensions: availSignedExtensions,
+      };
 
       // Initialise api.
       this.#api = new ApiPromise({

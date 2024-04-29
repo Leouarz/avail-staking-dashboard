@@ -17,7 +17,6 @@ export const NetworksWithPagedRewards: NetworkName[] = [
 export const PagedRewardsStartEra: Record<NetworkName, BigNumber | null> = {
   avail: new BigNumber(0),
   'avail-turing': new BigNumber(0),
-  'avail-goldberg': null,
 };
 
 const colors = {
@@ -101,29 +100,6 @@ export const NetworkList: Networks = {
     },
     defaultFeeReserve: 0.1,
     maxExposurePageSize: new BigNumber(64),
-    subscanPrefix: undefined,
-  },
-  'avail-goldberg': {
-    name: 'avail-goldberg',
-    endpoints: {
-      lightClient: '',
-      defaultRpcEndpoint: 'Avail Goldberg RPC',
-      rpcEndpoints: {
-        'Avail Goldberg RPC': 'wss://rpc-testnet.avail.tools/ws',
-      },
-    },
-    namespace: 'Avail goldberg testnet',
-    colors,
-    unit: 'AVL',
-    units: 18,
-    ss58: 42,
-    brand,
-    api: {
-      unit: 'AVL',
-      priceTicker: 'AVLUSDT',
-    },
-    defaultFeeReserve: 0.1,
-    maxExposurePageSize: new BigNumber(64),
-    subscanPrefix: 'avail-testnet',
+    subscanPrefix: 'avail-turing',
   },
 };

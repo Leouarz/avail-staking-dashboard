@@ -47,7 +47,7 @@ declare global {
   }
 }
 
-export type NetworkName = 'avail' | 'avail-turing' | 'avail-goldberg';
+export type NetworkName = 'avail' | 'avail-turing';
 
 export type Networks = Record<string, Network>;
 
