@@ -12,7 +12,7 @@ export const SupplyStakedStat = () => {
   const { t } = useTranslation('pages');
   const {
     networkMetrics,
-    stakingMetrics: { lastTotalStake },
+    stakingMetrics: { totalStaked },
   } = useApi();
   const { units, unit } = useNetwork().networkData;
 
@@ -20,7 +20,7 @@ export const SupplyStakedStat = () => {
 
   // total supply as percent.
   const totalIssuanceUnit = planckToUnit(totalIssuance, units);
-  const lastTotalStakeUnit = planckToUnit(lastTotalStake, units);
+  const lastTotalStakeUnit = planckToUnit(totalStaked, units);
   const supplyAsPercent =
     lastTotalStakeUnit.isZero() || totalIssuanceUnit.isZero()
       ? new BigNumber(0)
