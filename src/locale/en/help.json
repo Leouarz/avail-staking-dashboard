@@ -108,7 +108,7 @@
         "Inflation",
         [
           "{NETWORK_UNIT} is inflationary; there is no maximum number of {NETWORK_UNIT}.",
-          "Inflation is designed to be approximately 10% annually, with validator rewards being a function of the amount staked and the remainder going to treasury.",
+          "Inflation is designed to be approximately 5% annually, with validator rewards being a function of the amount staked and the remainder going to treasury.",
           "The Latest Inflation Rate to Stakers figure represents how much of the inflation is accounted to stakers. The remaining inflation is diverted to the treasury."
         ]
       ],
