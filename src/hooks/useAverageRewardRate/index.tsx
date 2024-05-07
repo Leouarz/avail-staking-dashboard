@@ -12,7 +12,7 @@ import { useApi } from 'contexts/Api';
 
 export const useAverageRewardRate = (): UseAverageRewardRate => {
   const { erasPerDay } = useErasPerDay();
-  const { totalStaked } = useApi().stakingMetrics;
+  const { lastTotalStake } = useApi().stakingMetrics;
   const {
     networkMetrics: { totalIssuance },
   } = useApi();
@@ -32,7 +32,7 @@ export const useAverageRewardRate = (): UseAverageRewardRate => {
 
     // total supply as percent.
     const totalIssuanceUnit = planckToUnit(totalIssuance, units);
-    const lastTotalStakeUnit = planckToUnit(totalStaked, units);
+    const lastTotalStakeUnit = planckToUnit(lastTotalStake, units);
     const supplyStaked =
       lastTotalStakeUnit.isZero() || totalIssuanceUnit.isZero()
         ? new BigNumber(0)
