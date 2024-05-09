@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Close } from 'library/Modal/Close';
 import { SelectItems } from 'library/SelectItems';
-// import type { AnyFunction } from 'types';
+import type { AnyFunction } from 'types';
 import { Extension } from './Extension';
-// import { Ledger } from './Ledger';
+import { Ledger } from './Ledger';
 import { Proxies } from './Proxies';
 import { ReadOnly } from './ReadOnly';
 // import { Vault } from './Vault';
@@ -121,18 +121,18 @@ export const Connect = () => {
   }, []);
 
   // Hardware connect options JSX.
-  // const ConnectHardwareJSX = (
-  //   <>
-  //     <ActionItem text={t('hardware')} />
-  //     <ExtensionsWrapper>
-  //       <SelectItems layout="two-col">
-  //         {[Vault, Ledger].map((Item: AnyFunction, i: number) => (
-  //           <Item key={`hardware_item_${i}`} />
-  //         ))}
-  //       </SelectItems>
-  //     </ExtensionsWrapper>
-  //   </>
-  // );
+  const ConnectHardwareJSX = (
+    <>
+      <ActionItem text={t('hardware')} />
+      <ExtensionsWrapper>
+        <SelectItems layout="two-col">
+          {[Ledger].map((Item: AnyFunction, i: number) => (
+            <Item key={`hardware_item_${i}`} />
+          ))}
+        </SelectItems>
+      </ExtensionsWrapper>
+    </>
+  );
 
   // Web extension connect options JSX.
   const ConnectExtensionsJSX = (
@@ -151,13 +151,13 @@ export const Connect = () => {
   // before hardware.
   const ConnectCombinedJSX = !inMobileWallet ? (
     <>
-      {/* {ConnectHardwareJSX} */}
+      {ConnectHardwareJSX}
       {ConnectExtensionsJSX}
     </>
   ) : (
     <>
       {ConnectExtensionsJSX}
-      {/* {ConnectHardwareJSX} */}
+      {ConnectHardwareJSX}
     </>
   );
 

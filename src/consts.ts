@@ -10,8 +10,8 @@ export const AppVersion = '1.1.6';
 export const DappName = 'Avail Staking Dashboard';
 export const PolkadotUrl = 'https://www.availproject.org/';
 export const DefaultNetwork = 'avail-turing';
-export const ManualSigners: string[] = [];
-// ['ledger', 'vault'];
+export const ManualSigners: string[] = ['ledger'];
+// ['vault'];
 /*
  * Byte Helpers
  */

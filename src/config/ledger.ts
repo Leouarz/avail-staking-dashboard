@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { LedgerApp } from 'contexts/LedgerHardware/types';
-// import AvailSVG from 'img/appIcons/avail.svg?react';
+import AvailSVG from 'img/appIcons/avail.svg?react';
 
-// {
-//   network: 'avail',
-//   appName: 'Avail',
-//   Icon: AvailSVG,
-// },
-
-export const LedgerApps: LedgerApp[] = [];
+export const LedgerApps: LedgerApp[] = [
+  {
+    network: 'avail-turing',
+    appName: 'Avail',
+    Icon: AvailSVG,
+  },
+];
