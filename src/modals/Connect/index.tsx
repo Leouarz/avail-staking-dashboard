@@ -151,13 +151,13 @@ export const Connect = () => {
   // before hardware.
   const ConnectCombinedJSX = !inMobileWallet ? (
     <>
-      {ConnectHardwareJSX}
       {ConnectExtensionsJSX}
+      {ConnectHardwareJSX}
     </>
   ) : (
     <>
-      {ConnectExtensionsJSX}
       {ConnectHardwareJSX}
+      {ConnectExtensionsJSX}
     </>
   );
 
