@@ -70,7 +70,7 @@
       "addressCopied": "Address Copied to Clipboard",
       "afterCommission": "after commission",
       "available": "Available",
-      "averageRewardRate": "Average Reward Rate",
+      "averageRewardRate": "30d Average Reward Rate",
       "balance": "Balance",
       "bondedInPools": "The total {{networkUnit}}  currently bonded in nomination pools.",
       "connect": "Connect",
