@@ -12,11 +12,11 @@ import BigNumber from 'bignumber.js';
 // Temporary until paged rewards migration has completed on all networks.
 export const NetworksWithPagedRewards: NetworkName[] = [
   'avail',
-  'avail-turing',
+  'avail-turing-testnet',
 ];
 export const PagedRewardsStartEra: Record<NetworkName, BigNumber | null> = {
   avail: new BigNumber(0),
-  'avail-turing': new BigNumber(0),
+  'avail-turing-testnet': new BigNumber(0),
 };
 
 const colors = {
@@ -79,8 +79,8 @@ export const NetworkList: Networks = {
     maxExposurePageSize: new BigNumber(64),
     subscanPrefix: 'avail',
   },
-  'avail-turing': {
-    name: 'avail-turing',
+  'avail-turing-testnet': {
+    name: 'avail-turing-testnet',
     endpoints: {
       lightClient: '',
       defaultRpcEndpoint: 'Avail Turing RPC',

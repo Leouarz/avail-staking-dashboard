@@ -11,7 +11,7 @@ export const LedgerApps: LedgerApp[] = [
     Icon: AvailSVG,
   },
   {
-    network: 'avail-turing',
+    network: 'avail-turing-testnet',
     appName: 'Avail',
     Icon: AvailSVG,
   },
