@@ -56,29 +56,29 @@ const brand = {
 };
 
 export const NetworkList: Networks = {
-  // avail: {
-  //   name: 'avail',
-  //   endpoints: {
-  //     lightClient: '',
-  //     defaultRpcEndpoint: 'Avail RPC',
-  //     rpcEndpoints: {
-  //       'Avail RPC': 'wss://rpc-hex-devnet.avail.tools/ws',
-  //     },
-  //   },
-  //   namespace: 'Avail mainnet',
-  //   colors,
-  //   unit: 'AVAIL',
-  //   units: 18,
-  //   ss58: 42,
-  //   brand,
-  //   api: {
-  //     unit: 'AVAIL',
-  //     priceTicker: 'AVAILUSDT',
-  //   },
-  //   defaultFeeReserve: 0.1,
-  //   maxExposurePageSize: new BigNumber(64),
-  //   subscanPrefix: undefined,
-  // },
+  avail: {
+    name: 'avail',
+    endpoints: {
+      lightClient: '',
+      defaultRpcEndpoint: 'Avail RPC',
+      rpcEndpoints: {
+        'Avail RPC': 'wss://mainnet-rpc.avail.so/ws',
+      },
+    },
+    namespace: 'Avail',
+    colors,
+    unit: 'AVAIL',
+    units: 18,
+    ss58: 42,
+    brand,
+    api: {
+      unit: 'AVAIL',
+      priceTicker: 'AVAILUSDT',
+    },
+    defaultFeeReserve: 0.1,
+    maxExposurePageSize: new BigNumber(64),
+    subscanPrefix: 'avail',
+  },
   'avail-turing': {
     name: 'avail-turing',
     endpoints: {
@@ -88,7 +88,7 @@ export const NetworkList: Networks = {
         'Avail Turing RPC': 'wss://turing-rpc.avail.so/ws',
       },
     },
-    namespace: 'Avail turing',
+    namespace: 'Avail turing testnet',
     colors,
     unit: 'AVAIL',
     units: 18,

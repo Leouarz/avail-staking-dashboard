@@ -9,7 +9,7 @@ import { stringToU8a } from '@polkadot/util';
 export const AppVersion = '1.1.6';
 export const DappName = 'Avail Staking Dashboard';
 export const PolkadotUrl = 'https://www.availproject.org/';
-export const DefaultNetwork = 'avail-turing';
+export const DefaultNetwork = 'avail';
 export const ManualSigners: string[] = ['ledger'];
 // ['vault'];
 /*
