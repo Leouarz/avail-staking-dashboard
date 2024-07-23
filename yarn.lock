@@ -2879,12 +2879,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"avail-js-sdk@npm:^0.2.12":
-  version: 0.2.12
-  resolution: "avail-js-sdk@npm:0.2.12"
+"avail-js-sdk@npm:^0.2.13":
+  version: 0.2.13
+  resolution: "avail-js-sdk@npm:0.2.13"
   dependencies:
     "@polkadot/api": "npm:^10.11.3"
-  checksum: 10c0/1ec39e6c1c1dbd1c6d53783d07939f10d8e2c0530b9b143d2b7807b50547d3423a5dce51484aef2fd285d2406955de177c8275585d3a079aab69ee072462111c
+  checksum: 10c0/0f85b816f4858e0e132aab786280ce9500d5d69382f939203088c39e815f0aab27f6f6863535221119d9a2f19fb837b1aa304f80adf63925650f8d10788282fe
   languageName: node
   linkType: hard
 
@@ -2926,7 +2926,7 @@ __metadata:
     "@w3ux/utils": "npm:^0.1.1"
     "@w3ux/validator-assets": "npm:^0.0.4"
     "@zondax/ledger-substrate": "npm:^0.42.1"
-    avail-js-sdk: "npm:^0.2.12"
+    avail-js-sdk: "npm:^0.2.13"
     bignumber.js: "npm:^9.1.2"
     bn.js: "npm:^5.2.1"
     buffer: "npm:^6.0.3"

@@ -5,9 +5,9 @@
 import { NetworkList } from 'config/networks';
 
 export const defaultNetworkContext = {
-  network: NetworkList['avail-turing'].name,
-  networkData: NetworkList['avail-turing'],
+  network: NetworkList['avail'].name,
+  networkData: NetworkList['avail'],
   switchNetwork: () => {},
 };
 
-export const defaultNetwork = 'avail-turing';
+export const defaultNetwork = 'avail';

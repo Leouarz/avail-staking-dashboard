@@ -6,6 +6,11 @@ import AvailSVG from 'img/appIcons/avail.svg?react';
 
 export const LedgerApps: LedgerApp[] = [
   {
+    network: 'avail',
+    appName: 'Avail',
+    Icon: AvailSVG,
+  },
+  {
     network: 'avail-turing',
     appName: 'Avail',
     Icon: AvailSVG,

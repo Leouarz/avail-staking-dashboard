@@ -39,7 +39,7 @@
     "@w3ux/utils": "^0.1.1",
     "@w3ux/validator-assets": "^0.0.4",
     "@zondax/ledger-substrate": "^0.42.1",
-    "avail-js-sdk": "^0.2.12",
+    "avail-js-sdk": "^0.2.13",
     "bignumber.js": "^9.1.2",
     "bn.js": "^5.2.1",
     "buffer": "^6.0.3",

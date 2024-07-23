@@ -26,7 +26,7 @@ export const Ledger = () => {
 
   console.log('network', network);
   // Only render on Polkadot and Kusama networks.
-  if (!['polkadot', 'kusama', 'avail-turing'].includes(network)) {
+  if (!['polkadot', 'kusama', 'avail', 'avail-turing'].includes(network)) {
     return null;
   }
 

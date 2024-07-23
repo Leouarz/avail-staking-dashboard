@@ -71,11 +71,28 @@ export const JoinPool = () => {
     [poolsForJoin, poolRewardPoints, performanceDataReady]
   );
 
+  // Filter checks if the pool is in `eraStakers` for the
+  // active era.
+  const lessFilteredBondedPools = useMemo(
+    () =>
+      poolsForJoin
+        // Ensure the pool is currently in the active set of backers.
+        .filter((pool) =>
+          eraStakers.stakers.find((staker) =>
+            staker.others.find(({ who }) => who !== pool.addresses.stash)
+          )
+        ),
+    [poolsForJoin, poolRewardPoints, performanceDataReady]
+  );
+
   const initialSelectedPoolId = useMemo(
     () =>
       providedPoolId ||
       filteredBondedPools[(filteredBondedPools.length * Math.random()) << 0]
         ?.id ||
+      lessFilteredBondedPools[
+        (lessFilteredBondedPools.length * Math.random()) << 0
+      ]?.id ||
       0,
     []
   );
