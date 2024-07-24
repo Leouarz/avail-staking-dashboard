@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
+import { useNetwork } from 'contexts/Network';
 import { useTranslation } from 'react-i18next';
 import { ExtensionIcons } from '@w3ux/extension-assets/util';
 import { ExtensionInner } from './Wrappers';
@@ -16,12 +17,21 @@ import { NotificationsController } from 'controllers/NotificationsController';
 import { ModalConnectItem } from 'kits/Overlay/structure/ModalConnectItem';
 import { useExtensionAccounts, useExtensions } from '@w3ux/react-connect-kit';
 import { localStorageOrDefault } from '@w3ux/utils';
+import {
+  initialize,
+  MAINNET_ENDPOINT,
+  types,
+  signedExtensions,
+  TURING_ENDPOINT,
+} from 'avail-js-sdk';
+import type { ApiPromise } from 'avail-js-sdk';
 
 export const Extension = ({ meta, size, flag }: ExtensionProps) => {
   const { t } = useTranslation('modals');
   const { connectExtensionAccounts } = useExtensionAccounts();
   const { extensionsStatus, extensionInstalled, extensionCanConnect } =
     useExtensions();
+  const { network } = useNetwork();
   const { title, website, id } = meta;
   const isInstalled = extensionInstalled(id);
   const canConnect = extensionCanConnect(id);
@@ -31,11 +41,63 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
 
   const connected = extensionsStatus[id] === 'connected';
 
+  const setupSignedExtensionMetadata = async () => {
+    const getInjectorMetadata = async (
+      api: ApiPromise,
+      specVersion: number
+    ) => ({
+      chain: api.runtimeChain.toString(),
+      specVersion,
+      tokenDecimals: api.registry.chainDecimals[0] || 18,
+      tokenSymbol: api.registry.chainTokens[0] || 'AVAIL',
+      genesisHash: api.genesisHash.toHex(),
+      ss58Format: api.registry.chainSS58 || 0,
+      chainType: 'substrate' as const,
+      icon: 'substrate',
+      types: types as any,
+      userExtensions: signedExtensions,
+    });
+    if (
+      ['polkadot-js', 'subwallet-js', 'talisman'].includes(id) &&
+      network.includes('avail')
+    ) {
+      const api = await initialize(
+        network.includes('turing') ? TURING_ENDPOINT : MAINNET_ENDPOINT
+      );
+      const specVersion = api.runtimeVersion.specVersion.toNumber();
+      const key = `avail-metadata-${network}-${id}`;
+      let savedMetadataSpecVersion = localStorage.getItem(key);
+      if (
+        savedMetadataSpecVersion &&
+        Number(savedMetadataSpecVersion) !== specVersion
+      ) {
+        localStorage.removeItem(key);
+        savedMetadataSpecVersion = null;
+      }
+
+      const alreadyInitialized = savedMetadataSpecVersion !== null;
+      if (!alreadyInitialized) {
+        const { web3FromSource, web3Enable } = await import(
+          '@polkagate/extension-dapp'
+        );
+        await web3Enable('Avail staking dashboard metadata update');
+        const injector = await web3FromSource(id);
+        if (injector.metadata) {
+          const metadata = await getInjectorMetadata(api, specVersion);
+          injector.metadata.provide(metadata);
+          localStorage.setItem(key, specVersion.toString());
+        }
+      }
+    }
+  };
+
   // Click to connect to extension.
   const handleClick = async () => {
     if (!connected) {
       if (canConnect) {
         const success = await connectExtensionAccounts(id);
+        await setupSignedExtensionMetadata();
+
         // force re-render to display error messages
         setIncrement(increment + 1);
 
