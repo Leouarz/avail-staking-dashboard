@@ -147,19 +147,6 @@ export const Connect = () => {
       </ExtensionsWrapper>
     </>
   );
-  // Display hardware before extensions. If in Nova Wallet or SubWallet Mobile, display extension
-  // before hardware.
-  const ConnectCombinedJSX = !inMobileWallet ? (
-    <>
-      {ConnectExtensionsJSX}
-      {ConnectHardwareJSX}
-    </>
-  ) : (
-    <>
-      {ConnectHardwareJSX}
-      {ConnectExtensionsJSX}
-    </>
-  );
 
   return (
     <ModalSection type="carousel">
@@ -224,7 +211,8 @@ export const Connect = () => {
       >
         <div className="section">
           <ModalPadding horizontalOnly ref={homeRef}>
-            {ConnectCombinedJSX}
+            {ConnectExtensionsJSX}
+            {ConnectHardwareJSX}
             {!inMobileWallet && (
               <>
                 <ActionItem text={t('developerTools')} />
