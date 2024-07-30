@@ -233,7 +233,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
             </div>
             <div className="status">
               {flag && flag}
-              {inBinance &&
+              {!inBinance &&
                 (isInstalled ? statusJsx : <p>{t('notInstalled')}</p>)}
             </div>
             <div className="row">
