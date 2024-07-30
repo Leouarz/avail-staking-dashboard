@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faChevronLeft, faLinkSlash } from '@fortawesome/free-solid-svg-icons';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useProxies } from 'contexts/Proxies';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
@@ -43,6 +43,11 @@ export const Accounts = () => {
   const { getFeeReserve } = useTransferOptions();
   const { activeAccount, setActiveAccount, setActiveProxy } =
     useActiveAccounts();
+
+  const [storage, setStorage] = useState('');
+  useEffect(() => {
+    setStorage(localStorage.getItem('avail_active_account') || 'none');
+  }, []);
 
   // Listen to balance updates for entire accounts list.
   const { getLocks, getBalance, getEdReserved, getPoolMembership } =
@@ -180,6 +185,7 @@ export const Accounts = () => {
             marginLeft
           />
         </div>
+        <div style={{ color: 'white' }}>{'storage: ' + storage}</div>
         <div>
           {activeAccount && (
             <ButtonText
