@@ -15,7 +15,7 @@ import type {
   ExternalAccount,
   ImportedAccount,
 } from '@w3ux/react-connect-kit/types';
-import { ManualSigners } from 'consts';
+import { DappName, ManualSigners } from 'consts';
 import { useExtensionAccounts } from '@w3ux/react-connect-kit';
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import { defaultImportedAccountsContext } from './defaults';
@@ -60,7 +60,7 @@ export const ImportedAccountsProvider = ({
     const getAccount = async () => {
       if (inBinance && !!window.injectedWeb3?.['subwallet-js']) {
         const extension =
-          await window.injectedWeb3['subwallet-js'].enable('subwallet-js');
+          await window.injectedWeb3['subwallet-js'].enable(DappName);
         const accounts = await extension.accounts.get();
         setw3waccounts(
           accounts.filter(
