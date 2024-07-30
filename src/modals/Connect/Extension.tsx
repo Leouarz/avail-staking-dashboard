@@ -98,32 +98,34 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
 
   // Click to connect to extension.
   const handleClick = async () => {
-    if (!connected) {
-      if (canConnect) {
-        const success = await connectExtensionAccounts(id);
-        await setupSignedExtensionMetadata();
+    if (!inBinance) {
+      if (!connected) {
+        if (canConnect) {
+          const success = await connectExtensionAccounts(id);
+          await setupSignedExtensionMetadata();
 
-        // force re-render to display error messages
-        setIncrement(increment + 1);
+          // force re-render to display error messages
+          setIncrement(increment + 1);
 
-        if (success) {
-          NotificationsController.emit({
-            title: t('extensionConnected'),
-            subtitle: `${t('titleExtensionConnected', { title: inBinance ? 'Binance Wallet' : title })}`,
-          });
+          if (success) {
+            NotificationsController.emit({
+              title: t('extensionConnected'),
+              subtitle: `${t('titleExtensionConnected', { title: inBinance ? 'Binance Wallet' : title })}`,
+            });
+          }
         }
-      }
-    } else {
-      if (confirm(t('disconnectFromExtension'))) {
-        const updatedAtiveExtensions = (
-          localStorageOrDefault('active_extensions', [], true) as string[]
-        ).filter((ext: string) => ext !== id);
+      } else {
+        if (confirm(t('disconnectFromExtension'))) {
+          const updatedAtiveExtensions = (
+            localStorageOrDefault('active_extensions', [], true) as string[]
+          ).filter((ext: string) => ext !== id);
 
-        localStorage.setItem(
-          'active_extensions',
-          JSON.stringify(updatedAtiveExtensions)
-        );
-        location.reload();
+          localStorage.setItem(
+            'active_extensions',
+            JSON.stringify(updatedAtiveExtensions)
+          );
+          location.reload();
+        }
       }
     }
   };
@@ -231,7 +233,8 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
             </div>
             <div className="status">
               {flag && flag}
-              {isInstalled ? statusJsx : <p>{t('notInstalled')}</p>}
+              {inBinance &&
+                (isInstalled ? statusJsx : <p>{t('notInstalled')}</p>)}
             </div>
             <div className="row">
               <h3>{inBinance ? 'Binance web3 wallet' : title}</h3>
