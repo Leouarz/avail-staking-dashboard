@@ -35,7 +35,7 @@ export const JoinPoolInterfaceWrapper = styled.div`
       }
 
       &.side {
-        min-width: 460px;
+        /* min-width: 460px; */
         padding-left: 2.5rem;
 
         @media (max-width: 1000px) {
