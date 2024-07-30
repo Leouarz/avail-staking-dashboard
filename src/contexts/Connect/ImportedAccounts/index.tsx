@@ -49,6 +49,7 @@ export const ImportedAccountsProvider = ({
   const { getExtensionAccounts } = useExtensionAccounts();
   const { setActiveAccount, setActiveProxy } = useActiveAccounts();
   const [w3wAccounts, setw3waccounts] = useState<ImportedAccount[]>([]);
+  const [w3wAccountsLoaded, setw3waccountsLoaded] = useState(false);
 
   // Whether the app is running in a Binance web3 wallet  Mobile.
   const inBinance =
@@ -71,6 +72,7 @@ export const ImportedAccountsProvider = ({
           )
         );
       }
+      setw3waccountsLoaded(true);
     };
     getAccount();
   }, [inBinance, typeof window]);
@@ -162,21 +164,23 @@ export const ImportedAccountsProvider = ({
 
   // Re-sync the active account and active proxy on network change.
   useEffectIgnoreInitial(() => {
-    const localActiveAccount = getActiveAccountLocal(network, ss58);
+    if (w3wAccountsLoaded) {
+      const localActiveAccount = getActiveAccountLocal(network, ss58);
 
-    if (getAccount(localActiveAccount) !== null) {
-      setActiveAccount(getActiveAccountLocal(network, ss58), false);
-    } else {
-      setActiveAccount(null, false);
-    }
+      if (getAccount(localActiveAccount) !== null) {
+        setActiveAccount(getActiveAccountLocal(network, ss58), false);
+      } else {
+        setActiveAccount(null, false);
+      }
 
-    const localActiveProxy = getActiveProxyLocal(network, ss58);
-    if (getAccount(localActiveProxy?.address || null)) {
-      setActiveProxy(getActiveProxyLocal(network, ss58), false);
-    } else {
-      setActiveProxy(null, false);
+      const localActiveProxy = getActiveProxyLocal(network, ss58);
+      if (getAccount(localActiveProxy?.address || null)) {
+        setActiveProxy(getActiveProxyLocal(network, ss58), false);
+      } else {
+        setActiveProxy(null, false);
+      }
     }
-  }, [network]);
+  }, [network, w3wAccountsLoaded]);
 
   return (
     <ImportedAccountsContext.Provider
