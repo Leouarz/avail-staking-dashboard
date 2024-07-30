@@ -2,7 +2,14 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext } from 'react';
+import {
+  useEffect,
+  useState,
+  createContext,
+  useCallback,
+  useContext,
+} from 'react';
+
 import type { MaybeAddress } from 'types';
 import type {
   ExternalAccount,
@@ -40,11 +47,31 @@ export const ImportedAccountsProvider = ({
   const { otherAccounts } = useOtherAccounts();
   const { getExtensionAccounts } = useExtensionAccounts();
   const { setActiveAccount, setActiveProxy } = useActiveAccounts();
+  const [w3wAccounts, setw3waccounts] = useState<ImportedAccount[]>([]);
+
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.['subwallet-js'] &&
+    Boolean((window as any).ethereum?.isBinance);
+
+  useEffect(() => {
+    const getAccount = async () => {
+      if (inBinance && !!window.injectedWeb3?.['subwallet-js']) {
+        const extension =
+          await window.injectedWeb3['subwallet-js'].enable('subwallet-js');
+        const accounts = await extension.accounts.get();
+        setw3waccounts(accounts);
+      }
+    };
+    getAccount();
+  }, [inBinance, typeof window]);
 
   // Get the imported extension accounts formatted with the current network's ss58 prefix.
   const extensionAccounts = getExtensionAccounts(ss58);
 
-  const allAccounts = extensionAccounts.concat(otherAccounts);
+  const allAccounts = w3wAccounts
+    .concat(extensionAccounts)
+    .concat(otherAccounts);
 
   // Stringify account addresses and account names to determine if they have changed. Ignore other properties including `signer` and `source`.
   const shallowAccountStringify = (accounts: ImportedAccount[]) => {

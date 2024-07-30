@@ -36,6 +36,11 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
   const isInstalled = extensionInstalled(id);
   const canConnect = extensionCanConnect(id);
 
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.['subwallet-js'] &&
+    Boolean((window as any).ethereum?.isBinance);
+
   // Force re-render on click.
   const [increment, setIncrement] = useState<number>(0);
 
@@ -157,7 +162,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
 
   const websiteText = typeof website === 'string' ? website : website.text;
   const websiteUrl = typeof website === 'string' ? website : website.url;
-  const disabled = !isInstalled;
+  const disabled = !isInstalled || (inBinance && network.includes('turing'));
 
   return (
     <ModalConnectItem canConnect={canConnect}>
@@ -175,25 +180,72 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
             ) : null}
 
             <div className="row icon">
-              {Icon && <Icon style={{ width: size, height: size }} />}
+              {Icon && !inBinance && (
+                <Icon style={{ width: size, height: size }} />
+              )}
+              {inBinance && (
+                <svg
+                  version="1.1"
+                  id="Your_design"
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  width="126.611px"
+                  height="126.611px"
+                  viewBox="0 0 126.611 126.611"
+                  enableBackground="new 0 0 126.611 126.611"
+                  style={{ width: size, height: size }}
+                >
+                  <polygon
+                    fill="#F3BA2F"
+                    points="38.171,53.203 62.759,28.616 87.36,53.216 101.667,38.909 62.759,0 23.864,38.896 "
+                  />
+                  <rect
+                    x="3.644"
+                    y="53.188"
+                    transform="matrix(0.7071 0.7071 -0.7071 0.7071 48.7933 8.8106)"
+                    fill="#F3BA2F"
+                    width="20.233"
+                    height="20.234"
+                  />
+                  <polygon
+                    fill="#F3BA2F"
+                    points="38.171,73.408 62.759,97.995 87.359,73.396 101.674,87.695 101.667,87.703 62.759,126.611 
+                    23.863,87.716 23.843,87.696 "
+                  />
+                  <rect
+                    x="101.64"
+                    y="53.189"
+                    transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 235.5457 29.0503)"
+                    fill="#F3BA2F"
+                    width="20.234"
+                    height="20.233"
+                  />
+                  <polygon
+                    fill="#F3BA2F"
+                    points="77.271,63.298 77.277,63.298 62.759,48.78 52.03,59.509 52.029,59.509 50.797,60.742 48.254,63.285 
+                    48.254,63.285 48.234,63.305 48.254,63.326 62.759,77.831 77.277,63.313 77.284,63.305 "
+                  />
+                </svg>
+              )}
             </div>
             <div className="status">
               {flag && flag}
               {isInstalled ? statusJsx : <p>{t('notInstalled')}</p>}
             </div>
             <div className="row">
-              <h3>{title}</h3>
+              <h3>{inBinance ? 'Binance web3 wallet' : title}</h3>
               {connected && <p className="active inline">{t('connected')}</p>}
             </div>
           </div>
           <div className="foot">
             <a
               className="link"
-              href={`https://${websiteUrl}`}
+              href={`https://${inBinance ? 'binance.com/web3wallet' : websiteUrl}`}
               target="_blank"
               rel="noreferrer"
             >
-              {websiteText}
+              {inBinance ? 'binance.com/web3wallet' : websiteText}
               <FontAwesomeIcon icon={faExternalLinkAlt} transform="shrink-6" />
             </a>
           </div>
