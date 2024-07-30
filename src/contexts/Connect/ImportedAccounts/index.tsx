@@ -26,6 +26,7 @@ import { useApi } from 'contexts/Api';
 import { useNetwork } from 'contexts/Network';
 import { getActiveAccountLocal, getActiveProxyLocal } from '../Utils';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
+import { isValidAddress } from 'avail-js-sdk';
 
 export const ImportedAccountsContext =
   createContext<ImportedAccountsContextInterface>(
@@ -60,7 +61,15 @@ export const ImportedAccountsProvider = ({
         const extension =
           await window.injectedWeb3['subwallet-js'].enable('subwallet-js');
         const accounts = await extension.accounts.get();
-        setw3waccounts(accounts);
+        setw3waccounts(
+          accounts.filter(
+            (x) =>
+              isValidAddress(x.address) &&
+              (!(x as any).genesisHash ||
+                (x as any).genesisHash ===
+                  '0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a')
+          )
+        );
       }
     };
     getAccount();

@@ -23,14 +23,16 @@ import { ModalCustomHeader } from 'kits/Overlay/structure/ModalCustomHeader';
 import { ModalSection } from 'kits/Overlay/structure/ModalSection';
 import { ModalMotionThreeSection } from 'kits/Overlay/structure/ModalMotionThreeSection';
 import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
-import { useExtensions } from '@w3ux/react-connect-kit';
+import { useExtensionAccounts, useExtensions } from '@w3ux/react-connect-kit';
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import extensions from '@w3ux/extension-assets';
+import { NotificationsController } from 'controllers/NotificationsController';
 import type { ExtensionArrayListItem } from '@w3ux/extension-assets/util';
 
 export const Connect = () => {
   const { t } = useTranslation('modals');
-  const { extensionsStatus } = useExtensions();
+  const { extensionsStatus, extensionCanConnect } = useExtensions();
+  const { connectExtensionAccounts } = useExtensionAccounts();
   const { replaceModal, setModalHeight, modalMaxHeight } = useOverlay().modal;
 
   // Whether the app is running on mobile.
@@ -44,6 +46,31 @@ export const Connect = () => {
 
   // Whether the app is running on of mobile wallets.
   const inMobileWallet = inNova || inSubWallet;
+
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.['subwallet-js'] &&
+    Boolean((window as any).ethereum?.isBinance);
+
+  useEffect(() => {
+    const connectExtension = async () => {
+      if (
+        inBinance &&
+        !(extensionsStatus['subwallet-js'] === 'connected') &&
+        extensionCanConnect('subwallet-js')
+      ) {
+        const success = await connectExtensionAccounts('subwallet-js');
+
+        if (success) {
+          NotificationsController.emit({
+            title: t('extensionConnected'),
+            subtitle: `${t('titleExtensionConnected', { title: 'Binance wallet' })}`,
+          });
+        }
+      }
+    };
+    connectExtension();
+  }, [inBinance]);
 
   // Get supported extensions.
   const extensionsAsArray = Object.entries(extensions).map(([key, value]) => ({
@@ -212,7 +239,7 @@ export const Connect = () => {
         <div className="section">
           <ModalPadding horizontalOnly ref={homeRef}>
             {ConnectExtensionsJSX}
-            {ConnectHardwareJSX}
+            {!inBinance && ConnectHardwareJSX}
             {!inMobileWallet && (
               <>
                 <ActionItem text={t('developerTools')} />

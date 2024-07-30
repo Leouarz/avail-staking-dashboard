@@ -109,7 +109,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
         if (success) {
           NotificationsController.emit({
             title: t('extensionConnected'),
-            subtitle: `${t('titleExtensionConnected', { title })}`,
+            subtitle: `${t('titleExtensionConnected', { title: inBinance ? 'Binance Wallet' : title })}`,
           });
         }
       }
