@@ -44,8 +44,8 @@ export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {
   const { queryPoolMember, addToPoolMembers } = usePoolMembers();
   const [logs, setLogs] = useState<string[]>([]);
 
-  const addLog = (log: string) => {
-    setLogs([...logs, log]);
+  const addLog = (log: string[]) => {
+    setLogs([...logs, ...log]);
   };
 
   const {

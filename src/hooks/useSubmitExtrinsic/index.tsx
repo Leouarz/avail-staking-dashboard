@@ -114,13 +114,14 @@ export const useSubmitExtrinsic = ({
     // give tx fees to global useTxMeta context
     if (partialFeeBn.toString() !== txFees.toString()) {
       setTxFees(partialFeeBn);
-      addLog(`Set fees: ${partialFeeBn.toString()}`);
+      addLog([`Set fees: ${partialFeeBn.toString()}`]);
     }
   };
 
   // Extrinsic submission handler.
   const onSubmit = async () => {
-    addLog(`getAccount fromRef.current - ${fromRef.current}`);
+    const log = [`getAccount fromRef.current - ${fromRef.current}`];
+    addLog(log);
     const account = getAccount(fromRef.current);
     if (
       account === null ||
@@ -129,9 +130,10 @@ export const useSubmitExtrinsic = ({
       !api ||
       (requiresManualSign(fromRef.current) && !getTxSignature())
     ) {
-      addLog(
+      log.push(
         `EARLY RETURN PB IS HERE - ${account === null} - ${submitting} - ${!shouldSubmit} - ${!api} - ${requiresManualSign(fromRef.current) && !getTxSignature()}`
       );
+      addLog(log);
       return;
     }
 
@@ -139,14 +141,15 @@ export const useSubmitExtrinsic = ({
       await api.rpc.system.accountNextIndex(fromRef.current)
     ).toHuman();
 
-    addLog(`Nonce: ${JSON.stringify(nonce)}`);
-
-    addLog(`Account - ${JSON.stringify(account)}`);
+    log.push(`Nonce: ${JSON.stringify(nonce)}`);
+    log.push(`Account - ${JSON.stringify(account)}`);
+    addLog(log);
 
     const { source } = account;
 
-    addLog(`source: ${source}`);
-    addLog(`aaaaaaaaaaaaa`);
+    log.push(`source: ${source}`);
+    log.push(`aaaaaaaaaaaaa`);
+    addLog(log);
 
     // if `activeAccount` is imported from an extension, ensure it is enabled.
     if (!ManualSigners.includes(source)) {
@@ -245,8 +248,9 @@ export const useSubmitExtrinsic = ({
     const txPayload: AnyJson = getTxPayload();
     const txSignature: AnyJson = getTxSignature();
 
-    addLog(`txPayload: ${txPayload}`);
-    addLog(`txSignature: ${txSignature}`);
+    log.push(`txPayload: ${txPayload}`);
+    log.push(`txSignature: ${txSignature}`);
+    addLog(log);
 
     // handle signed transaction.
     if (getTxSignature()) {
