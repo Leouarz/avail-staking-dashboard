@@ -178,7 +178,7 @@ export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {
           noMargin
         />
       </div>
-      <pre style={{ color: 'white', maxWidth: '400px' }}>
+      <pre style={{ color: 'white', maxWidth: '400px', overflowX: 'auto' }}>
         {JSON.stringify(
           {
             submitExtrinsic,
@@ -194,7 +194,7 @@ export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {
           2
         )}
       </pre>
-      <pre style={{ color: 'white', maxWidth: '400px' }}>
+      <pre style={{ color: 'white', maxWidth: '400px', overflowX: 'auto' }}>
         {JSON.stringify(logs, undefined, 2)}
       </pre>
     </JoinFormWrapper>
