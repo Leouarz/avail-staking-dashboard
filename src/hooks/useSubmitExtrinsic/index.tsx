@@ -290,7 +290,11 @@ export const useSubmitExtrinsic = ({
         log.push(`In binance: ${inBinance}`);
         addLog(log);
         const { web3FromSource } = await import('@polkagate/extension-dapp');
+        log.push(`imported web3FromSource`);
+        addLog(log);
         const injector = await web3FromSource('subwallet-js');
+        log.push(`gotten injector`);
+        addLog(log);
         signer = injector.signer;
         log.push(`Injector overridden`);
         addLog(log);
