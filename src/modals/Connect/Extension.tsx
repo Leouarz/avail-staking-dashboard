@@ -25,6 +25,7 @@ import {
   TURING_ENDPOINT,
 } from 'avail-js-sdk';
 import type { ApiPromise } from 'avail-js-sdk';
+import { DappName } from 'consts';
 
 export const Extension = ({ meta, size, flag }: ExtensionProps) => {
   const { t } = useTranslation('modals');
@@ -85,7 +86,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
         const { web3FromSource, web3Enable } = await import(
           '@polkagate/extension-dapp'
         );
-        await web3Enable('Avail staking dashboard');
+        await web3Enable(DappName);
         const injector = await web3FromSource(id);
         if (injector.metadata) {
           const metadata = await getInjectorMetadata(api, specVersion);
