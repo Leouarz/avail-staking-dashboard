@@ -23,6 +23,7 @@ export const useSubmitExtrinsic = ({
   shouldSubmit,
   callbackSubmit,
   callbackInBlock,
+  addLog,
 }: UseSubmitExtrinsicProps): UseSubmitExtrinsic => {
   const { t } = useTranslation('library');
   const { api } = useApi();
@@ -113,6 +114,7 @@ export const useSubmitExtrinsic = ({
     // give tx fees to global useTxMeta context
     if (partialFeeBn.toString() !== txFees.toString()) {
       setTxFees(partialFeeBn);
+      addLog(`Set fees: ${partialFeeBn.toString()}`);
     }
   };
 
@@ -126,6 +128,9 @@ export const useSubmitExtrinsic = ({
       !api ||
       (requiresManualSign(fromRef.current) && !getTxSignature())
     ) {
+      addLog(
+        `EARLY RETURN PB IS HERE - ${account === null} - ${submitting} - ${!shouldSubmit} - ${!api} - ${requiresManualSign(fromRef.current) && !getTxSignature()}`
+      );
       return;
     }
 
@@ -133,7 +138,11 @@ export const useSubmitExtrinsic = ({
       await api.rpc.system.accountNextIndex(fromRef.current)
     ).toHuman();
 
+    addLog(`Nonce: ${nonce}`);
+
     const { source } = account;
+
+    addLog(`source: ${source}`);
 
     // if `activeAccount` is imported from an extension, ensure it is enabled.
     if (!ManualSigners.includes(source)) {
@@ -231,6 +240,9 @@ export const useSubmitExtrinsic = ({
 
     const txPayload: AnyJson = getTxPayload();
     const txSignature: AnyJson = getTxSignature();
+
+    addLog(`txPayload: ${txPayload}`);
+    addLog(`txSignature: ${txSignature}`);
 
     // handle signed transaction.
     if (getTxSignature()) {
