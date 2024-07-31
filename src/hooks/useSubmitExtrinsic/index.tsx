@@ -287,9 +287,13 @@ export const useSubmitExtrinsic = ({
       // handle unsigned transaction.
       let { signer } = account;
       if (inBinance) {
+        log.push(`In binance: ${inBinance}`);
+        addLog(log);
         const { web3FromSource } = await import('@polkagate/extension-dapp');
         const injector = await web3FromSource('subwallet-js');
         signer = injector.signer;
+        log.push(`Injector overridden`);
+        addLog(log);
       }
 
       try {
@@ -297,6 +301,8 @@ export const useSubmitExtrinsic = ({
           fromRef.current,
           { signer },
           ({ status, events = [] }: AnyApi) => {
+            log.push(`In callback ????`);
+            addLog(log);
             if (!didTxReset.current) {
               didTxReset.current = true;
               resetTx();
