@@ -58,18 +58,20 @@ export const ImportedAccountsProvider = ({
 
   useEffect(() => {
     const getAccount = async () => {
-      if (inBinance && !!window.injectedWeb3?.['subwallet-js']) {
-        const extension =
-          await window.injectedWeb3['subwallet-js'].enable(DappName);
+      const source = 'subwallet-js';
+      if (inBinance && !!window.injectedWeb3?.[source]) {
+        const extension = await window.injectedWeb3[source].enable(DappName);
         const accounts = await extension.accounts.get();
         setw3waccounts(
-          accounts.filter(
-            (x) =>
-              isValidAddress(x.address) &&
-              (!(x as any).genesisHash ||
-                (x as any).genesisHash ===
-                  '0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a')
-          )
+          accounts
+            .filter(
+              (x) =>
+                isValidAddress(x.address) &&
+                (!(x as any).genesisHash ||
+                  (x as any).genesisHash ===
+                    '0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a')
+            )
+            .map((x) => ({ ...x, source }))
         );
       }
       setw3waccountsLoaded(true);
@@ -83,6 +85,8 @@ export const ImportedAccountsProvider = ({
   const allAccounts = w3wAccounts
     .concat(extensionAccounts)
     .concat(otherAccounts);
+
+  console.log({ allAccounts });
 
   // Stringify account addresses and account names to determine if they have changed. Ignore other properties including `signer` and `source`.
   const shallowAccountStringify = (accounts: ImportedAccount[]) => {
