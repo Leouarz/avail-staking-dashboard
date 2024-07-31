@@ -56,16 +56,6 @@ export const Default = ({
           pulse={!disabled}
         />
       )}
-      <pre style={{ color: 'white' }}>
-        {JSON.stringify(
-          {
-            disabled,
-            submitText,
-          },
-          undefined,
-          2
-        )}
-      </pre>
     </>
   );
 };

@@ -92,8 +92,6 @@ export const ImportedAccountsProvider = ({
     .concat(extensionAccounts)
     .concat(otherAccounts);
 
-  console.log({ allAccounts });
-
   // Stringify account addresses and account names to determine if they have changed. Ignore other properties including `signer` and `source`.
   const shallowAccountStringify = (accounts: ImportedAccount[]) => {
     const sorted = accounts.sort((a, b) => {

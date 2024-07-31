@@ -9,8 +9,6 @@ export interface UseSubmitExtrinsicProps {
   shouldSubmit: boolean;
   callbackSubmit?: () => void;
   callbackInBlock?: () => void;
-  logs?: any;
-  addLog?: any;
 }
 
 export interface UseSubmitExtrinsic {

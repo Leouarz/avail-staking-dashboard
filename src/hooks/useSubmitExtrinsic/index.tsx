@@ -23,7 +23,6 @@ export const useSubmitExtrinsic = ({
   shouldSubmit,
   callbackSubmit,
   callbackInBlock,
-  addLog,
 }: UseSubmitExtrinsicProps): UseSubmitExtrinsic => {
   const { t } = useTranslation('library');
   const { api } = useApi();
@@ -44,11 +43,6 @@ export const useSubmitExtrinsic = ({
     resetTxPayloads,
     incrementPayloadUid,
   } = useTxMeta();
-
-  // // Whether the app is running in a Binance web3 wallet  Mobile.
-  // const inBinance =
-  //   !!window.injectedWeb3?.['subwallet-js'] &&
-  //   Boolean((window as any).ethereum?.isBinance);
 
   // Store given tx as a ref.
   const txRef = useRef<AnyApi>(tx);
@@ -119,14 +113,11 @@ export const useSubmitExtrinsic = ({
     // give tx fees to global useTxMeta context
     if (partialFeeBn.toString() !== txFees.toString()) {
       setTxFees(partialFeeBn);
-      addLog([`Set fees: ${partialFeeBn.toString()}`]);
     }
   };
 
   // Extrinsic submission handler.
   const onSubmit = async () => {
-    const log = [`getAccount fromRef.current - ${fromRef.current}`];
-    addLog(log);
     const account = getAccount(fromRef.current);
     if (
       account === null ||
@@ -135,10 +126,6 @@ export const useSubmitExtrinsic = ({
       !api ||
       (requiresManualSign(fromRef.current) && !getTxSignature())
     ) {
-      log.push(
-        `EARLY RETURN PB IS HERE - ${account === null} - ${submitting} - ${!shouldSubmit} - ${!api} - ${requiresManualSign(fromRef.current) && !getTxSignature()}`
-      );
-      addLog(log);
       return;
     }
 
@@ -146,15 +133,7 @@ export const useSubmitExtrinsic = ({
       await api.rpc.system.accountNextIndex(fromRef.current)
     ).toHuman();
 
-    log.push(`Nonce: ${JSON.stringify(nonce)}`);
-    log.push(`Account - ${JSON.stringify(account)}`);
-    addLog(log);
-
     const { source } = account;
-
-    log.push(`source: ${source}`);
-    log.push(`aaaaaaaaaaaaa`);
-    addLog(log);
 
     // if `activeAccount` is imported from an extension, ensure it is enabled.
     if (!ManualSigners.includes(source)) {
@@ -253,10 +232,6 @@ export const useSubmitExtrinsic = ({
     const txPayload: AnyJson = getTxPayload();
     const txSignature: AnyJson = getTxSignature();
 
-    log.push(`txPayload: ${txPayload}`);
-    log.push(`txSignature: ${txSignature}`);
-    addLog(log);
-
     // handle signed transaction.
     if (getTxSignature()) {
       try {
@@ -286,32 +261,11 @@ export const useSubmitExtrinsic = ({
     } else {
       // handle unsigned transaction.
       const { signer } = account;
-      // if (inBinance) {
-      //   log.push(`In binance: ${inBinance}`);
-      //   addLog(log);
-      //   const { web3FromSource, web3Enable } = await import(
-      //     '@polkagate/extension-dapp'
-      //   );
-      //   log.push(`imported web3FromSource`);
-      //   addLog(log);
-      //   await web3Enable(DappName);
-      //   log.push(`enablec extensions`);
-      //   addLog(log);
-      //   const injector = await web3FromSource('subwallet-js');
-      //   log.push(`gotten injector`);
-      //   addLog(log);
-      //   signer = injector.signer;
-      //   log.push(`Injector overridden`);
-      //   addLog(log);
-      // }
-
       try {
         const unsub = await txRef.current.signAndSend(
           fromRef.current,
           { signer },
           ({ status, events = [] }: AnyApi) => {
-            log.push(`In callback ????`);
-            addLog(log);
             if (!didTxReset.current) {
               didTxReset.current = true;
               resetTx();
@@ -328,7 +282,7 @@ export const useSubmitExtrinsic = ({
             }
           }
         );
-      } catch (e: any) {
+      } catch (e) {
         onError('default');
       }
     }

@@ -42,11 +42,6 @@ export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {
   const { getTransferOptions } = useTransferOptions();
   const largestTxFee = useBondGreatestFee({ bondFor: 'pool' });
   const { queryPoolMember, addToPoolMembers } = usePoolMembers();
-  const [logs, setLogs] = useState<string[]>([]);
-
-  const addLog = (log: string[]) => {
-    setLogs([...logs, ...log]);
-  };
 
   const {
     pool: { totalPossibleBond },
@@ -125,8 +120,6 @@ export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {
       // Reset local storage setup progress
       setActiveAccountSetup('pool', defaultPoolProgress);
     },
-    logs,
-    addLog,
   });
 
   const warnings = getSignerWarnings(
@@ -179,25 +172,6 @@ export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {
           noMargin
         />
       </div>
-      <pre style={{ color: 'white', maxWidth: '400px', overflowX: 'auto' }}>
-        {JSON.stringify(
-          {
-            submitExtrinsic,
-            tx: getTx(),
-            activeAccount,
-            formValid,
-            bondValid,
-            apiConnected: api?.isConnected || false,
-            claimPermission,
-            feedbackErrors,
-          },
-          undefined,
-          2
-        )}
-      </pre>
-      <pre style={{ color: 'white', maxWidth: '400px', overflowX: 'auto' }}>
-        {JSON.stringify(logs, undefined, 2)}
-      </pre>
     </JoinFormWrapper>
   );
 };
