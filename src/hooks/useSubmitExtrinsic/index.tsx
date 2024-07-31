@@ -138,11 +138,14 @@ export const useSubmitExtrinsic = ({
       await api.rpc.system.accountNextIndex(fromRef.current)
     ).toHuman();
 
-    addLog(`Nonce: ${nonce}`);
+    addLog(`Nonce: ${JSON.stringify(nonce)}`);
+
+    addLog(`Account - ${JSON.stringify(account)}`)
 
     const { source } = account;
 
     addLog(`source: ${source}`);
+    addLog(`aaaaaaaaaaaaa`);
 
     // if `activeAccount` is imported from an extension, ensure it is enabled.
     if (!ManualSigners.includes(source)) {
