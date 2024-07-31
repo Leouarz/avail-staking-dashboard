@@ -23,7 +23,7 @@ export const useSubmitExtrinsic = ({
   shouldSubmit,
   callbackSubmit,
   callbackInBlock,
-  logs,
+  inBinance,
   addLog,
 }: UseSubmitExtrinsicProps): UseSubmitExtrinsic => {
   const { t } = useTranslation('library');
@@ -281,7 +281,13 @@ export const useSubmitExtrinsic = ({
       }
     } else {
       // handle unsigned transaction.
-      const { signer } = account;
+      let { signer } = account;
+      if (inBinance) {
+        const { web3FromSource } = await import('@polkagate/extension-dapp');
+        const injector = await web3FromSource('subwallet-js');
+        signer = injector.signer;
+      }
+
       try {
         const unsub = await txRef.current.signAndSend(
           fromRef.current,
@@ -304,11 +310,6 @@ export const useSubmitExtrinsic = ({
           }
         );
       } catch (e: any) {
-        addLog([
-          ...logs,
-          JSON.stringify(e),
-          `Error message: ${e.message ? e.message : e}`,
-        ]);
         onError('default');
       }
     }
