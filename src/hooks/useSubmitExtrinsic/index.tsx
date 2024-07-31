@@ -120,7 +120,7 @@ export const useSubmitExtrinsic = ({
 
   // Extrinsic submission handler.
   const onSubmit = async () => {
-    addLog(`getAccount fromRef.current - ${fromRef.current}`)
+    addLog(`getAccount fromRef.current - ${fromRef.current}`);
     const account = getAccount(fromRef.current);
     if (
       account === null ||
@@ -141,7 +141,7 @@ export const useSubmitExtrinsic = ({
 
     addLog(`Nonce: ${JSON.stringify(nonce)}`);
 
-    addLog(`Account - ${JSON.stringify(account)}`)
+    addLog(`Account - ${JSON.stringify(account)}`);
 
     const { source } = account;
 
