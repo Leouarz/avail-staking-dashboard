@@ -85,7 +85,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
         const { web3FromSource, web3Enable } = await import(
           '@polkagate/extension-dapp'
         );
-        await web3Enable('Avail staking dashboard metadata update');
+        await web3Enable('Avail staking dashboard');
         const injector = await web3FromSource(id);
         if (injector.metadata) {
           const metadata = await getInjectorMetadata(api, specVersion);
