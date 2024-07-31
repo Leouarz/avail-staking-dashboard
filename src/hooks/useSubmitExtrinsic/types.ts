@@ -9,7 +9,6 @@ export interface UseSubmitExtrinsicProps {
   shouldSubmit: boolean;
   callbackSubmit?: () => void;
   callbackInBlock?: () => void;
-  inBinance?: boolean;
   logs?: any;
   addLog?: any;
 }

@@ -23,7 +23,6 @@ export const useSubmitExtrinsic = ({
   shouldSubmit,
   callbackSubmit,
   callbackInBlock,
-  inBinance,
   addLog,
 }: UseSubmitExtrinsicProps): UseSubmitExtrinsic => {
   const { t } = useTranslation('library');
@@ -45,6 +44,11 @@ export const useSubmitExtrinsic = ({
     resetTxPayloads,
     incrementPayloadUid,
   } = useTxMeta();
+
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.['subwallet-js'] &&
+    Boolean((window as any).ethereum?.isBinance);
 
   // Store given tx as a ref.
   const txRef = useRef<AnyApi>(tx);
