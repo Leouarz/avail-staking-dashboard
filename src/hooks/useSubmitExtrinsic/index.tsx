@@ -252,63 +252,59 @@ export const useSubmitExtrinsic = ({
     log.push(`txSignature: ${txSignature}`);
     addLog(log);
 
-    const a: number = 1;
-    const b: number = 2;
+    // handle signed transaction.
+    if (getTxSignature()) {
+      try {
+        txRef.current.addSignature(fromRef.current, txSignature, txPayload);
 
-    if (a === b) {
-      // handle signed transaction.
-      if (getTxSignature()) {
-        try {
-          txRef.current.addSignature(fromRef.current, txSignature, txPayload);
-
-          const unsub = await txRef.current.send(
-            ({ status, events = [] }: AnyApi) => {
-              if (!didTxReset.current) {
-                didTxReset.current = true;
-                resetManualTx();
-              }
-
-              handleStatus(status);
-              if (status.isFinalized) {
-                events.forEach(({ event: { method } }: AnyApi) => {
-                  onFinalizedEvent(method);
-                  if (unsubEvents?.includes(method)) {
-                    unsub();
-                  }
-                });
-              }
+        const unsub = await txRef.current.send(
+          ({ status, events = [] }: AnyApi) => {
+            if (!didTxReset.current) {
+              didTxReset.current = true;
+              resetManualTx();
             }
-          );
-        } catch (e) {
-          onError(ManualSigners.includes(source) ? source : 'default');
-        }
-      } else {
-        // handle unsigned transaction.
-        const { signer } = account;
-        try {
-          const unsub = await txRef.current.signAndSend(
-            fromRef.current,
-            { signer },
-            ({ status, events = [] }: AnyApi) => {
-              if (!didTxReset.current) {
-                didTxReset.current = true;
-                resetTx();
-              }
 
-              handleStatus(status);
-              if (status.isFinalized) {
-                events.forEach(({ event: { method } }: AnyApi) => {
-                  onFinalizedEvent(method);
-                  if (unsubEvents?.includes(method)) {
-                    unsub();
-                  }
-                });
-              }
+            handleStatus(status);
+            if (status.isFinalized) {
+              events.forEach(({ event: { method } }: AnyApi) => {
+                onFinalizedEvent(method);
+                if (unsubEvents?.includes(method)) {
+                  unsub();
+                }
+              });
             }
-          );
-        } catch (e) {
-          onError('default');
-        }
+          }
+        );
+      } catch (e) {
+        onError(ManualSigners.includes(source) ? source : 'default');
+      }
+    } else {
+      // handle unsigned transaction.
+      const { signer } = account;
+      try {
+        const unsub = await txRef.current.signAndSend(
+          fromRef.current,
+          { signer },
+          ({ status, events = [] }: AnyApi) => {
+            if (!didTxReset.current) {
+              didTxReset.current = true;
+              resetTx();
+            }
+
+            handleStatus(status);
+            if (status.isFinalized) {
+              events.forEach(({ event: { method } }: AnyApi) => {
+                onFinalizedEvent(method);
+                if (unsubEvents?.includes(method)) {
+                  unsub();
+                }
+              });
+            }
+          }
+        );
+      } catch (e) {
+        addLog([JSON.stringify(e)]);
+        onError('default');
       }
     }
   };
