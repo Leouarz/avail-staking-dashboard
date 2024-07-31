@@ -23,6 +23,7 @@ export const useSubmitExtrinsic = ({
   shouldSubmit,
   callbackSubmit,
   callbackInBlock,
+  logs,
   addLog,
 }: UseSubmitExtrinsicProps): UseSubmitExtrinsic => {
   const { t } = useTranslation('library');
@@ -302,8 +303,12 @@ export const useSubmitExtrinsic = ({
             }
           }
         );
-      } catch (e) {
-        addLog([JSON.stringify(e)]);
+      } catch (e: any) {
+        addLog([
+          ...logs,
+          JSON.stringify(e),
+          `Error message: ${e.message ? e.message : e}`,
+        ]);
         onError('default');
       }
     }

@@ -125,6 +125,7 @@ export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {
       // Reset local storage setup progress
       setActiveAccountSetup('pool', defaultPoolProgress);
     },
+    logs,
     addLog,
   });
 
