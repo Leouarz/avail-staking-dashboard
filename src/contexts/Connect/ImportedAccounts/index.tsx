@@ -60,8 +60,14 @@ export const ImportedAccountsProvider = ({
     const getAccount = async () => {
       const source = 'subwallet-js';
       if (inBinance && !!window.injectedWeb3?.[source]) {
+        const { web3FromSource, web3Enable } = await import(
+          '@polkagate/extension-dapp'
+        );
         const extension = await window.injectedWeb3[source].enable(DappName);
+        await web3Enable(DappName);
         const accounts = await extension.accounts.get();
+        const injector = await web3FromSource(source);
+        const signer = injector.signer;
         setw3waccounts(
           accounts
             .filter(
@@ -71,7 +77,7 @@ export const ImportedAccountsProvider = ({
                   (x as any).genesisHash ===
                     '0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a')
             )
-            .map((x) => ({ ...x, source }))
+            .map((x) => ({ ...x, source, signer }))
         );
       }
       setw3waccountsLoaded(true);

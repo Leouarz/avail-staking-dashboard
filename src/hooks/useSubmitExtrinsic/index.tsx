@@ -45,10 +45,10 @@ export const useSubmitExtrinsic = ({
     incrementPayloadUid,
   } = useTxMeta();
 
-  // Whether the app is running in a Binance web3 wallet  Mobile.
-  const inBinance =
-    !!window.injectedWeb3?.['subwallet-js'] &&
-    Boolean((window as any).ethereum?.isBinance);
+  // // Whether the app is running in a Binance web3 wallet  Mobile.
+  // const inBinance =
+  //   !!window.injectedWeb3?.['subwallet-js'] &&
+  //   Boolean((window as any).ethereum?.isBinance);
 
   // Store given tx as a ref.
   const txRef = useRef<AnyApi>(tx);
@@ -286,24 +286,24 @@ export const useSubmitExtrinsic = ({
     } else {
       // handle unsigned transaction.
       let { signer } = account;
-      if (inBinance) {
-        log.push(`In binance: ${inBinance}`);
-        addLog(log);
-        const { web3FromSource, web3Enable } = await import(
-          '@polkagate/extension-dapp'
-        );
-        log.push(`imported web3FromSource`);
-        addLog(log);
-        await web3Enable(DappName);
-        log.push(`enablec extensions`);
-        addLog(log);
-        const injector = await web3FromSource('subwallet-js');
-        log.push(`gotten injector`);
-        addLog(log);
-        signer = injector.signer;
-        log.push(`Injector overridden`);
-        addLog(log);
-      }
+      // if (inBinance) {
+      //   log.push(`In binance: ${inBinance}`);
+      //   addLog(log);
+      //   const { web3FromSource, web3Enable } = await import(
+      //     '@polkagate/extension-dapp'
+      //   );
+      //   log.push(`imported web3FromSource`);
+      //   addLog(log);
+      //   await web3Enable(DappName);
+      //   log.push(`enablec extensions`);
+      //   addLog(log);
+      //   const injector = await web3FromSource('subwallet-js');
+      //   log.push(`gotten injector`);
+      //   addLog(log);
+      //   signer = injector.signer;
+      //   log.push(`Injector overridden`);
+      //   addLog(log);
+      // }
 
       try {
         const unsub = await txRef.current.signAndSend(
