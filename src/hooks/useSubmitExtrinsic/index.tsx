@@ -285,7 +285,7 @@ export const useSubmitExtrinsic = ({
       }
     } else {
       // handle unsigned transaction.
-      let { signer } = account;
+      const { signer } = account;
       // if (inBinance) {
       //   log.push(`In binance: ${inBinance}`);
       //   addLog(log);
