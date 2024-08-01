@@ -37,6 +37,11 @@ export const AccountButton = ({
   const { setModalStatus } = useOverlay().modal;
   const { units, unit } = useNetwork().networkData;
 
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.['subwallet-js'] &&
+    Boolean((window as any).ethereum?.isBinance);
+
   // Accumulate account data.
   const meta = getAccount(address || '');
 
@@ -106,7 +111,7 @@ export const AccountButton = ({
             )}
             <div className={label === undefined ? `` : label[0]}>
               {label !== undefined ? <h5>{label[1]}</h5> : null}
-              {Icon !== undefined ? (
+              {Icon !== undefined && !inBinance ? (
                 <span className="icon">
                   <Icon />
                 </span>

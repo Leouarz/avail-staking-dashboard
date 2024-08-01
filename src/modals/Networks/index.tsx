@@ -35,6 +35,15 @@ export const Networks = () => {
   const { connectionType, setConnectionType, rpcEndpoint } = useApi();
   const networkKey = network;
 
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.['subwallet-js'] &&
+    Boolean((window as any).ethereum?.isBinance);
+
+  const filteredNetworkList = inBinance
+    ? { avail: NetworkList['avail'] }
+    : NetworkList;
+
   const isLightClient = connectionType === 'sc';
 
   // Likely never going to happen; here just to be safe.
@@ -47,42 +56,44 @@ export const Networks = () => {
         <ContentWrapper>
           <h4>{t('selectNetwork')}</h4>
           <div className="items">
-            {Object.entries(NetworkList).map(([key, item], index: number) => {
-              const Svg = item.brand.inline.svg;
-              const rpcDisabled = networkKey === key;
+            {Object.entries(filteredNetworkList).map(
+              ([key, item], index: number) => {
+                const Svg = item.brand.inline.svg;
+                const rpcDisabled = networkKey === key;
 
-              return (
-                <NetworkButton
-                  $connected={networkKey === key}
-                  disabled={rpcDisabled}
-                  key={`network_switch_${index}`}
-                  type="button"
-                  onClick={() => {
-                    if (networkKey !== key) {
-                      switchNetwork(key as NetworkName);
-                      setModalStatus('closing');
-                    }
-                  }}
-                >
-                  <div style={{ width: '1.75rem' }}>
-                    <Svg
-                      width={item.brand.inline.size}
-                      height={item.brand.inline.size}
-                    />
-                  </div>
-                  <h3>{capitalizeFirstLetter(item.name)}</h3>
-                  {networkKey === key && (
-                    <h4 className="selected">{t('selected')}</h4>
-                  )}
-                  <div>
-                    <FontAwesomeIcon
-                      transform="shrink-2"
-                      icon={faChevronRight}
-                    />
-                  </div>
-                </NetworkButton>
-              );
-            })}
+                return (
+                  <NetworkButton
+                    $connected={networkKey === key}
+                    disabled={rpcDisabled}
+                    key={`network_switch_${index}`}
+                    type="button"
+                    onClick={() => {
+                      if (networkKey !== key) {
+                        switchNetwork(key as NetworkName);
+                        setModalStatus('closing');
+                      }
+                    }}
+                  >
+                    <div style={{ width: '1.75rem' }}>
+                      <Svg
+                        width={item.brand.inline.size}
+                        height={item.brand.inline.size}
+                      />
+                    </div>
+                    <h3>{capitalizeFirstLetter(item.name)}</h3>
+                    {networkKey === key && (
+                      <h4 className="selected">{t('selected')}</h4>
+                    )}
+                    <div>
+                      <FontAwesomeIcon
+                        transform="shrink-2"
+                        icon={faChevronRight}
+                      />
+                    </div>
+                  </NetworkButton>
+                );
+              }
+            )}
           </div>
           <h4>{t('connectionType')}</h4>
           <ConnectionsWrapper>

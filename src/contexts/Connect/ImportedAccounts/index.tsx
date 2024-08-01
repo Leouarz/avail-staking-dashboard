@@ -2,13 +2,20 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext } from 'react';
+import {
+  useEffect,
+  useState,
+  createContext,
+  useCallback,
+  useContext,
+} from 'react';
+
 import type { MaybeAddress } from 'types';
 import type {
   ExternalAccount,
   ImportedAccount,
 } from '@w3ux/react-connect-kit/types';
-import { ManualSigners } from 'consts';
+import { DappName, ManualSigners } from 'consts';
 import { useExtensionAccounts } from '@w3ux/react-connect-kit';
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import { defaultImportedAccountsContext } from './defaults';
@@ -19,6 +26,7 @@ import { useApi } from 'contexts/Api';
 import { useNetwork } from 'contexts/Network';
 import { getActiveAccountLocal, getActiveProxyLocal } from '../Utils';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
+import { isValidAddress } from 'avail-js-sdk';
 
 export const ImportedAccountsContext =
   createContext<ImportedAccountsContextInterface>(
@@ -40,11 +48,49 @@ export const ImportedAccountsProvider = ({
   const { otherAccounts } = useOtherAccounts();
   const { getExtensionAccounts } = useExtensionAccounts();
   const { setActiveAccount, setActiveProxy } = useActiveAccounts();
+  const [w3wAccounts, setw3waccounts] = useState<ImportedAccount[]>([]);
+  const [w3wAccountsLoaded, setw3waccountsLoaded] = useState(false);
+
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.['subwallet-js'] &&
+    Boolean((window as any).ethereum?.isBinance);
+
+  useEffect(() => {
+    const getAccount = async () => {
+      const source = 'subwallet-js';
+      if (inBinance && !!window.injectedWeb3?.[source]) {
+        const { web3FromSource, web3Enable } = await import(
+          '@polkagate/extension-dapp'
+        );
+        const extension = await window.injectedWeb3[source].enable(DappName);
+        await web3Enable(DappName);
+        const accounts = await extension.accounts.get();
+        const injector = await web3FromSource(source);
+        const signer = injector.signer;
+        setw3waccounts(
+          accounts
+            .filter(
+              (x) =>
+                isValidAddress(x.address) &&
+                (!(x as any).genesisHash ||
+                  (x as any).genesisHash ===
+                    '0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a')
+            )
+            .map((x) => ({ ...x, source, signer }))
+        );
+      }
+      setw3waccountsLoaded(true);
+    };
+    getAccount();
+  }, [inBinance, typeof window]);
 
   // Get the imported extension accounts formatted with the current network's ss58 prefix.
   const extensionAccounts = getExtensionAccounts(ss58);
 
-  const allAccounts = extensionAccounts.concat(otherAccounts);
+  const allAccounts = w3wAccounts
+    .concat(extensionAccounts)
+    .concat(otherAccounts);
 
   // Stringify account addresses and account names to determine if they have changed. Ignore other properties including `signer` and `source`.
   const shallowAccountStringify = (accounts: ImportedAccount[]) => {
@@ -126,21 +172,23 @@ export const ImportedAccountsProvider = ({
 
   // Re-sync the active account and active proxy on network change.
   useEffectIgnoreInitial(() => {
-    const localActiveAccount = getActiveAccountLocal(network, ss58);
+    if (w3wAccountsLoaded) {
+      const localActiveAccount = getActiveAccountLocal(network, ss58);
 
-    if (getAccount(localActiveAccount) !== null) {
-      setActiveAccount(getActiveAccountLocal(network, ss58), false);
-    } else {
-      setActiveAccount(null, false);
-    }
+      if (getAccount(localActiveAccount) !== null) {
+        setActiveAccount(getActiveAccountLocal(network, ss58), false);
+      } else {
+        setActiveAccount(null, false);
+      }
 
-    const localActiveProxy = getActiveProxyLocal(network, ss58);
-    if (getAccount(localActiveProxy?.address || null)) {
-      setActiveProxy(getActiveProxyLocal(network, ss58), false);
-    } else {
-      setActiveProxy(null, false);
+      const localActiveProxy = getActiveProxyLocal(network, ss58);
+      if (getAccount(localActiveProxy?.address || null)) {
+        setActiveProxy(getActiveProxyLocal(network, ss58), false);
+      } else {
+        setActiveProxy(null, false);
+      }
     }
-  }, [network]);
+  }, [network, w3wAccountsLoaded]);
 
   return (
     <ImportedAccountsContext.Provider
