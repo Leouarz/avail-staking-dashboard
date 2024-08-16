@@ -16,6 +16,7 @@ import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import { AccountWrapper } from './Wrappers';
 import type { AccountItemProps } from './types';
 import BigNumber from 'bignumber.js';
+import { BinanceKey } from 'consts';
 
 export const AccountButton = ({
   label,
@@ -39,7 +40,7 @@ export const AccountButton = ({
 
   // Whether the app is running in a Binance web3 wallet  Mobile.
   const inBinance =
-    !!window.injectedWeb3?.['subwallet-js'] &&
+    !!window.injectedWeb3?.[BinanceKey] &&
     Boolean((window as any).ethereum?.isBinance);
 
   // Accumulate account data.

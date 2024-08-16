@@ -15,7 +15,7 @@ import type {
   ExternalAccount,
   ImportedAccount,
 } from '@w3ux/react-connect-kit/types';
-import { DappName, ManualSigners } from 'consts';
+import { BinanceKey, DappName, ManualSigners } from 'consts';
 import { useExtensionAccounts } from '@w3ux/react-connect-kit';
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import { defaultImportedAccountsContext } from './defaults';
@@ -53,12 +53,12 @@ export const ImportedAccountsProvider = ({
 
   // Whether the app is running in a Binance web3 wallet  Mobile.
   const inBinance =
-    !!window.injectedWeb3?.['subwallet-js'] &&
+    !!window.injectedWeb3?.[BinanceKey] &&
     Boolean((window as any).ethereum?.isBinance);
 
   useEffect(() => {
     const getAccount = async () => {
-      const source = 'subwallet-js';
+      const source = BinanceKey;
       if (inBinance && !!window.injectedWeb3?.[source]) {
         const { web3FromSource, web3Enable } = await import(
           '@polkagate/extension-dapp'

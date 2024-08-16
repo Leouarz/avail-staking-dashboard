@@ -249,15 +249,14 @@ export const PayoutsProvider = ({ children }: { children: ReactNode }) => {
       const eraRewardPoints = points.toHuman();
       const unclaimedValidators = unclaimedByEra[era];
 
-      let j = 0;
-      for (const pref of prefs) {
+      for (const [prefIndex, pref] of prefs.entries()) {
         const eraValidatorPrefs = pref.toHuman();
         const commission = new BigNumber(
           eraValidatorPrefs.commission.replace(/%/g, '')
         ).multipliedBy(0.01);
 
         // Get validator from era exposure data. Falls back no null if it cannot be found.
-        const validator = unclaimedValidators?.[j] || '';
+        const validator = unclaimedValidators?.[prefIndex] || '';
 
         const localExposed: LocalValidatorExposure | null = getLocalEraExposure(
           network,
@@ -296,7 +295,6 @@ export const PayoutsProvider = ({ children }: { children: ReactNode }) => {
             ...unclaimed[era],
             [validator]: [exposedPage, unclaimedPayout.toFixed().toString()],
           };
-          j++;
         }
       }
 

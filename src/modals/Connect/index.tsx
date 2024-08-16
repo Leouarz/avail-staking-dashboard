@@ -28,10 +28,11 @@ import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import extensions from '@w3ux/extension-assets';
 import { NotificationsController } from 'controllers/NotificationsController';
 import type { ExtensionArrayListItem } from '@w3ux/extension-assets/util';
+import { BinanceKey, BinanceWallet } from 'consts';
 
 export const Connect = () => {
   const { t } = useTranslation('modals');
-  const { extensionsStatus, extensionCanConnect } = useExtensions();
+  const { extensionsStatus } = useExtensions();
   const { connectExtensionAccounts } = useExtensionAccounts();
   const { replaceModal, setModalHeight, modalMaxHeight } = useOverlay().modal;
 
@@ -44,22 +45,18 @@ export const Connect = () => {
   // Whether the app is running in a SubWallet Mobile.
   const inSubWallet = !!window.injectedWeb3?.['subwallet-js'] && isMobile;
 
-  // Whether the app is running on of mobile wallets.
-  const inMobileWallet = inNova || inSubWallet;
-
   // Whether the app is running in a Binance web3 wallet  Mobile.
   const inBinance =
-    !!window.injectedWeb3?.['subwallet-js'] &&
+    !!window.injectedWeb3?.[BinanceKey] &&
     Boolean((window as any).ethereum?.isBinance);
+
+  // Whether the app is running on of mobile wallets.
+  const inMobileWallet = inNova || inSubWallet || inBinance;
 
   useEffect(() => {
     const connectExtension = async () => {
-      if (
-        inBinance &&
-        !(extensionsStatus['subwallet-js'] === 'connected') &&
-        extensionCanConnect('subwallet-js')
-      ) {
-        const success = await connectExtensionAccounts('subwallet-js');
+      if (inBinance && !(extensionsStatus[BinanceKey] === 'connected')) {
+        const success = await connectExtensionAccounts(BinanceKey);
 
         if (success) {
           NotificationsController.emit({
@@ -73,10 +70,14 @@ export const Connect = () => {
   }, [inBinance]);
 
   // Get supported extensions.
-  const extensionsAsArray = Object.entries(extensions).map(([key, value]) => ({
-    id: key,
-    ...value,
-  })) as ExtensionArrayListItem[];
+  const extensionsAsArray = [
+    ...Object.entries({ ...extensions, ...BinanceWallet }).map(
+      ([key, value]) => ({
+        id: key,
+        ...value,
+      })
+    ),
+  ] as ExtensionArrayListItem[];
 
   const disabledExtensionIds = [
     'metamask-polkadot-snap',
@@ -91,18 +92,20 @@ export const Connect = () => {
   // If in SubWallet Mobile, keep `subwallet-js` only.
   const web = inSubWallet
     ? extensionsAsArray.filter((a) => a.id === 'subwallet-js')
-    : // If in Nova Wallet, fetch nova wallet metadata and replace its id with `polkadot-js`.
-      inNova
-      ? extensionsAsArray
-          .filter((a) => a.id === 'nova-wallet')
-          .map((a) => ({ ...a, id: 'polkadot-js' }))
-      : // Otherwise, keep all extensions except `polkadot-js`.
-        extensionsAsArray.filter(
-          (a) =>
-            a.id !== 'polkadot-js' &&
-            a.category === 'web-extension' &&
-            !disabledExtensionIds.includes(a.id)
-        );
+    : inBinance
+      ? extensionsAsArray.filter((a) => a.id === BinanceKey)
+      : // If in Nova Wallet, fetch nova wallet metadata and replace its id with `polkadot-js`.
+        inNova
+        ? extensionsAsArray
+            .filter((a) => a.id === 'nova-wallet')
+            .map((a) => ({ ...a, id: 'polkadot-js' }))
+        : // Otherwise, keep all extensions except `polkadot-js`.
+          extensionsAsArray.filter(
+            (a) =>
+              a.id !== 'polkadot-js' &&
+              a.category === 'web-extension' &&
+              !disabledExtensionIds.includes(a.id)
+          );
 
   const installed = web.filter((a) =>
     Object.keys(extensionsStatus).find((key) => key === a.id)

@@ -39,3 +39,13 @@ export const TipsThresholdMedium = 1200;
  */
 export const MaxPayoutDays = 60;
 export const MaxEraRewardPointsEras = 5;
+
+export const BinanceKey = 'binancew3w';
+export const BinanceWallet = {
+  [BinanceKey]: {
+    title: 'Binance Web3 Wallet',
+    website: 'binance.com/fr/web3wallet',
+    category: 'web-extension',
+    features: '*',
+  },
+};
