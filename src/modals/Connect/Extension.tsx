@@ -239,7 +239,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
             </div>
             <div className="row">
               <h3>{inBinance ? 'Binance web3 wallet' : title}</h3>
-              <p className="active inline">{t('connected')}</p>
+              {inBinance && <p className="active inline">{t('connected')}</p>}
             </div>
           </div>
           <div className="foot">
