@@ -11,7 +11,6 @@ import { Extension } from './Extension';
 import { Ledger } from './Ledger';
 import { Proxies } from './Proxies';
 import { ReadOnly } from './ReadOnly';
-// import { Vault } from './Vault';
 import { ExtensionsWrapper } from './Wrappers';
 import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
 import { ButtonTab } from 'kits/Buttons/ButtonTab';
@@ -26,14 +25,12 @@ import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
 import { useExtensions } from '@w3ux/react-connect-kit';
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import extensions from '@w3ux/extension-assets';
-// import { NotificationsController } from 'controllers/NotificationsController';
 import type { ExtensionArrayListItem } from '@w3ux/extension-assets/util';
 import { BinanceKey, BinanceWallet } from 'consts';
 
 export const Connect = () => {
   const { t } = useTranslation('modals');
   const { extensionsStatus } = useExtensions();
-  // const { connectExtensionAccounts } = useExtensionAccounts();
   const { replaceModal, setModalHeight, modalMaxHeight } = useOverlay().modal;
 
   // Whether the app is running on mobile.
