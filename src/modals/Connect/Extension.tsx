@@ -162,14 +162,6 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
         </p>
       );
   }
-  if (inBinance) {
-    statusJsx = (
-      <p className="active">
-        <FontAwesomeIcon icon={faMinus} className="plus" />
-        {t('disconnect')}
-      </p>
-    );
-  }
 
   const websiteText = typeof website === 'string' ? website : website.text;
   const websiteUrl = typeof website === 'string' ? website : website.url;
@@ -247,7 +239,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
             </div>
             <div className="row">
               <h3>{inBinance ? 'Binance web3 wallet' : title}</h3>
-              {connected && <p className="active inline">{t('connected')}</p>}
+              <p className="active inline">{t('connected')}</p>
             </div>
           </div>
           <div className="foot">

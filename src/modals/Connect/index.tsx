@@ -53,22 +53,6 @@ export const Connect = () => {
   // Whether the app is running on of mobile wallets.
   const inMobileWallet = inNova || inSubWallet || inBinance;
 
-  // useEffect(() => {
-  //   const connectExtension = async () => {
-  //     if (inBinance && !(extensionsStatus[BinanceKey] === 'connected')) {
-  //       const success = await connectExtensionAccounts(BinanceKey);
-
-  //       if (success) {
-  //         NotificationsController.emit({
-  //           title: t('extensionConnected'),
-  //           subtitle: `${t('titleExtensionConnected', { title: 'Binance wallet' })}`,
-  //         });
-  //       }
-  //     }
-  //   };
-  //   connectExtension();
-  // }, [inBinance]);
-
   // Get supported extensions.
   const extensionsAsArray = [
     ...Object.entries({ ...extensions, ...BinanceWallet }).map(
