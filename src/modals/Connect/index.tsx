@@ -84,6 +84,7 @@ export const Connect = () => {
           extensionsAsArray.filter(
             (a) =>
               a.id !== 'polkadot-js' &&
+              a.id !== 'binancew3w' &&
               a.category === 'web-extension' &&
               !disabledExtensionIds.includes(a.id)
           );
