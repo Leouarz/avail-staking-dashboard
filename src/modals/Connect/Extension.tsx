@@ -25,7 +25,7 @@ import {
   TURING_ENDPOINT,
 } from 'avail-js-sdk';
 import type { ApiPromise } from 'avail-js-sdk';
-import { DappName } from 'consts';
+import { BinanceKey, DappName } from 'consts';
 
 export const Extension = ({ meta, size, flag }: ExtensionProps) => {
   const { t } = useTranslation('modals');
@@ -39,7 +39,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
 
   // Whether the app is running in a Binance web3 wallet  Mobile.
   const inBinance =
-    !!window.injectedWeb3?.['subwallet-js'] &&
+    !!window.injectedWeb3?.[BinanceKey] &&
     Boolean((window as any).ethereum?.isBinance);
 
   // Force re-render on click.
@@ -64,7 +64,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
       userExtensions: signedExtensions,
     });
     if (
-      ['polkadot-js', 'subwallet-js', 'talisman'].includes(id) &&
+      ['polkadot-js', 'subwallet-js', 'talisman', BinanceKey].includes(id) &&
       network.includes('avail')
     ) {
       const api = await initialize(
@@ -239,7 +239,7 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
             </div>
             <div className="row">
               <h3>{inBinance ? 'Binance web3 wallet' : title}</h3>
-              {connected && <p className="active inline">{t('connected')}</p>}
+              <p className="active inline">{t('connected')}</p>
             </div>
           </div>
           <div className="foot">

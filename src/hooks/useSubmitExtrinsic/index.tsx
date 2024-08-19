@@ -4,7 +4,7 @@
 import BigNumber from 'bignumber.js';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DappName, ManualSigners } from 'consts';
+import { BinanceKey, DappName, ManualSigners } from 'consts';
 import { useApi } from 'contexts/Api';
 import { useLedgerHardware } from 'contexts/LedgerHardware';
 import { useTxMeta } from 'contexts/TxMeta';
@@ -58,6 +58,11 @@ export const useSubmitExtrinsic = ({
 
   // Track for one-shot transaction reset after submission.
   const didTxReset = useRef<boolean>(false);
+
+  // Whether the app is running in a Binance web3 wallet  Mobile.
+  const inBinance =
+    !!window.injectedWeb3?.[BinanceKey] &&
+    Boolean((window as any).ethereum?.isBinance);
 
   // If proxy account is active, wrap tx in a proxy call and set the sender to the proxy account.
   const wrapTxIfActiveProxy = () => {
@@ -137,12 +142,13 @@ export const useSubmitExtrinsic = ({
 
     // if `activeAccount` is imported from an extension, ensure it is enabled.
     if (!ManualSigners.includes(source)) {
-      const isInstalled = Object.entries(extensionsStatus).find(
-        ([id, status]) => id === source && status === 'connected'
-      );
-
-      if (!isInstalled) {
-        throw new Error(`${t('walletNotFound')}`);
+      if (!inBinance) {
+        const isInstalled = Object.entries(extensionsStatus).find(
+          ([id, status]) => id === source && status === 'connected'
+        );
+        if (!isInstalled) {
+          throw new Error(`${t('walletNotFound')}`);
+        }
       }
 
       if (!window?.injectedWeb3?.[source]) {

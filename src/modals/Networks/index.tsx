@@ -25,6 +25,7 @@ import {
 import { ProvidersPrompt } from './ProvidersPrompt';
 import { ButtonTertiary } from 'kits/Buttons/ButtonTertiary';
 import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
+import { BinanceKey } from 'consts';
 
 export const Networks = () => {
   const { t } = useTranslation('modals');
@@ -37,7 +38,7 @@ export const Networks = () => {
 
   // Whether the app is running in a Binance web3 wallet  Mobile.
   const inBinance =
-    !!window.injectedWeb3?.['subwallet-js'] &&
+    !!window.injectedWeb3?.[BinanceKey] &&
     Boolean((window as any).ethereum?.isBinance);
 
   const filteredNetworkList = inBinance
