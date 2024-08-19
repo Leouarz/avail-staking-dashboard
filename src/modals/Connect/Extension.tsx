@@ -162,6 +162,14 @@ export const Extension = ({ meta, size, flag }: ExtensionProps) => {
         </p>
       );
   }
+  if (inBinance) {
+    statusJsx = (
+      <p className="active">
+        <FontAwesomeIcon icon={faMinus} className="plus" />
+        {t('disconnect')}
+      </p>
+    );
+  }
 
   const websiteText = typeof website === 'string' ? website : website.text;
   const websiteUrl = typeof website === 'string' ? website : website.url;

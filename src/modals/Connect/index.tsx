@@ -23,17 +23,17 @@ import { ModalCustomHeader } from 'kits/Overlay/structure/ModalCustomHeader';
 import { ModalSection } from 'kits/Overlay/structure/ModalSection';
 import { ModalMotionThreeSection } from 'kits/Overlay/structure/ModalMotionThreeSection';
 import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
-import { useExtensionAccounts, useExtensions } from '@w3ux/react-connect-kit';
+import { useExtensions } from '@w3ux/react-connect-kit';
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import extensions from '@w3ux/extension-assets';
-import { NotificationsController } from 'controllers/NotificationsController';
+// import { NotificationsController } from 'controllers/NotificationsController';
 import type { ExtensionArrayListItem } from '@w3ux/extension-assets/util';
 import { BinanceKey, BinanceWallet } from 'consts';
 
 export const Connect = () => {
   const { t } = useTranslation('modals');
   const { extensionsStatus } = useExtensions();
-  const { connectExtensionAccounts } = useExtensionAccounts();
+  // const { connectExtensionAccounts } = useExtensionAccounts();
   const { replaceModal, setModalHeight, modalMaxHeight } = useOverlay().modal;
 
   // Whether the app is running on mobile.
@@ -53,21 +53,21 @@ export const Connect = () => {
   // Whether the app is running on of mobile wallets.
   const inMobileWallet = inNova || inSubWallet || inBinance;
 
-  useEffect(() => {
-    const connectExtension = async () => {
-      if (inBinance && !(extensionsStatus[BinanceKey] === 'connected')) {
-        const success = await connectExtensionAccounts(BinanceKey);
+  // useEffect(() => {
+  //   const connectExtension = async () => {
+  //     if (inBinance && !(extensionsStatus[BinanceKey] === 'connected')) {
+  //       const success = await connectExtensionAccounts(BinanceKey);
 
-        if (success) {
-          NotificationsController.emit({
-            title: t('extensionConnected'),
-            subtitle: `${t('titleExtensionConnected', { title: 'Binance wallet' })}`,
-          });
-        }
-      }
-    };
-    connectExtension();
-  }, [inBinance]);
+  //       if (success) {
+  //         NotificationsController.emit({
+  //           title: t('extensionConnected'),
+  //           subtitle: `${t('titleExtensionConnected', { title: 'Binance wallet' })}`,
+  //         });
+  //       }
+  //     }
+  //   };
+  //   connectExtension();
+  // }, [inBinance]);
 
   // Get supported extensions.
   const extensionsAsArray = [
