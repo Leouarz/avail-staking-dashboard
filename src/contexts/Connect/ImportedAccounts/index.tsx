@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -21,7 +21,7 @@ import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import { defaultImportedAccountsContext } from './defaults';
 import type { ImportedAccountsContextInterface } from './types';
 import { useOtherAccounts } from '../OtherAccounts';
-import { BalancesController } from 'controllers/BalancesController';
+import { BalancesController } from 'controllers/Balances';
 import { useApi } from 'contexts/Api';
 import { useNetwork } from 'contexts/Network';
 import { getActiveAccountLocal, getActiveProxyLocal } from '../Utils';

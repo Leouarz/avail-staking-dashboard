@@ -1,11 +1,11 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 
 export const Input = ({
   listenIsValid,

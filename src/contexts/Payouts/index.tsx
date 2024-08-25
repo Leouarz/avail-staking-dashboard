@@ -1,11 +1,12 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ReactNode } from 'react';
 import { useState, useEffect, useRef, useContext, createContext } from 'react';
 import { useStaking } from 'contexts/Staking';
 import { useApi } from 'contexts/Api';
-import type { AnyApi, AnyJson, Sync } from 'types';
+import type { AnyApi } from 'types';
+import type { AnyJson, Sync } from '@w3ux/types';
 import Worker from 'workers/stakers?worker';
 import { rmCommas, setStateWithRef } from '@w3ux/utils';
 import BigNumber from 'bignumber.js';

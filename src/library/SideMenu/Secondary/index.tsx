@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { SecondaryProps } from '../types';
@@ -38,7 +38,12 @@ export const Secondary = ({
 
       {!minimised && (
         <>
-          <div className="name">{name}</div>
+          <div
+            className="name"
+            style={{ fontSize: name.length > 10 ? '11px' : 'inherit' }}
+          >
+            {name}
+          </div>
           {action && <div className="action">{action}</div>}
         </>
       )}

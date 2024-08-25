@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { planckToUnit, unitToPlanck } from '@w3ux/utils';
@@ -22,7 +22,7 @@ import { defaultPoolProgress } from 'contexts/Setup/defaults';
 import { useSignerWarnings } from 'hooks/useSignerWarnings';
 import { SubmitTx } from 'library/SubmitTx';
 import type { OverviewSectionProps } from '../types';
-import { defaultClaimPermission } from 'controllers/ActivePoolsController/defaults';
+import { defaultClaimPermission } from 'controllers/ActivePools/defaults';
 import { useTranslation } from 'react-i18next';
 
 export const JoinForm = ({ bondedPool }: OverviewSectionProps) => {

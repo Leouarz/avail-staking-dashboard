@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
@@ -8,12 +8,13 @@ import { useHelp } from 'contexts/Help';
 import { usePrompt } from 'contexts/Prompt';
 import LedgerSVG from '@w3ux/extension-assets/LedgerSquare.svg?react';
 import { Heading } from 'library/Import/Heading';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 import { useOverlay } from 'kits/Overlay/Provider';
 import { useNetwork } from 'contexts/Network';
 import { Addresess } from './Addresses';
 import { Reset } from './Reset';
 import { HardwareStatusBar } from 'library/Hardware/HardwareStatusBar';
+import { capitalizeFirstLetter } from '@w3ux/utils';
 
 export const Manage = ({
   addresses,
@@ -27,7 +28,7 @@ export const Manage = ({
   const { replaceModal } = useOverlay().modal;
   const { handleResetLedgerTask, getIsExecuting, getFeedback } =
     useLedgerHardware();
-  const { appName, Icon } = getLedgerApp(network);
+  const { Icon } = getLedgerApp(network);
   const isExecuting = getIsExecuting();
 
   const fallbackMessage = `${t('ledgerAccounts', {
@@ -42,7 +43,7 @@ export const Manage = ({
       <Heading
         connectTo="Ledger"
         Icon={Icon}
-        title={appName}
+        title={capitalizeFirstLetter(network)}
         handleReset={() => {
           openPromptWith(
             <Reset removeLedgerAddress={removeLedgerAddress} />,

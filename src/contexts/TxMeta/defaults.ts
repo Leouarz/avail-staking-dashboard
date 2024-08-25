@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function */
 
@@ -6,22 +6,23 @@ import BigNumber from 'bignumber.js';
 import type { TxMetaContextInterface } from './types';
 
 export const defaultTxMeta: TxMetaContextInterface = {
-  controllerSignerAvailable: (a, b) => 'ok',
-  txFees: new BigNumber(0),
-  notEnoughFunds: false,
-  setTxFees: (f) => {},
-  resetTxFees: () => {},
   sender: null,
   setSender: (s) => {},
+  txFees: new BigNumber(0),
   txFeesValid: false,
-  incrementPayloadUid: () => 0,
+  setTxFees: (f) => {},
+  resetTxFees: () => {},
+  notEnoughFunds: false,
   getPayloadUid: () => 0,
+  getTxMetadata: () => {},
   getTxPayload: () => {},
-  setTxPayload: (p, u) => {},
+  setTxPayload: (payload, payloadValue, uid) => {},
+  incrementPayloadUid: () => 0,
+  resetTxPayload: () => {},
   getTxSignature: () => null,
-  resetTxPayloads: () => {},
   setTxSignature: (s) => {},
+  pendingNonces: [],
   addPendingNonce: (nonce) => {},
   removePendingNonce: (nonce) => {},
-  pendingNonces: [],
+  controllerSignerAvailable: (a, b) => 'ok',
 };

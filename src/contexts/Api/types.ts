@@ -1,12 +1,13 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ApiPromise } from '@polkadot/api';
 import type { U8aLike } from '@polkadot/util/types';
 import type BigNumber from 'bignumber.js';
 import type { ReactNode } from 'react';
-import type { AnyJson, NetworkName } from '../../types';
+import type { NetworkName } from '../../types';
 import type { ApiStatus, ConnectionType } from 'model/Api/types';
+import type { AnyJson } from '@w3ux/types';
 
 export interface APIProviderProps {
   children: ReactNode;
@@ -72,9 +73,11 @@ export interface APIStakingMetrics {
 
 export interface APIContextInterface {
   api: ApiPromise | null;
+  peopleApi: ApiPromise | null;
   chainState: APIChainState;
   isReady: boolean;
   apiStatus: ApiStatus;
+  peopleApiStatus: ApiStatus;
   connectionType: ConnectionType;
   setConnectionType: (connectionType: ConnectionType) => void;
   rpcEndpoint: string;
@@ -84,5 +87,4 @@ export interface APIContextInterface {
   activeEra: APIActiveEra;
   poolsConfig: APIPoolsConfig;
   stakingMetrics: APIStakingMetrics;
-  isPagedRewardsActive: (era: BigNumber) => boolean;
 }

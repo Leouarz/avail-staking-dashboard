@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { u8aToString, u8aUnwrapBytes } from '@polkadot/util';
@@ -17,7 +17,9 @@ const PoolAccount = ({ label, pool, syncing }: PoolAccountProps) => {
   // Default display text value.
   const defaultDisplay = ellipsisFn(pool.addresses.stash);
 
-  let text = syncing ? t('syncing') : poolsMetaData[pool.id] ?? defaultDisplay;
+  let text = syncing
+    ? t('syncing')
+    : (poolsMetaData[pool.id] ?? defaultDisplay);
 
   // Check if super identity has been byte encoded.
   const displayAsBytes = u8aToString(u8aUnwrapBytes(text));

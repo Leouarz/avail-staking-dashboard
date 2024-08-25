@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
@@ -9,7 +9,7 @@ import chroma from 'chroma-js';
 import { ellipsisFn } from '@w3ux/utils';
 import { useNetwork } from 'contexts/Network';
 import type { GeoDonutProps } from './types';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -18,6 +18,8 @@ export const GeoDonut = ({
   series = { labels: [], data: [] },
   height = 'auto',
   width = 'auto',
+  legendHeight = 25,
+  maxLabelLen = 3,
 }: GeoDonutProps) => {
   const { mode } = useTheme();
   const { colors } = useNetwork().networkData;
@@ -41,12 +43,12 @@ export const GeoDonut = ({
     responsive: true,
     maintainAspectRatio: false,
     spacing: 0,
-    cutout: '70%',
+    cutout: '75%',
     plugins: {
       legend: {
         display: true,
         position: 'bottom' as const,
-        maxHeight: 25,
+        maxHeight: legendHeight,
         labels: {
           boxWidth: 10,
           generateLabels: (chart: AnyJson) => {
@@ -55,7 +57,10 @@ export const GeoDonut = ({
                 chart
               );
             return ls.map((l) => {
-              l.text = ellipsisFn(l.text, undefined, 'end');
+              l.text =
+                maxLabelLen && l.text.length > maxLabelLen
+                  ? ellipsisFn(l.text, maxLabelLen, 'end')
+                  : l.text;
               return l;
             });
           },

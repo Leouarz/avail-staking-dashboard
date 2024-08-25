@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { Wrapper } from './Wrapper';
@@ -7,7 +7,7 @@ import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 import { useEventListener } from 'usehooks-ts';
 import { isCustomEvent } from 'controllers/utils';
-import { OnlineStatusController } from 'controllers/OnlineStatusController';
+import { OnlineStatusController } from 'controllers/OnlineStatus';
 
 export const Offline = () => {
   // Whether the app is offline.

@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { PageWidthMediumThreshold } from 'consts';
@@ -52,7 +52,7 @@ export const PageTitleWrapper = styled.header`
   }
 
   h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
     font-family: Unbounded, sans-serif;
     font-weight: 700;
     position: relative;
@@ -61,7 +61,7 @@ export const PageTitleWrapper = styled.header`
 
     @media (max-width: ${PageWidthMediumThreshold}px) {
       left: -1rem;
-      transform: scale(0.75);
+      transform: scale(0.85);
     }
 
     transition: all var(--transition-duration);

@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,7 @@ import { useApi } from 'contexts/Api';
 import { useFastUnstake } from 'contexts/FastUnstake';
 import { useStaking } from 'contexts/Staking';
 import { useTransferOptions } from 'contexts/TransferOptions';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useNominationStatus } from '../useNominationStatus';
 

@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { Polkicon } from '@w3ux/react-polkicon';
@@ -19,8 +19,8 @@ import { StatusLabel } from 'library/StatusLabel';
 import { useOverlay } from 'kits/Overlay/Provider';
 import { PluginLabel } from 'library/PluginLabel';
 import { useNetwork } from 'contexts/Network';
-import type { AnyJson } from 'types';
-import { SubscanController } from 'controllers/SubscanController';
+import type { AnyJson } from '@w3ux/types';
+import { SubscanController } from 'controllers/Subscan';
 import { usePlugins } from 'contexts/Plugins';
 import { useApi } from 'contexts/Api';
 import { ButtonHelp } from 'kits/Buttons/ButtonHelp';

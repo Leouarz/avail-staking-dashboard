@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faUsb } from '@fortawesome/free-brands-svg-icons';
@@ -44,6 +44,7 @@ export const Submit = ({
     const uid = getPayloadUid();
     const accountIndex = getAddressIndex();
     const payload = await getTxPayload();
+
     await handleSignTx(appName, uid, accountIndex, payload);
   };
 

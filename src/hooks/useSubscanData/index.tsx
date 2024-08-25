@@ -1,16 +1,16 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { setStateWithRef } from '@w3ux/utils';
 import { usePlugins } from 'contexts/Plugins';
 import { useEffect, useRef, useState } from 'react';
-import { SubscanController } from 'controllers/SubscanController';
+import { SubscanController } from 'controllers/Subscan';
 import type {
   PayoutType,
   SubscanData,
   SubscanPayout,
   SubscanPayoutData,
-} from 'controllers/SubscanController/types';
+} from 'controllers/Subscan/types';
 import { isCustomEvent } from 'controllers/utils';
 import { useEventListener } from 'usehooks-ts';
 import { useErasToTimeLeft } from '../useErasToTimeLeft';

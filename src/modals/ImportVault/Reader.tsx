@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { isValidAddress, formatAccountSs58 } from '@w3ux/utils';
@@ -9,7 +9,7 @@ import { QRViewerWrapper } from 'library/Import/Wrappers';
 import { QrScanSignature } from 'library/QRCode/ScanSignature';
 import { useNetwork } from 'contexts/Network';
 import { useOtherAccounts } from 'contexts/Connect/OtherAccounts';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
 import { useVaultAccounts } from '@w3ux/react-connect-kit';
 

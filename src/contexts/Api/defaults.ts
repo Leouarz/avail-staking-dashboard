@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function */
 
@@ -75,9 +75,11 @@ export const defaultStakingMetrics: APIStakingMetrics = {
 
 export const defaultApiContext: APIContextInterface = {
   api: null,
+  peopleApi: null,
   chainState: defaultChainState,
   isReady: false,
   apiStatus: 'disconnected',
+  peopleApiStatus: 'disconnected',
   connectionType: 'ws',
   setConnectionType: (connectionType) => {},
   rpcEndpoint: '',
@@ -87,5 +89,4 @@ export const defaultApiContext: APIContextInterface = {
   activeEra: defaultActiveEra,
   poolsConfig: defaultPoolsConfig,
   stakingMetrics: defaultStakingMetrics,
-  isPagedRewardsActive: (e) => false,
 };

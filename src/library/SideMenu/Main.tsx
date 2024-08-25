@@ -1,18 +1,17 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { PageCategories, PagesConfig } from 'config/pages';
-import { PolkadotUrl } from 'consts';
 import { useBonded } from 'contexts/Bonded';
 import { useSetup } from 'contexts/Setup';
 import type { SetupContextInterface } from 'contexts/Setup/types';
 import { useStaking } from 'contexts/Staking';
 import { useUi } from 'contexts/UI';
 import type { UIContextInterface } from 'contexts/UI/types';
-import type { AnyJson, PageCategory, PageItem, PagesConfigItems } from 'types';
+import type { PageCategory, PageItem, PagesConfigItems } from 'types';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
@@ -21,6 +20,7 @@ import { Primary } from './Primary';
 import { LogoWrapper } from './Wrapper';
 import { useBalances } from 'contexts/Balances';
 import { useSyncing } from 'hooks/useSyncing';
+import type { AnyJson } from '@w3ux/types';
 
 export const Main = () => {
   const { t, i18n } = useTranslation('base');
@@ -126,28 +126,30 @@ export const Main = () => {
 
   return (
     <>
-      <LogoWrapper
-        $minimised={sideMenuMinimised}
-        onClick={() => window.open(PolkadotUrl, '_blank')}
-      >
+      <LogoWrapper $minimised={sideMenuMinimised}>
         {sideMenuMinimised ? (
           <networkData.brand.icon
-            style={{ maxHeight: '100%', width: '2rem' }}
+            style={{ maxHeight: '100%', width: '1.8rem' }}
           />
         ) : (
-          <networkData.brand.logo.svg
-            style={{
-              maxHeight: '100%',
-              height: '100%',
-              width: networkData.brand.logo.width,
-            }}
-          />
+          <>
+            <networkData.brand.icon
+              style={{
+                maxHeight: '100%',
+                height: '100%',
+                width: '2.5rem',
+                paddingTop: '0.2rem',
+              }}
+            />
+
+            <span style={{ fontSize: '1.5rem' }}>Avail</span>
+          </>
         )}
       </LogoWrapper>
 
       {pageConfig.categories.map(
         ({ id: categoryId, key: categoryKey }: PageCategory) => (
-          <Fragment key={`sidemenu_category_${categoryId}`}>
+          <div className="inner" key={`sidemenu_category_${categoryId}`}>
             {/* display heading if not `default` (used for top links) */}
             {categoryKey !== 'default' && (
               <Heading title={t(categoryKey)} minimised={sideMenuMinimised} />
@@ -170,7 +172,7 @@ export const Main = () => {
                 </Fragment>
               )
             )}
-          </Fragment>
+          </div>
         )
       )}
     </>

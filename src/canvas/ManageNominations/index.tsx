@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useOverlay } from 'kits/Overlay/Provider';
@@ -22,7 +22,7 @@ import type {
 import { useBondedPools } from 'contexts/Pools/BondedPools';
 import { RevertPrompt } from './Prompts/RevertPrompt';
 import { CanvasSubmitTxFooter, CanvasFullScreenWrapper } from '../Wrappers';
-import { NotificationsController } from 'controllers/NotificationsController';
+import { NotificationsController } from 'controllers/Notifications';
 import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
 import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
 import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';

@@ -1,9 +1,9 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { setStateWithRef } from '@w3ux/utils';
 import { useEffect, useRef, useState } from 'react';
-import { ActivePoolsController } from 'controllers/ActivePoolsController';
+import { ActivePoolsController } from 'controllers/ActivePools';
 import { isCustomEvent } from 'controllers/utils';
 import { useEventListener } from 'usehooks-ts';
 import type {

@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -29,7 +29,7 @@ import { FavoritesPrompt } from 'canvas/ManageNominations/Prompts/FavoritesPromp
 import { usePrompt } from 'contexts/Prompt';
 import { useFetchMehods } from './useFetchMethods';
 import type { AddNominationsType, GenerateNominationsProps } from './types';
-import type { AnyJson, AnyFunction } from 'types';
+import type { AnyJson, AnyFunction } from '@w3ux/types';
 import { ButtonPrimaryInvert } from 'kits/Buttons/ButtonPrimaryInvert';
 import { ButtonMonoInvert } from 'kits/Buttons/ButtonMonoInvert';
 

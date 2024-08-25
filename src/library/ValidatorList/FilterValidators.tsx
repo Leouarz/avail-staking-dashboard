@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCheckCircle, faCircle } from '@fortawesome/free-regular-svg-icons';
@@ -13,13 +13,6 @@ export const FilterValidators = () => {
   const { t } = useTranslation('library');
   const { getFilters, toggleFilter } = useFilters();
   const { excludesToLabels, includesToLabels } = useValidatorFilters();
-
-  // Filtering missing_identity until People chain is supported.
-  const filteredExcludesToLabels = Object.fromEntries(
-    Object.entries(excludesToLabels).filter(
-      ([key]) => key !== 'missing_identity'
-    )
-  );
 
   const includes = getFilters('include', 'validators');
   const excludes = getFilters('exclude', 'validators');
@@ -47,7 +40,7 @@ export const FilterValidators = () => {
         ))}
 
         <h4>{t('exclude')}:</h4>
-        {Object.entries(filteredExcludesToLabels).map(([f, l], i) => (
+        {Object.entries(excludesToLabels).map(([f, l], i) => (
           <FilterListButton
             $active={excludes?.includes(f) ?? false}
             key={`validator_exclude_${i}`}

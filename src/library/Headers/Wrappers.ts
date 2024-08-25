@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { motion } from 'framer-motion';
@@ -14,9 +14,9 @@ export const Wrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   align-content: center;
-  padding: 0 1.25rem;
+  padding: 0 1.05rem;
   transition: all var(--transition-duration);
-  margin: 0.5rem 0;
+  margin: 0.3rem 0;
   height: 4rem;
   z-index: 6;
 

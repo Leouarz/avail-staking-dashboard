@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { ellipsisFn, setStateWithRef } from '@w3ux/utils';
@@ -13,13 +13,13 @@ import type {
   LedgerAddress,
   LedgerResponse,
 } from 'contexts/LedgerHardware/types';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import { useNetwork } from 'contexts/Network';
 import { useTranslation } from 'react-i18next';
 import { Manage } from './Manage';
 import { Splash } from './Splash';
-import { NotificationsController } from 'controllers/NotificationsController';
+import { NotificationsController } from 'controllers/Notifications';
 import { useOverlay } from 'kits/Overlay/Provider';
 
 export const ImportLedger: FC = () => {

@@ -1,13 +1,13 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { HelpItems } from 'contexts/Help/types';
 
 export const HelpConfig: HelpItems = [
-  {
-    key: 'vault',
-    definitions: ['Polkadot Vault'],
-  },
+  // {
+  //   key: 'vault',
+  //   definitions: ['Polkadot Vault'],
+  // },
   {
     key: 'overview',
     definitions: [
@@ -111,6 +111,22 @@ export const HelpConfig: HelpItems = [
         'claimRewards',
         'https://support.polkadot.network/support/solutions/articles/65000182399-how-to-use-staking-dashboard-claiming-nomination-pool-rewards',
         'polkadot.network',
+      ],
+    ],
+  },
+  {
+    key: 'decentralization',
+    definitions: [
+      'Decentralization Analytics Period',
+      'Geolocation of Each Nomination',
+      'Nomination Payout Distribution',
+      'Total Payouts Analysed',
+    ],
+    external: [
+      [
+        'polkawatchAnalytics',
+        'https://blog.polkawatch.app/introducing-polkawatch/',
+        'polkawatch.app',
       ],
     ],
   },

@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
@@ -14,8 +14,6 @@ import { useOverlay } from 'kits/Overlay/Provider';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { useNetwork } from 'contexts/Network';
-import { getLedgerApp } from 'contexts/LedgerHardware/Utils';
 import type { SubmitProps } from '../../types';
 import { Submit } from './Submit';
 import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
@@ -45,12 +43,10 @@ export const Ledger = ({
     setStatusCode,
   } = useLedgerHardware();
   const { openHelp } = useHelp();
-  const { network } = useNetwork();
   const { txFeesValid } = useTxMeta();
   const { setTxSignature } = useTxMeta();
   const { setModalResize } = useOverlay().modal;
   const { accountHasSigner } = useImportedAccounts();
-  const { appName } = getLedgerApp(network);
 
   // Handle new Ledger status report.
   const handleLedgerStatusResponse = (response: LedgerResponse) => {
@@ -123,7 +119,7 @@ export const Ledger = ({
         <div className="inner warning">
           <div>
             <p className="prompt">
-              {t('ledgerAppOutOfDate', { appName })}
+              {t('ledgerAppOutOfDate')}
               <ButtonHelp
                 onClick={() =>
                   openHelp('Ledger App Not on Latest Runtime Version')

@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -14,13 +14,14 @@ import { QRViewerWrapper } from 'library/Import/Wrappers';
 import { QrDisplayPayload } from 'library/QRCode/DisplayPayload';
 import { QrScanSignature } from 'library/QRCode/ScanSignature';
 import type { SignerPromptProps } from 'library/SubmitTx/types';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 import { ButtonPrimary } from 'kits/Buttons/ButtonPrimary';
 import { ButtonSecondary } from 'kits/Buttons/ButtonSecondary';
 
 export const SignPrompt = ({ submitAddress }: SignerPromptProps) => {
   const { t } = useTranslation('library');
   const { getTxPayload, setTxSignature } = useTxMeta();
+
   const payload = getTxPayload();
   const payloadU8a = payload?.toU8a();
   const { closePrompt } = usePrompt();

@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +19,7 @@ import { useBalances } from 'contexts/Balances';
 import { ButtonSubmitInvert } from 'kits/Buttons/ButtonSubmitInvert';
 import { ModalPadding } from 'kits/Overlay/structure/ModalPadding';
 import { ModalWarnings } from 'kits/Overlay/structure/ModalWarnings';
-import { defaultClaimPermission } from 'controllers/ActivePoolsController/defaults';
+import { defaultClaimPermission } from 'controllers/ActivePools/defaults';
 
 export const SetClaimPermission = ({
   setSection,

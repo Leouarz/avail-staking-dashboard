@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable no-await-in-loop */
 
@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import type { PoolRewardPointsKey } from 'contexts/Pools/PoolPerformance/types';
 import type { Exposure } from 'contexts/Staking/types';
 import type { ErasRewardPoints } from 'contexts/Validators/types';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 
 // eslint-disable-next-line no-restricted-globals, @typescript-eslint/no-explicit-any
 export const ctx: Worker = self as any;

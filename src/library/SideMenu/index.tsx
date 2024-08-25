@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faCompressAlt, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
@@ -83,45 +83,48 @@ export const SideMenu = () => {
       <Wrapper ref={ref} $minimised={sideMenuMinimised}>
         <section>
           <Main />
-          <Heading title={t('support')} minimised={sideMenuMinimised} />
-          <Secondary
-            onClick={() => {
-              openHelp(null);
-            }}
-            name={t('resources')}
-            minimised={sideMenuMinimised}
-            icon={{
-              Svg: InfoSVG,
-              size: sideMenuMinimised ? '1.4em' : '1.2em',
-            }}
-          />
-          <Secondary
-            onClick={() => openModal({ key: 'GoToFeedback' })}
-            name={t('feedback')}
-            minimised={sideMenuMinimised}
-            icon={{
-              Svg: ForumSVG,
-              size: sideMenuMinimised ? '1.4em' : '1.2em',
-            }}
-          />
-          <Separator />
-          <Heading title={t('network')} minimised={sideMenuMinimised} />
-          <Secondary
-            classes={[apiStatusClass]}
-            name={capitalizeFirstLetter(network)}
-            onClick={() => openModal({ key: 'Networks' })}
-            icon={{
-              Svg: networkData.brand.inline.svg,
-              size: networkData.brand.inline.size,
-            }}
-            minimised={sideMenuMinimised}
-            action={
-              <ConnectionSymbol
-                className={apiStatusClass}
-                style={{ opacity: 0.7 }}
-              />
-            }
-          />
+          <div className="inner">
+            <Heading title={t('support')} minimised={sideMenuMinimised} />
+            <Secondary
+              onClick={() => {
+                openHelp(null);
+              }}
+              name={t('resources')}
+              minimised={sideMenuMinimised}
+              icon={{
+                Svg: InfoSVG,
+                size: sideMenuMinimised ? '1.4em' : '1.2em',
+              }}
+            />
+            <Secondary
+              onClick={() => openModal({ key: 'GoToFeedback' })}
+              name={t('support')}
+              minimised={sideMenuMinimised}
+              icon={{
+                Svg: ForumSVG,
+                size: sideMenuMinimised ? '1.4em' : '1.2em',
+              }}
+            />
+
+            <Separator />
+            <Heading title={t('network')} minimised={sideMenuMinimised} />
+            <Secondary
+              classes={[apiStatusClass]}
+              name={capitalizeFirstLetter(network)}
+              onClick={() => openModal({ key: 'Networks' })}
+              icon={{
+                Svg: networkData.brand.inline.svg,
+                size: networkData.brand.inline.size,
+              }}
+              minimised={sideMenuMinimised}
+              action={
+                <ConnectionSymbol
+                  className={apiStatusClass}
+                  style={{ opacity: 0.7 }}
+                />
+              }
+            />
+          </div>
         </section>
 
         <section>

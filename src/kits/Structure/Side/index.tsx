@@ -1,9 +1,9 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { appendOrEmpty } from '@w3ux/utils';
 import type { CSSProperties } from 'react';
-import type { ComponentBase } from 'types';
+import type { ComponentBase } from '@w3ux/types';
 import { Wrapper } from './Wrapper';
 
 export type SideProps = ComponentBase & {

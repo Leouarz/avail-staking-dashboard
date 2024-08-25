@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { isNotZero, setStateWithRef } from '@w3ux/utils';
@@ -11,7 +11,7 @@ import { useEffectIgnoreInitial } from '@w3ux/hooks';
 import { useApi } from 'contexts/Api';
 import { useNetwork } from 'contexts/Network';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
-import { SubscanController } from 'controllers/SubscanController';
+import { SubscanController } from 'controllers/Subscan';
 import { getAvailablePlugins } from './Utils';
 
 export const PluginsContext = createContext<PluginsContextInterface>(

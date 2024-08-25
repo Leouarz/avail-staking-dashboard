@@ -1,24 +1,25 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
-import type { FC, FunctionComponent, ReactNode, SVGProps } from 'react';
+import type { FC, FunctionComponent, SVGProps } from 'react';
 import type { Theme } from 'contexts/Themes/types';
 import type { ExtensionInjected } from '@w3ux/react-connect-kit/types';
 import type BigNumber from 'bignumber.js';
-import type { NotificationItem } from 'controllers/NotificationsController/types';
+import type { NotificationItem } from 'controllers/Notifications/types';
 import type { ActiveBalance } from 'contexts/Balances/types';
-import type { PayoutType } from 'controllers/SubscanController/types';
+import type { PayoutType } from 'controllers/Subscan/types';
 import type {
   APIActiveEra,
   APINetworkMetrics,
   APIPoolsConfig,
   APIStakingMetrics,
 } from 'contexts/Api/types';
-import type { SyncEvent } from 'controllers/SyncController/types';
-import type { DetailActivePool } from 'controllers/ActivePoolsController/types';
-import type { CSSProperties } from 'styled-components';
+import type { SyncEvent } from 'controllers/Sync/types';
+import type { DetailActivePool } from 'controllers/ActivePools/types';
 import type { APIEventDetail } from 'model/Api/types';
-import type { OnlineStatusEvent } from 'controllers/OnlineStatusController/types';
+import type { OnlineStatusEvent } from 'controllers/OnlineStatus/types';
+import type { AnyJson } from '@w3ux/types';
+import type { BlockNumberEventDetail } from 'model/Subscribe/BlockNumber/types';
 
 declare global {
   interface Window {
@@ -30,7 +31,7 @@ declare global {
     notification: CustomEvent<NotificationItem>;
     'api-status': CustomEvent<APIEventDetail>;
     'online-status': CustomEvent<OnlineStatusEvent>;
-    'new-block-number': CustomEvent<{ blockNumber: string }>;
+    'new-block-number': CustomEvent<BlockNumberEventDetail>;
     'new-network-metrics': CustomEvent<{
       networkMetrics: APINetworkMetrics;
     }>;
@@ -49,6 +50,11 @@ declare global {
 
 export type NetworkName = 'avail' | 'avail-turing-testnet';
 
+export type SystemChainId =
+  | 'people-polkadot'
+  | 'people-kusama'
+  | 'people-westend';
+
 export type Networks = Record<string, Network>;
 
 type NetworkColor =
@@ -65,7 +71,6 @@ export interface Network {
     defaultRpcEndpoint: string;
     rpcEndpoints: Record<string, string>;
   };
-  namespace: string;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   colors: Record<NetworkColor, { [key in Theme]: string }>;
   unit: string;
@@ -78,12 +83,6 @@ export interface Network {
     token: FunctionComponent<
       SVGProps<SVGSVGElement> & { title?: string | undefined }
     >;
-    logo: {
-      svg: FunctionComponent<
-        SVGProps<SVGSVGElement> & { title?: string | undefined }
-      >;
-      width: string;
-    };
     inline: {
       svg: FunctionComponent<
         SVGProps<SVGSVGElement> & { title?: string | undefined }
@@ -97,6 +96,17 @@ export interface Network {
   };
   defaultFeeReserve: number;
   maxExposurePageSize: BigNumber;
+}
+
+export interface SystemChain {
+  name: string;
+  ss58: number;
+  units: number;
+  unit: string;
+  endpoints: {
+    lightClient: string;
+    rpcEndpoints: Record<string, string>;
+  };
 }
 
 export interface PageCategory {
@@ -134,14 +144,8 @@ export type MaybeAddress = string | null;
 
 export type MaybeString = string | null;
 
-// track the status of a syncing / fetching process.
-export type Sync = 'unsynced' | 'syncing' | 'synced';
-
 // track whether bonding should be for nominator or nomination pool.
 export type BondFor = 'pool' | 'nominator';
-
-// which medium components are being displayed on.
-export type DisplayFor = 'default' | 'modal' | 'canvas' | 'card';
 
 // generic function with no args or return type.
 export type Fn = () => void;
@@ -150,26 +154,8 @@ export type Fn = () => void;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyApi = any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyJson = any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyFunction = any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyMetaBatch = any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnySubscan = any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyPolkawatch = any;
-
-// A generic type to handle React components. We assume the component may have
-// children and styling applied to it.
-export interface ComponentBase {
-  // passing react children.
-  children?: ReactNode;
-  // passing custom styling.
-  style?: CSSProperties;
-}
-
-export type ComponentBaseWithClassName = ComponentBase & {
-  // passing a className string.
-  className?: string;
-};

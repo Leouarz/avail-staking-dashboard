@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,7 @@ import { getLocalLedgerAddresses } from 'contexts/LedgerHardware/Utils';
 import type { LedgerAddress } from 'contexts/LedgerHardware/types';
 import { usePrompt } from 'contexts/Prompt';
 import { ConfirmWrapper } from 'library/Import/Wrappers';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 import { useOtherAccounts } from 'contexts/Connect/OtherAccounts';
 import type { LedgerAccount } from '@w3ux/react-connect-kit/types';
 import { ButtonMono } from 'kits/Buttons/ButtonMono';

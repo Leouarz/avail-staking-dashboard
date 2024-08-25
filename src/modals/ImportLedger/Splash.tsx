@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,7 @@ import { useLedgerHardware } from 'contexts/LedgerHardware';
 import { useHelp } from 'contexts/Help';
 import { useTheme } from 'contexts/Themes';
 import LedgerLogoSvg from '@w3ux/extension-assets/Ledger.svg?react';
-import type { AnyFunction } from 'types';
+import type { AnyFunction } from '@w3ux/types';
 import { useOverlay } from 'kits/Overlay/Provider';
 import { SplashWrapper } from './Wrappers';
 import { ButtonHelp } from 'kits/Buttons/ButtonHelp';

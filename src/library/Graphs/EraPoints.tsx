@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import {
@@ -17,7 +17,7 @@ import { useTheme } from 'contexts/Themes';
 import { graphColors } from 'theme/graphs';
 import { useNetwork } from 'contexts/Network';
 import type { EraPointsProps } from './types';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 
 ChartJS.register(
   CategoryScale,

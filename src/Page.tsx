@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useNetwork } from 'contexts/Network';
@@ -15,10 +15,10 @@ export const Page = ({ page }: { page: PageItem }) => {
   return (
     <PageWrapper>
       <Helmet>
-        <title>{`${t(key, { ns: 'base' })} : ${t('title', {
+        <title>{`${t('title', {
           context: `${network}`,
           ns: 'base',
-        })}`}</title>
+        })} : ${t(key, { ns: 'base' })}`}</title>
       </Helmet>
       <Entry page={page} />
     </PageWrapper>

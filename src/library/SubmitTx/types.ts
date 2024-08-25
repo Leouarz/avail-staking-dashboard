@@ -1,9 +1,10 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
+import type { DisplayFor } from '@w3ux/types';
 import type { ReactNode } from 'react';
-import type { DisplayFor, MaybeAddress } from 'types';
+import type { MaybeAddress } from 'types';
 
 export type SubmitTxProps = SubmitProps & {
   buttons?: ReactNode[];

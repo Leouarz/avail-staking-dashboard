@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useEffect, useState } from 'react';
@@ -17,7 +17,7 @@ import type { SetupStepProps } from 'library/SetupSteps/types';
 import type { MaybeAddress } from 'types';
 import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { Subheading } from 'pages/Nominate/Wrappers';
-import { defaultPayee } from 'controllers/BalancesController/defaults';
+import { defaultPayee } from 'controllers/Balances/defaults';
 
 export const Payee = ({ section }: SetupStepProps) => {
   const { t } = useTranslation('pages');

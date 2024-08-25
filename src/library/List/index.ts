@@ -1,8 +1,8 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import styled from 'styled-components';
-import type { DisplayFor } from 'types';
+import type { DisplayFor } from '@w3ux/types';
 import type { ListProps, PaginationWrapperProps } from './types';
 
 export const Wrapper = styled.div`
@@ -23,6 +23,11 @@ export const Header = styled.div<{ $displayFor?: DisplayFor }>`
   justify-content: flex-end;
   padding: 0 0.25rem 0.75rem 0.25rem;
   flex: 1;
+
+  &.noBorder {
+    border: none;
+    padding-bottom: 0;
+  }
 
   h4 {
     color: var(--text-color-secondary);

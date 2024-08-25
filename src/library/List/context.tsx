@@ -1,9 +1,9 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { createContext, useContext, useState } from 'react';
 import { defaultContext } from './defaults';
-import type { AnyJson } from 'types';
+import type { AnyJson } from '@w3ux/types';
 import type { ListContextInterface, ListProviderProps } from './types';
 import type { ListFormat } from 'library/PoolList/types';
 

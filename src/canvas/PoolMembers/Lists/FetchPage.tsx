@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useEffect, useRef, useState } from 'react';
@@ -16,7 +16,7 @@ import { Member } from './Member';
 import type { FetchpageMembersListProps } from './types';
 import type { PoolMember } from 'contexts/Pools/PoolMembers/types';
 import { MotionContainer } from 'library/List/MotionContainer';
-import { SubscanController } from 'controllers/SubscanController';
+import { SubscanController } from 'controllers/Subscan';
 
 export const MembersListInner = ({
   pagination,

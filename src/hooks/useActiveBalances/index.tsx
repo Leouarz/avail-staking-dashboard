@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useEffectIgnoreInitial } from '@w3ux/hooks';
@@ -14,7 +14,7 @@ import type {
 } from 'contexts/Balances/types';
 import { useNetwork } from 'contexts/Network';
 import { useEffect, useRef, useState } from 'react';
-import { BalancesController } from 'controllers/BalancesController';
+import { BalancesController } from 'controllers/Balances';
 import { isCustomEvent } from 'controllers/utils';
 import { useEventListener } from 'usehooks-ts';
 import BigNumber from 'bignumber.js';
@@ -22,7 +22,7 @@ import {
   defaultBalance,
   defaultLedger,
   defaultPayee,
-} from 'controllers/BalancesController/defaults';
+} from 'controllers/Balances/defaults';
 import type { PayeeConfig } from 'contexts/Setup/types';
 import type { PoolMembership } from 'contexts/Pools/types';
 

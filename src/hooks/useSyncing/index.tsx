@@ -1,10 +1,10 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { setStateWithRef } from '@w3ux/utils';
 import { useEffect, useRef, useState } from 'react';
-import { SyncController } from 'controllers/SyncController';
-import type { SyncID, SyncIDConfig } from 'controllers/SyncController/types';
+import { SyncController } from 'controllers/Sync';
+import type { SyncID, SyncIDConfig } from 'controllers/Sync/types';
 import { isCustomEvent } from 'controllers/utils';
 import { useEventListener } from 'usehooks-ts';
 

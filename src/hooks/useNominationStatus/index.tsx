@@ -1,13 +1,14 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { useTranslation } from 'react-i18next';
 import { useActivePool } from 'contexts/Pools/ActivePool';
 import { useStaking } from 'contexts/Staking';
 import { useValidators } from 'contexts/Validators/ValidatorEntries';
-import type { AnyJson, BondFor, MaybeAddress } from 'types';
+import type { BondFor, MaybeAddress } from 'types';
 import { useSyncing } from 'hooks/useSyncing';
 import { useBalances } from 'contexts/Balances';
+import type { AnyJson } from '@w3ux/types';
 
 export const useNominationStatus = () => {
   const { t } = useTranslation();
@@ -22,7 +23,7 @@ export const useNominationStatus = () => {
     const nominations =
       type === 'nominator'
         ? getNominations(who)
-        : activePoolNominations?.targets ?? [];
+        : (activePoolNominations?.targets ?? []);
 
     return getNominationsStatusFromTargets(who, nominations);
   };

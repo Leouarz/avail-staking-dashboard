@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -12,7 +12,6 @@ import { useApi } from 'contexts/Api';
 import BigNumber from 'bignumber.js';
 import { mergeDeep, setStateWithRef } from '@w3ux/utils';
 import { useStaking } from 'contexts/Staking';
-import { formatRawExposures } from 'contexts/Staking/Utils';
 import type {
   PoolPerformanceContextInterface,
   PoolPerformanceTasks,
@@ -24,7 +23,7 @@ import {
   defaultPoolPerformanceTask,
   defaultPoolPerformanceContext,
 } from './defaults';
-import type { Sync } from 'types';
+import type { Sync } from '@w3ux/types';
 
 const worker = new Worker();
 
@@ -39,9 +38,9 @@ export const PoolPerformanceProvider = ({
   children: ReactNode;
 }) => {
   const { network } = useNetwork();
+  const { api, activeEra } = useApi();
   const { getPagedErasStakers } = useStaking();
   const { erasRewardPoints } = useValidators();
-  const { api, activeEra, isPagedRewardsActive } = useApi();
 
   // Store  pool performance task data under a given key as it is being fetched . NOTE: Requires a
   // ref to be accessed in `processEra` before re-render.
@@ -187,19 +186,7 @@ export const PoolPerformanceProvider = ({
     // NOTE: This will not make any difference on the first run.
     updateTaskCurrentEra(key, era);
 
-    let exposures;
-    if (isPagedRewardsActive(era)) {
-      exposures = await getPagedErasStakers(era.toString());
-    } else {
-      // DEPRECATION: Paged Rewards
-      //
-      // Use deprecated `erasStakersClipped` if paged rewards not active for this era.
-      const result = await api.query.staking.erasStakersClipped.entries(
-        era.toString()
-      );
-      exposures = formatRawExposures(result);
-    }
-
+    const exposures = await getPagedErasStakers(era.toString());
     const addresses = tasksRef.current[key]?.addresses || [];
 
     worker.postMessage({

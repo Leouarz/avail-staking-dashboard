@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -6,7 +6,7 @@ import {
   defaultBalance,
   defaultLedger,
   defaultPayee,
-} from 'controllers/BalancesController/defaults';
+} from 'controllers/Balances/defaults';
 import type { BalancesContextInterface } from './types';
 import BigNumber from 'bignumber.js';
 

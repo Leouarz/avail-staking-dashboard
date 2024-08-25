@@ -1,4 +1,4 @@
-// Copyright 2024 @paritytech/polkadot-staking-dashboard authors & contributors
+// Copyright 2024 @polkadot-cloud/polkadot-staking-dashboard authors & contributors
 // SPDX-License-Identifier: GPL-3.0-only
 
 import { extractUrlValue } from '@w3ux/utils';
@@ -28,7 +28,7 @@ import { useActiveAccounts } from 'contexts/ActiveAccounts';
 import { useOtherAccounts } from 'contexts/Connect/OtherAccounts';
 import { useImportedAccounts } from 'contexts/Connect/ImportedAccounts';
 import { Notifications } from 'library/Notifications';
-import { NotificationsController } from 'controllers/NotificationsController';
+import { NotificationsController } from 'controllers/Notifications';
 import { Page } from 'Page';
 import { Body } from 'kits/Structure/Body';
 import { Main } from 'kits/Structure/Main';
