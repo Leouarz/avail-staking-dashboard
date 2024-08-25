@@ -4,7 +4,7 @@
 import type { VoidFn } from '@polkadot/api/types';
 import { defaultPoolNominations } from 'contexts/Pools/ActivePool/defaults';
 import type { ActivePool, PoolRoles } from 'contexts/Pools/ActivePool/types';
-import { IdentitiesController } from 'controllers/IdentitiesController';
+import { IdentitiesController } from 'controllers/Identities';
 import type { AnyApi, MaybeAddress } from 'types';
 import type {
   AccountActivePools,
@@ -13,7 +13,7 @@ import type {
   ActivePoolItem,
   DetailActivePool,
 } from './types';
-import { SyncController } from 'controllers/SyncController';
+import { SyncController } from 'controllers/Sync';
 import type { Nominations } from 'contexts/Balances/types';
 import type { ApiPromise } from '@polkadot/api';
 
@@ -42,6 +42,7 @@ export class ActivePoolsController {
   // Subscribes to pools and unsubscribes from removed pools.
   static syncPools = async (
     api: ApiPromise,
+    peopleApi: ApiPromise | null,
     address: MaybeAddress,
     newPools: ActivePoolItem[]
   ): Promise<void> => {
@@ -80,6 +81,7 @@ export class ActivePoolsController {
             // NOTE: async: fetches identity data for roles.
             await this.handleActivePoolCallback(
               api,
+              peopleApi,
               address,
               pool,
               bondedPool,
@@ -115,6 +117,7 @@ export class ActivePoolsController {
   // Handle active pool callback.
   static handleActivePoolCallback = async (
     api: ApiPromise,
+    peopleApi: ApiPromise | null,
     address: string,
     pool: ActivePoolItem,
     bondedPoolResult: AnyApi,

@@ -18,7 +18,7 @@ import { useOverlay } from 'kits/Overlay/Provider';
 import { PluginLabel } from 'library/PluginLabel';
 import { usePlugins } from 'contexts/Plugins';
 import { useNetwork } from 'contexts/Network';
-import { PolkaWatchController } from 'controllers/PolkaWatchController';
+import { PolkaWatchController } from 'controllers/PolkaWatch';
 import { ButtonHelp } from 'kits/Buttons/ButtonHelp';
 
 export const ValidatorGeo = () => {
@@ -130,6 +130,7 @@ export const ValidatorGeo = () => {
                 series={pwData.topCountryDistributionChart}
                 height={`${height}px`}
                 width={chartWidth}
+                maxLabelLen={10}
               />
             </GraphWrapper>
 
@@ -144,6 +145,7 @@ export const ValidatorGeo = () => {
                   series={pwData.topNetworkDistributionChart}
                   height={`${height}px`}
                   width={chartWidth}
+                  maxLabelLen={10}
                 />
               </GraphWrapper>
             </div>

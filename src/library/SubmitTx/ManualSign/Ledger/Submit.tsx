@@ -44,6 +44,7 @@ export const Submit = ({
     const uid = getPayloadUid();
     const accountIndex = getAddressIndex();
     const payload = await getTxPayload();
+
     await handleSignTx(appName, uid, accountIndex, payload);
   };
 

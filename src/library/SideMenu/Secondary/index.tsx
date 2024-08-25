@@ -38,7 +38,12 @@ export const Secondary = ({
 
       {!minimised && (
         <>
-          <div className="name">{name}</div>
+          <div
+            className="name"
+            style={{ fontSize: name.length > 10 ? '11px' : 'inherit' }}
+          >
+            {name}
+          </div>
           {action && <div className="action">{action}</div>}
         </>
       )}

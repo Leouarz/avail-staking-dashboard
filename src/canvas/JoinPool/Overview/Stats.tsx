@@ -73,7 +73,9 @@ export const Stats = ({
         {graphSyncing ? (
           <span>
             {t('syncing')}
-            <StyledLoader style={{ ...vars, marginRight: '1.25rem' }} />
+            <StyledLoader
+              style={{ ...(vars as any), marginRight: '1.25rem' }}
+            />
             <PoolSync performanceKey={performanceKey} />
           </span>
         ) : (
