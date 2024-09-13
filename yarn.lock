@@ -979,6 +979,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mimirdev/apps-inject@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@mimirdev/apps-inject@npm:0.3.0"
+  dependencies:
+    "@mimirdev/apps-sdk": "npm:0.2.0"
+  checksum: 10c0/57065d4dadb797b516c0fd8055b8b0490ffd975be0e98585dddfc3697df5ebfc2cd420743bdd21ddc4b010262371b21d30fc294d0c0a3bb1f0e61a5cf927b549
+  languageName: node
+  linkType: hard
+
+"@mimirdev/apps-sdk@npm:0.2.0, @mimirdev/apps-sdk@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@mimirdev/apps-sdk@npm:0.2.0"
+  dependencies:
+    eventemitter3: "npm:^5.0.1"
+  peerDependencies:
+    "@polkadot/api": "*"
+    "@polkadot/types": "*"
+    "@polkadot/util": "*"
+  checksum: 10c0/652f42370571121a16a2f3f5b9405bb2f76a093f16d1c8929c48b6681aa4ea2039154fff043f388ba6e6d068e211676b61944b74699617cec1b1aa399260d71e
+  languageName: node
+  linkType: hard
+
 "@noble/curves@npm:1.4.2, @noble/curves@npm:~1.4.0":
   version: 1.4.2
   resolution: "@noble/curves@npm:1.4.2"
@@ -1433,7 +1455,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/networks@npm:12.6.2, @polkadot/networks@npm:^12.6.2":
+"@polkadot/networks@npm:12.6.2":
   version: 12.6.2
   resolution: "@polkadot/networks@npm:12.6.2"
   dependencies:
@@ -1557,31 +1579,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-augment@npm:10.13.1, @polkadot/types-augment@npm:^10.9.1":
-  version: 10.13.1
-  resolution: "@polkadot/types-augment@npm:10.13.1"
-  dependencies:
-    "@polkadot/types": "npm:10.13.1"
-    "@polkadot/types-codec": "npm:10.13.1"
-    "@polkadot/util": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/0686a834fd5d4db1cc74c184057cf1c47f008d3d541866cb2f2a38464c6a41cb159e5ec914b2e3d68511f6c6c7798238b58ec3bd1315a67fbb1ee073147457c6
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-augment@npm:12.1.1":
-  version: 12.1.1
-  resolution: "@polkadot/types-augment@npm:12.1.1"
-  dependencies:
-    "@polkadot/types": "npm:12.1.1"
-    "@polkadot/types-codec": "npm:12.1.1"
-    "@polkadot/util": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/20342a217823e039f3c0cc011319429345b98472230472e3ec3563d97581ad2a20a974cdaf66c8ce2d49381a5cdf759326027b6f55bef18b396decfd0db37030
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-augment@npm:12.4.2":
+"@polkadot/types-augment@npm:^12.2.3":
   version: 12.4.2
   resolution: "@polkadot/types-augment@npm:12.4.2"
   dependencies:
@@ -1593,29 +1591,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-codec@npm:10.13.1":
-  version: 10.13.1
-  resolution: "@polkadot/types-codec@npm:10.13.1"
-  dependencies:
-    "@polkadot/util": "npm:^12.6.2"
-    "@polkadot/x-bigint": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/8a35c492006502804a5531231c14037ab98a13f345f4e550142254e69d62d451f0caa89347ac689b92f90b582fe6ab2f1c8eca30cdf327951323b6400fca2e50
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-codec@npm:12.1.1":
-  version: 12.1.1
-  resolution: "@polkadot/types-codec@npm:12.1.1"
-  dependencies:
-    "@polkadot/util": "npm:^12.6.2"
-    "@polkadot/x-bigint": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/d717a4ad746c5748c683fe449814a85e0c5f4b2530c2448f5950918c83f43370bdedd51ea9c5f31da8992f674c05324649f2e1d350d5b688316be345e2257893
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-codec@npm:12.4.2":
+"@polkadot/types-codec@npm:^12.2.3":
   version: 12.4.2
   resolution: "@polkadot/types-codec@npm:12.4.2"
   dependencies:
@@ -1626,29 +1602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-create@npm:10.13.1":
-  version: 10.13.1
-  resolution: "@polkadot/types-create@npm:10.13.1"
-  dependencies:
-    "@polkadot/types-codec": "npm:10.13.1"
-    "@polkadot/util": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/efe57d84f6088111b53d29db07ab9bf951f79c3e9b4875882c7a9bb0a6f1e00230e63a84cf2a850528119bbfa7f30bdfb21bba645e3922d88ff83092ea0350c5
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-create@npm:12.1.1":
-  version: 12.1.1
-  resolution: "@polkadot/types-create@npm:12.1.1"
-  dependencies:
-    "@polkadot/types-codec": "npm:12.1.1"
-    "@polkadot/util": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/b4e3e4f93626f816a104868467b5299a19416b14b6783b576c498636d46a7d86488d623a91d5b3f106e4f7717959c90e1b9d0a65f2a60893ecb4f491ea5c8b54
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-create@npm:12.4.2":
+"@polkadot/types-create@npm:^12.2.3":
   version: 12.4.2
   resolution: "@polkadot/types-create@npm:12.4.2"
   dependencies:
@@ -1659,21 +1613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-known@npm:10.13.1":
-  version: 10.13.1
-  resolution: "@polkadot/types-known@npm:10.13.1"
-  dependencies:
-    "@polkadot/networks": "npm:^12.6.2"
-    "@polkadot/types": "npm:10.13.1"
-    "@polkadot/types-codec": "npm:10.13.1"
-    "@polkadot/types-create": "npm:10.13.1"
-    "@polkadot/util": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/ce4e5b402e4d923a1b93475997e57bb6b7f95cc679a466c7d563d9d033872479100cf5ac72c58faaf57610602c913555ef0b4bd4672c6c76fc733c062d41959b
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-known@npm:12.4.2":
+"@polkadot/types-known@npm:^12.2.3":
   version: 12.4.2
   resolution: "@polkadot/types-known@npm:12.4.2"
   dependencies:
@@ -1687,17 +1627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-support@npm:10.13.1":
-  version: 10.13.1
-  resolution: "@polkadot/types-support@npm:10.13.1"
-  dependencies:
-    "@polkadot/util": "npm:^12.6.2"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/a9bf65b139b1c861acc198ce650e14d2014f88d30f890710baf3481caa16b44dc39122b05d34cc86211b08e082cf4e7d5680ba3a4008711fe86b70d62a65219c
-  languageName: node
-  linkType: hard
-
-"@polkadot/types-support@npm:12.4.2":
+"@polkadot/types-support@npm:^12.2.3":
   version: 12.4.2
   resolution: "@polkadot/types-support@npm:12.4.2"
   dependencies:
@@ -1707,39 +1637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:10.13.1, @polkadot/types@npm:^10.11.2, @polkadot/types@npm:^10.12.4":
-  version: 10.13.1
-  resolution: "@polkadot/types@npm:10.13.1"
-  dependencies:
-    "@polkadot/keyring": "npm:^12.6.2"
-    "@polkadot/types-augment": "npm:10.13.1"
-    "@polkadot/types-codec": "npm:10.13.1"
-    "@polkadot/types-create": "npm:10.13.1"
-    "@polkadot/util": "npm:^12.6.2"
-    "@polkadot/util-crypto": "npm:^12.6.2"
-    rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/1fe50d7ba10368dd944fec0e2da740f8c665c1c417362ab5ed1587d9083259c65064e04a862443d1a6c9f1da86b8dee6a4945e711064f0318895a38ad1303e3b
-  languageName: node
-  linkType: hard
-
-"@polkadot/types@npm:12.1.1":
-  version: 12.1.1
-  resolution: "@polkadot/types@npm:12.1.1"
-  dependencies:
-    "@polkadot/keyring": "npm:^12.6.2"
-    "@polkadot/types-augment": "npm:12.1.1"
-    "@polkadot/types-codec": "npm:12.1.1"
-    "@polkadot/types-create": "npm:12.1.1"
-    "@polkadot/util": "npm:^12.6.2"
-    "@polkadot/util-crypto": "npm:^12.6.2"
-    rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/46395b18dc78d7d8295df6a80fc8a00d73d942ffa2ef8bd7fc6591ac3d018f70c0765ac54b848c508514196c7bb302fc08ac80779ca1431f57c423b20c7080ac
-  languageName: node
-  linkType: hard
-
-"@polkadot/types@npm:12.4.2, @polkadot/types@npm:^12.0.2":
+"@polkadot/types@npm:^12.2.3":
   version: 12.4.2
   resolution: "@polkadot/types@npm:12.4.2"
   dependencies:
@@ -1905,7 +1803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-bigint@npm:12.6.2, @polkadot/x-bigint@npm:^12.6.2":
+"@polkadot/x-bigint@npm:12.6.2":
   version: 12.6.2
   resolution: "@polkadot/x-bigint@npm:12.6.2"
   dependencies:
@@ -3436,6 +3334,8 @@ __metadata:
     "@fortawesome/react-fontawesome": "npm:^0.2.2"
     "@ledgerhq/hw-transport-webhid": "npm:^6.29.2"
     "@ledgerhq/logs": "npm:^6.12.0"
+    "@mimirdev/apps-inject": "npm:^0.3.0"
+    "@mimirdev/apps-sdk": "npm:^0.2.0"
     "@polkadot-api/merkleize-metadata": "npm:^1.1.2"
     "@polkadot/api": "npm:^12.2.3"
     "@polkadot/keyring": "npm:^13.0.2"
