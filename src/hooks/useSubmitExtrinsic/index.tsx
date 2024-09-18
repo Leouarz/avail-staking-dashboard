@@ -16,6 +16,7 @@ import { useProxySupported } from '../useProxySupported';
 import type { UseSubmitExtrinsic, UseSubmitExtrinsicProps } from './types';
 import { NotificationsController } from 'controllers/Notifications';
 import { useExtensions } from '@w3ux/react-connect-kit';
+import { signMimir } from 'mimir';
 
 export const useSubmitExtrinsic = ({
   tx,
@@ -272,26 +273,35 @@ export const useSubmitExtrinsic = ({
       // handle unsigned transaction.
       const { signer } = account;
       try {
-        const unsub = await txRef.current.signAndSend(
-          fromRef.current,
-          { signer, withSignedTransaction: true },
-          ({ status, events = [] }: AnyApi) => {
-            if (!didTxReset.current) {
-              didTxReset.current = true;
-              resetTx();
-            }
-
-            handleStatus(status);
-            if (status.isFinalized) {
-              events.forEach(({ event: { method } }: AnyApi) => {
-                onFinalizedEvent(method);
-                if (unsubEvents?.includes(method)) {
-                  unsub();
-                }
+        const signedTx =
+          source === 'mimir'
+            ? await signMimir(
+                api,
+                signer,
+                fromRef.current,
+                txRef.current.method
+              )
+            : await txRef.current.signAsync(fromRef.current, {
+                signer,
+                withSignedTransaction: true,
               });
-            }
+
+        const unsub = await signedTx.send(({ status, events = [] }: AnyApi) => {
+          if (!didTxReset.current) {
+            didTxReset.current = true;
+            resetTx();
           }
-        );
+
+          handleStatus(status);
+          if (status.isFinalized) {
+            events.forEach(({ event: { method } }: AnyApi) => {
+              onFinalizedEvent(method);
+              if (unsubEvents?.includes(method)) {
+                unsub();
+              }
+            });
+          }
+        });
       } catch (e) {
         onError('default');
       }

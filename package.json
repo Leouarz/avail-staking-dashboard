@@ -22,6 +22,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@ledgerhq/hw-transport-webhid": "^6.29.2",
+    "@mimirdev/apps-inject": "^0.3.0",
+    "@mimirdev/apps-sdk": "^0.2.0",
     "@polkadot-api/merkleize-metadata": "^1.1.2",
     "@polkadot/api": "^12.2.3",
     "@polkadot/keyring": "^13.0.2",
@@ -102,5 +104,13 @@
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.6.0"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "resolutions": {
+    "@polkadot/types": "^12.2.3",
+    "@polkadot/types-augment": "^12.2.3",
+    "@polkadot/types-codec": "^12.2.3",
+    "@polkadot/types-create": "^12.2.3",
+    "@polkadot/types-known": "^12.2.3",
+    "@polkadot/types-support": "^12.2.3"
+  }
 }
