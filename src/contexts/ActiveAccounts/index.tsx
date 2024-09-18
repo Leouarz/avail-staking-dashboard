@@ -9,6 +9,7 @@ import { useNetwork } from 'contexts/Network';
 import type { ActiveAccountsContextInterface, ActiveProxy } from './types';
 import { defaultActiveAccountsContext } from './defaults';
 import Keyring from '@polkadot/keyring';
+import { useInjectMimir } from 'hooks/useMimir';
 
 export const ActiveAccountsContext =
   createContext<ActiveAccountsContextInterface>(defaultActiveAccountsContext);
@@ -68,6 +69,9 @@ export const ActiveAccountsProvider = ({
 
   // Getter for the active account.
   const getActiveAccount = () => activeAccountRef.current;
+
+  // inject mimir if necessary
+  useInjectMimir();
 
   return (
     <ActiveAccountsContext.Provider
